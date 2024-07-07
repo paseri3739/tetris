@@ -3,14 +3,14 @@ export enum CellSize {
     Height = 30, // 30px
 }
 
-enum GridRowAndCol {
+enum GridTable {
     Rows = 20, // 20行
     Cols = 10, // 10列
 }
 
 enum GridPixel {
-    Width = CellSize.Width * GridRowAndCol.Cols, // 300px
-    Height = CellSize.Height * GridRowAndCol.Rows, // 600px
+    Width = CellSize.Width * GridTable.Cols, // 300px
+    Height = CellSize.Height * GridTable.Rows, // 600px
 }
 
 /**
@@ -89,8 +89,8 @@ export class Grid {
      * Calculate the number of rows and columns based on the canvas size and the Cell size.
      */
     private createGrid() {
-        const rows = GridRowAndCol.Rows; //20
-        const cols = GridRowAndCol.Cols; //10
+        const rows = GridTable.Rows; //20
+        const cols = GridTable.Cols; //10
 
         for (let y = 0; y < rows; y++) {
             this.cells[y] = [];
@@ -126,7 +126,7 @@ export class Grid {
 
     public clearRow(row: number): void {
         this.cells.splice(row, 1);
-        this.cells.unshift(new Array(GridRowAndCol.Rows).fill(0));
+        this.cells.unshift(new Array(GridTable.Rows).fill(0));
     }
 
     public clearRows(): void {
