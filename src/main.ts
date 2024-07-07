@@ -9,6 +9,15 @@ import { CellSize, TetriMino, TetriMinoType } from "./TetriMino";
     const grid = new Grid(canvas, cellWidth, cellHeight);
     grid.drawGrid();
 
+    while (!grid.isGameOver()) {
+        // Game loop
+        // Move tetrimino down
+        // Check for collision
+        // If collision, add tetrimino to grid
+        // Check for full rows
+        // Remove full rows
+        // Create new tetrimino
+    }
     const tetriMino = new TetriMino(30, 30, TetriMinoType.T, "blue");
     tetriMino.render(grid.context);
 })();

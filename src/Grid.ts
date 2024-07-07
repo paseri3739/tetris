@@ -1,4 +1,4 @@
-import { GridSize, TetriMino } from "./TetriMino";
+import { GridSize } from "./TetriMino";
 
 /**
  * Cell class represents a single cell in the grid.
@@ -80,7 +80,7 @@ export class Grid {
         }
     }
 
-    public isGameOver(tetrimino: TetriMino): boolean {
+    public isGameOver(): boolean {
         return false;
     }
 
