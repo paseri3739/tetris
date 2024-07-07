@@ -55,6 +55,7 @@ export class Grid {
 
     /**
      * Create a grid of cells.
+     * Calculate the number of rows and columns based on the canvas size and the Cell size.
      */
     private createGrid() {
         const rows = Math.floor(this.canvas.height / this.cellHeight);
@@ -79,11 +80,11 @@ export class Grid {
         }
     }
 
-    isGameOver(tetrimino: TetriMino): boolean {
+    public isGameOver(tetrimino: TetriMino): boolean {
         return false;
     }
 
-    isRowFull(row: number): boolean {
+    public isRowFull(row: number): boolean {
         for (const cell of this.cells[row]) {
             if (cell.width === 0) {
                 return false;
@@ -92,12 +93,12 @@ export class Grid {
         return true;
     }
 
-    clearRow(row: number): void {
+    public clearRow(row: number): void {
         this.cells.splice(row, 1);
         this.cells.unshift(new Array(GridSize.Cols).fill(0));
     }
 
-    clearRows(): void {
+    public clearRows(): void {
         for (let row = 0; row < this.cells.length; row++) {
             if (this.isRowFull(row)) {
                 this.clearRow(row);
