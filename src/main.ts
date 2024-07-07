@@ -18,6 +18,6 @@ import { TetriMino, TetriMinoType } from "./TetriMino.js";
     // Remove full rows
     // Create new tetrimino
     // }
-    const tetriMino = new TetriMino(30, 30, TetriMinoType.T, "blue");
+    const tetriMino = new TetriMino(1, 1, TetriMinoType.T, "blue");
     tetriMino.render(grid.context);
 })();

@@ -76,6 +76,8 @@ export class Grid {
 
     constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
+        canvas.width = GridPixel.Width;
+        canvas.height = GridPixel.Height;
         this.context = canvas.getContext("2d")!;
         this.cellWidth = CellSize.Width;
         this.cellHeight = CellSize.Height;

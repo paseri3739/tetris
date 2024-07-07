@@ -1,6 +1,8 @@
 import { Cell, CellSize, Grid } from "./Grid.js";
 
 export class TetriMino {
+    column: number;
+    row: number;
     x: number;
     y: number;
     color: string;
@@ -13,9 +15,11 @@ export class TetriMino {
      * @param type
      * @param color
      */
-    constructor(x: number, y: number, type: TetriMinoType, color: string) {
-        this.x = x;
-        this.y = y;
+    constructor(column: number, row: number, type: TetriMinoType, color: string) {
+        this.column = column;
+        this.row = row;
+        this.x = column * CellSize.Width;
+        this.y = row * CellSize.Height;
         this.color = color;
         this.cells = [];
 
