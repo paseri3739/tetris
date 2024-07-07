@@ -1,4 +1,4 @@
-import { Cell, Grid } from "./Grid";
+import { Cell, Grid } from "./Grid.js";
 
 export class TetriMino {
     x: number;

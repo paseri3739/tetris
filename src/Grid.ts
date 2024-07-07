@@ -1,4 +1,4 @@
-import { GridSize } from "./TetriMino";
+import { GridSize } from "./TetriMino.js";
 
 /**
  * Cell class represents a single cell in the grid.
