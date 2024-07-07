@@ -10,8 +10,8 @@ export class TetriMino {
 
     /**
      * Create a new tetrimino.
-     * @param x
-     * @param y
+     * @param column column index, 0-based
+     * @param row row index, 0-based
      * @param type
      * @param color string, e.g. "blue" or "#0000ff"
      */
