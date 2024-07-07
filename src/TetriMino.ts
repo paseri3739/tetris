@@ -13,7 +13,7 @@ export class TetriMino {
      * @param x
      * @param y
      * @param type
-     * @param color
+     * @param color string, e.g. "blue" or "#0000ff"
      */
     constructor(column: number, row: number, type: TetriMinoType, color: string) {
         this.column = column;
