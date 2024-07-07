@@ -1,4 +1,4 @@
-import { Cell, Grid } from "./Grid.js";
+import { Cell, CellSize, Grid } from "./Grid.js";
 
 export class TetriMino {
     x: number;
@@ -90,13 +90,7 @@ export enum GridSize {
     Rows = 20, // 20 rows, 30px * 20 = 600px
     Cols = 10,
 }
-/**
- * CellSize is an enum that represents the size of a each cell.
- */
-export enum CellSize {
-    Width = 30, // 30px
-    Height = 30,
-}
+
 /**
  * TetriMinoType is an enum that represents the type of tetrimino.
  */

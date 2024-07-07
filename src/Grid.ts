@@ -1,5 +1,10 @@
 import { GridSize } from "./TetriMino.js";
 
+export enum CellSize {
+    Width = 30,
+    Height = 30,
+}
+
 /**
  * Cell class represents a single cell in the grid.
  */

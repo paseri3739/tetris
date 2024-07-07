@@ -1,5 +1,5 @@
-import { Grid } from "./Grid.js";
-import { CellSize, TetriMino, TetriMinoType } from "./TetriMino.js";
+import { CellSize, Grid } from "./Grid.js";
+import { TetriMino, TetriMinoType } from "./TetriMino.js";
 
 // Main
 (function () {
@@ -10,13 +10,13 @@ import { CellSize, TetriMino, TetriMinoType } from "./TetriMino.js";
     grid.drawGrid();
 
     // while (!grid.isGameOver()) {
-    //     // Game loop
-    //     // Move tetrimino down
-    //     // Check for collision
-    //     // If collision, add tetrimino to grid
-    //     // Check for full rows
-    //     // Remove full rows
-    //     // Create new tetrimino
+    // Game loop
+    // Move tetrimino down
+    // Check for collision
+    // If collision, add tetrimino to grid
+    // Check for full rows
+    // Remove full rows
+    // Create new tetrimino
     // }
     const tetriMino = new TetriMino(30, 30, TetriMinoType.T, "blue");
     tetriMino.render(grid.context);
