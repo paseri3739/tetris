@@ -1,8 +1,16 @@
-import { GridSize } from "./TetriMino.js";
-
 export enum CellSize {
-    Width = 30,
-    Height = 30,
+    Width = 30, // 30px
+    Height = 30, // 30px
+}
+
+enum GridRowAndCol {
+    Rows = 20, // 20行
+    Cols = 10, // 10列
+}
+
+enum GridPixel {
+    Width = CellSize.Width * GridRowAndCol.Cols, // 300px
+    Height = CellSize.Height * GridRowAndCol.Rows, // 600px
 }
 
 /**
@@ -13,6 +21,7 @@ export class Cell {
     y: number;
     width: number;
     height: number;
+    value: number;
 
     /**
      * Create a new cell.
@@ -20,12 +29,23 @@ export class Cell {
      * @param y
      * @param width
      * @param height
+     * @param value
      */
-    constructor(x: number, y: number, width: number, height: number) {
+    constructor(x: number, y: number, value: number) {
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
+        this.width = CellSize.Width;
+        this.height = CellSize.Height;
+        this.value = this.validateValue(value);
+    }
+
+    /**
+     * Validate the value to ensure it's either 0 or 1.
+     * @param value
+     * @returns number
+     */
+    private validateValue(value: number): number {
+        return value === 1 ? 1 : 0;
     }
 
     /**
@@ -36,8 +56,14 @@ export class Cell {
         context.strokeStyle = "#ddd";
         context.lineWidth = 1;
         context.strokeRect(this.x, this.y, this.width, this.height);
+
+        if (this.value === 1) {
+            context.fillStyle = "#000";
+            context.fillRect(this.x, this.y, this.width, this.height);
+        }
     }
 }
+
 /**
  * Grid class represents a grid of cells.
  */
@@ -48,11 +74,11 @@ export class Grid {
     cellHeight: number;
     cells: Cell[][];
 
-    constructor(canvas: HTMLCanvasElement, cellWidth: number, cellHeight: number) {
+    constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
         this.context = canvas.getContext("2d")!;
-        this.cellWidth = cellWidth;
-        this.cellHeight = cellHeight;
+        this.cellWidth = CellSize.Width;
+        this.cellHeight = CellSize.Height;
         this.cells = [];
 
         this.createGrid();
@@ -63,13 +89,13 @@ export class Grid {
      * Calculate the number of rows and columns based on the canvas size and the Cell size.
      */
     private createGrid() {
-        const rows = Math.floor(this.canvas.height / this.cellHeight);
-        const cols = Math.floor(this.canvas.width / this.cellWidth);
+        const rows = GridRowAndCol.Rows; //20
+        const cols = GridRowAndCol.Cols; //10
 
         for (let y = 0; y < rows; y++) {
             this.cells[y] = [];
             for (let x = 0; x < cols; x++) {
-                this.cells[y][x] = new Cell(x * this.cellWidth, y * this.cellHeight, this.cellWidth, this.cellHeight);
+                this.cells[y][x] = new Cell(x * this.cellWidth, y * this.cellHeight, 0); // 初期値を0に設定
             }
         }
     }
@@ -100,7 +126,7 @@ export class Grid {
 
     public clearRow(row: number): void {
         this.cells.splice(row, 1);
-        this.cells.unshift(new Array(GridSize.Cols).fill(0));
+        this.cells.unshift(new Array(GridRowAndCol.Rows).fill(0));
     }
 
     public clearRows(): void {

@@ -1,12 +1,12 @@
-import { CellSize, Grid } from "./Grid.js";
+import { Grid } from "./Grid.js";
 import { TetriMino, TetriMinoType } from "./TetriMino.js";
 
 // Main
 (function () {
     const canvas = document.getElementById("canvas") as HTMLCanvasElement;
-    const cellWidth = CellSize.Width;
-    const cellHeight = CellSize.Height;
-    const grid = new Grid(canvas, cellWidth, cellHeight);
+    canvas.width = 300;
+    canvas.height = 600;
+    const grid = new Grid(canvas);
     grid.drawGrid();
 
     // while (!grid.isGameOver()) {

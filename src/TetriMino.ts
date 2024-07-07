@@ -23,7 +23,7 @@ export class TetriMino {
         for (let row = 0; row < shape.length; row++) {
             for (let col = 0; col < shape[row].length; col++) {
                 if (shape[row][col] === 1) {
-                    this.cells.push(new Cell(col * CellSize.Width, row * CellSize.Height, CellSize.Width, CellSize.Height));
+                    this.cells.push(new Cell(col * CellSize.Width, row * CellSize.Height, 1));
                 }
             }
         }
