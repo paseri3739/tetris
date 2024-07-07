@@ -4,8 +4,6 @@ import { TetriMino, TetriMinoType } from "./TetriMino.js";
 // Main
 (function () {
     const canvas = document.getElementById("canvas") as HTMLCanvasElement;
-    canvas.width = 300;
-    canvas.height = 600;
     const grid = new Grid(canvas);
     grid.drawGrid();
 
