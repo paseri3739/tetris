@@ -1,12 +1,14 @@
 import { Cell, CellSize, Grid } from "./Grid.js";
 
-export class TetriMino {
+export class TetriMino implements Subject {
     column: number;
     row: number;
     x: number;
     y: number;
+    controllable: boolean;
     color: string;
     cells: Cell[];
+    observers: Observer[];
 
     /**
      * Create a new tetrimino.
@@ -15,13 +17,22 @@ export class TetriMino {
      * @param type
      * @param color string, e.g. "blue" or "#0000ff"
      */
-    constructor(column: number, row: number, type: TetriMinoType, color: string) {
+    constructor(
+        column: number,
+        row: number,
+        type: TetriMinoType,
+        color: string,
+        controllable: boolean = true,
+        observers: Observer[] = []
+    ) {
         this.column = column;
         this.row = row;
         this.x = column * CellSize.Width;
         this.y = row * CellSize.Height;
         this.color = color;
+        this.controllable = controllable;
         this.cells = [];
+        this.observers = observers;
 
         const shape = TetriMinoShapes[type];
         for (let row = 0; row < shape.length; row++) {
@@ -30,6 +41,18 @@ export class TetriMino {
                     this.cells.push(new Cell(col * CellSize.Width, row * CellSize.Height, 1));
                 }
             }
+        }
+    }
+
+    subscribe(observer: Observer) {
+        this.observers.push(observer);
+    }
+    unsubscribe(observer: Observer) {
+        this.observers = this.observers.filter((obs) => obs !== observer);
+    }
+    notify() {
+        for (const observer of this.observers) {
+            observer.update(this);
         }
     }
 
@@ -44,11 +67,17 @@ export class TetriMino {
         }
     }
 
-    canMoveDown(grid: Grid): boolean {
+    private moveDown(grid: Grid): void {
+        if (this.canMoveDown(grid)) {
+            this.y += CellSize.Height;
+        }
+    }
+
+    private canMoveDown(grid: Grid): boolean {
         for (const cell of this.cells) {
             const x = this.x + cell.x;
             const y = this.y + cell.y;
-
+            //はみ出したらfalse
             if (y + cell.height >= grid.canvas.height) {
                 return false;
             }
@@ -57,7 +86,12 @@ export class TetriMino {
         return true;
     }
 
-    canMoveLeft(grid: Grid): boolean {
+    private moveLeft(grid: Grid): void {
+        if (this.canMoveLeft(grid)) {
+            this.x -= CellSize.Width;
+        }
+    }
+    private canMoveLeft(grid: Grid): boolean {
         for (const cell of this.cells) {
             const x = this.x + cell.x;
             const y = this.y + cell.y;
@@ -70,7 +104,12 @@ export class TetriMino {
         return true;
     }
 
-    canMoveRight(grid: Grid): boolean {
+    private moveRight(grid: Grid): void {
+        if (this.canMoveRight(grid)) {
+            this.x += CellSize.Width;
+        }
+    }
+    private canMoveRight(grid: Grid): boolean {
         for (const cell of this.cells) {
             const x = this.x + cell.x;
             const y = this.y + cell.y;
@@ -82,17 +121,10 @@ export class TetriMino {
 
         return true;
     }
-
-    canRotate(grid: Grid): boolean {
+    //TODO: Implement this method
+    private canRotate(grid: Grid): boolean {
         return true;
     }
-}
-/**
- * GridSize is an enum that represents the size of the grid. Follows the guideline of Tetris.
- */
-export enum GridSize {
-    Rows = 20, // 20 rows, 30px * 20 = 600px
-    Cols = 10,
 }
 
 /**
@@ -113,7 +145,7 @@ export enum TetriMinoType {
  */
 const TetriMinoShapes: {
     [key in TetriMinoType]: number[][];
-} = {
+} = Object.freeze({
     [TetriMinoType.I]: [[1, 1, 1, 1]],
     [TetriMinoType.J]: [
         [1, 0, 0],
@@ -140,11 +172,11 @@ const TetriMinoShapes: {
         [0, 1, 1],
     ],
     [TetriMinoType.None]: [],
-};
+});
 /**
  * RotateMatrix is an enum that represents the rotation matrix.
  */
-const RotateMatrix = {
+const RotateMatrix = Object.freeze({
     clockwise: [
         [0, 1],
         [-1, 0],
@@ -153,4 +185,4 @@ const RotateMatrix = {
         [0, -1],
         [1, 0],
     ],
-};
+});
