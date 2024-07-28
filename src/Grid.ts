@@ -1,17 +1,6 @@
-export enum CellSize {
-    Width = 30, // 30px
-    Height = 30, // 30px
-}
-
-enum GridTable {
-    Rows = 20, // 20行
-    Cols = 10, // 10列
-}
-
-enum GridPixel {
-    Width = CellSize.Width * GridTable.Cols, // 300px
-    Height = CellSize.Height * GridTable.Rows, // 600px
-}
+import { CellSize, GridPixel, GridTable } from "enums/GridEnums";
+import { Renderable } from "interfaces/Renderable.js";
+import { Updatable } from "interfaces/Updatable.js";
 
 /**
  * Cell class represents a single cell in the grid.
@@ -52,7 +41,7 @@ export class Cell {
      * Draw the cell on the canvas.
      * @param context CanvasRenderingContext2D
      */
-    public draw(context: CanvasRenderingContext2D) {
+    public render(context: CanvasRenderingContext2D) {
         context.strokeStyle = "#ddd";
         context.lineWidth = 1;
         context.strokeRect(this.x, this.y, this.width, this.height);
@@ -67,7 +56,7 @@ export class Cell {
 /**
  * Grid class represents a grid of cells.
  */
-export class Grid {
+export class Grid implements Updatable, Renderable {
     canvas: HTMLCanvasElement;
     context: CanvasRenderingContext2D;
     cellWidth: number;
@@ -84,6 +73,17 @@ export class Grid {
         this.cells = [];
 
         this.createGrid();
+    }
+    update(deltaTime: number): void {
+        throw new Error("Method not implemented.");
+    }
+
+    /**
+     * render the grid on the canvas.
+     * @param context
+     */
+    render(context: CanvasRenderingContext2D): void {
+        this.drawGrid();
     }
 
     /**
@@ -108,7 +108,7 @@ export class Grid {
     public drawGrid() {
         for (const row of this.cells) {
             for (const cell of row) {
-                cell.draw(this.context);
+                cell.render(this.context);
             }
         }
     }

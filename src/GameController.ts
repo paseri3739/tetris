@@ -10,6 +10,7 @@ export class GameController {
         PAUSE: "Escape",
         START: "Enter",
     };
+
     constructor() {
         this.activate();
     }
@@ -21,13 +22,13 @@ export class GameController {
     public handleKeyDown(event: KeyboardEvent): void {
         switch (event.key) {
             case GameController.BUTTONS.LEFT:
-                this.moveLeft();
+                this.left();
                 break;
             case GameController.BUTTONS.RIGHT:
-                this.moveRight();
+                this.right();
                 break;
             case GameController.BUTTONS.DOWN:
-                this.moveDown();
+                this.down();
                 break;
             case GameController.BUTTONS.ROTATE:
                 this.rotate();
@@ -38,19 +39,47 @@ export class GameController {
             case GameController.BUTTONS.START:
                 this.start();
                 break;
+            default:
+                // Do nothing for unrecognized keys
+                break;
         }
     }
 
-    private moveLeft() {}
-    private moveRight() {}
-    private moveDown() {}
-    private rotate() {}
-    private pause() {}
-    private start() {}
+    private left() {
+        console.log("Move left");
+    }
+
+    private right() {
+        console.log("Move right");
+    }
+
+    private down() {
+        console.log("Move down");
+    }
+
+    private rotate() {
+        console.log("Rotate");
+    }
+
+    private pause() {
+        console.log("Pause");
+    }
+
+    private start() {
+        console.log("Start");
+    }
+
     /**
      * Activate the game controller. This will add the event listener to the document.
      */
     private activate(): void {
         document.addEventListener("keydown", this.handleKeyDown.bind(this));
+    }
+
+    /**
+     * Deactivate the game controller. This will remove the event listener from the document.
+     */
+    public deactivate(): void {
+        document.removeEventListener("keydown", this.handleKeyDown.bind(this));
     }
 }

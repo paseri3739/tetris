@@ -1,8 +1,11 @@
-import { Cell, CellSize, Grid } from "./Grid.js";
+import { CellSize } from "enums/GridEnums.js";
+import { Renderable } from "interfaces/Renderable.js";
+import { Updatable } from "interfaces/Updatable.js";
+import { Cell, Grid } from "./Grid.js";
 
-export class TetriMino implements Subject {
-    column: number;
-    row: number;
+export class TetriMino implements Subject, Updatable, Renderable {
+    columnIndex: number;
+    rowIndex: number;
     x: number;
     y: number;
     controllable: boolean;
@@ -25,8 +28,8 @@ export class TetriMino implements Subject {
         controllable: boolean = true,
         observers: Observer[] = []
     ) {
-        this.column = column;
-        this.row = row;
+        this.columnIndex = column;
+        this.rowIndex = row;
         this.x = column * CellSize.Width;
         this.y = row * CellSize.Height;
         this.color = color;
@@ -42,6 +45,34 @@ export class TetriMino implements Subject {
                 }
             }
         }
+    }
+
+    /**
+     * update the tetrimino's position and shape.
+     * @param column
+     * @param row
+     * @param type
+     * @param color
+     * @param controllable
+     */
+    update(column: number, row: number, type: TetriMinoType, color: string, controllable: boolean = true) {
+        this.columnIndex = column;
+        this.rowIndex = row;
+        this.x = column * CellSize.Width;
+        this.y = row * CellSize.Height;
+        this.color = color;
+        this.controllable = controllable;
+        this.cells = [];
+
+        const shape = TetriMinoShapes[type];
+        for (let row = 0; row < shape.length; row++) {
+            for (let col = 0; col < shape[row].length; col++) {
+                if (shape[row][col] === 1) {
+                    this.cells.push(new Cell(col * CellSize.Width, row * CellSize.Height, 1));
+                }
+            }
+        }
+        this.notify();
     }
 
     subscribe(observer: Observer) {
@@ -67,9 +98,10 @@ export class TetriMino implements Subject {
         }
     }
 
-    private moveDown(grid: Grid): void {
+    public moveDown(grid: Grid): void {
         if (this.canMoveDown(grid)) {
             this.y += CellSize.Height;
+            this.notify();
         }
     }
 
@@ -86,9 +118,10 @@ export class TetriMino implements Subject {
         return true;
     }
 
-    private moveLeft(grid: Grid): void {
+    public moveLeft(grid: Grid): void {
         if (this.canMoveLeft(grid)) {
             this.x -= CellSize.Width;
+            this.notify();
         }
     }
     private canMoveLeft(grid: Grid): boolean {
@@ -104,9 +137,10 @@ export class TetriMino implements Subject {
         return true;
     }
 
-    private moveRight(grid: Grid): void {
+    public moveRight(grid: Grid): void {
         if (this.canMoveRight(grid)) {
             this.x += CellSize.Width;
+            this.notify();
         }
     }
     private canMoveRight(grid: Grid): boolean {
@@ -124,6 +158,12 @@ export class TetriMino implements Subject {
     //TODO: Implement this method
     private canRotate(grid: Grid): boolean {
         return true;
+    }
+    public rotate(grid: Grid): void {
+        if (this.canRotate(grid)) {
+            // 回転ロジックをここに実装
+            this.notify();
+        }
     }
 }
 
