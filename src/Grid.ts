@@ -2,6 +2,10 @@ import { CellSize, GridPixel, GridTable } from "enums/GridEnums";
 import { Renderable } from "interfaces/Renderable.js";
 import { Updatable } from "interfaces/Updatable.js";
 
+enum CellStatus {
+    Empty = 0,
+    Filled = 1,
+}
 /**
  * Cell class represents a single cell in the grid.
  */
@@ -20,21 +24,12 @@ export class Cell {
      * @param height
      * @param value
      */
-    constructor(x: number, y: number, value: number) {
+    constructor(x: number, y: number, value: CellStatus) {
         this.x = x;
         this.y = y;
         this.width = CellSize.Width;
         this.height = CellSize.Height;
-        this.value = this.validateValue(value);
-    }
-
-    /**
-     * Validate the value to ensure it's either 0 or 1.
-     * @param value
-     * @returns number
-     */
-    private validateValue(value: number): number {
-        return value === 1 ? 1 : 0;
+        this.value = value;
     }
 
     /**
@@ -97,7 +92,7 @@ export class Grid implements Updatable, Renderable {
         for (let y = 0; y < rows; y++) {
             this.cells[y] = [];
             for (let x = 0; x < cols; x++) {
-                this.cells[y][x] = new Cell(x * this.cellWidth, y * this.cellHeight, 0); // 初期値を0に設定
+                this.cells[y][x] = new Cell(x * this.cellWidth, y * this.cellHeight, CellStatus.Empty); // 初期値を0に設定
             }
         }
     }

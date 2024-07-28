@@ -45,28 +45,43 @@ export class GameController {
         }
     }
 
+    /**
+     * Trigger a custom event with the specified name.
+     * @param eventName string
+     */
+    private triggerEvent(eventName: string): void {
+        const event = new CustomEvent(eventName);
+        document.dispatchEvent(event);
+    }
+
     private left() {
         console.log("Move left");
+        this.triggerEvent("moveLeft");
     }
 
     private right() {
         console.log("Move right");
+        this.triggerEvent("moveRight");
     }
 
     private down() {
         console.log("Move down");
+        this.triggerEvent("moveDown");
     }
 
     private rotate() {
         console.log("Rotate");
+        this.triggerEvent("rotate");
     }
 
     private pause() {
         console.log("Pause");
+        this.triggerEvent("pause");
     }
 
     private start() {
         console.log("Start");
+        this.triggerEvent("start");
     }
 
     /**
