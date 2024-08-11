@@ -1,6 +1,6 @@
 /**
- * IUpdatable インターフェースは、更新メソッドを提供します。
+ * Updatable インターフェースは、更新メソッドを提供します。
  */
 export interface Updatable {
-    update(...args: any[]): void;
+    update(deltaTime: number, ...args: any[]): void;
 }
