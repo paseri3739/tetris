@@ -9,6 +9,7 @@ export class Game {
     private request: number = 0;
     private readonly gameObjects: GameObject[];
     private readonly context: CanvasRenderingContext2D;
+    private readonly targetFrameTime: number = 1000 / 60; // 60fpsを目標とするフレーム時間
 
     constructor(context: CanvasRenderingContext2D) {
         if (!context) {
@@ -25,9 +26,18 @@ export class Game {
     runLoop(timeStamp: number) {
         if (!this.isRunning) return; // isRunningがfalseならばループを終了
 
-        const deltaTime = (timeStamp - this.currentTimestamp) / 1000; // Convert to seconds
+        const deltaTime = timeStamp - this.currentTimestamp;
+
+        // deltaTimeが目標フレーム時間に達していなければ次のフレームへ進む
+        if (deltaTime < this.targetFrameTime) {
+            this.request = requestAnimationFrame(this.runLoop.bind(this));
+            return;
+        }
+
         this.currentTimestamp = timeStamp;
-        this.update(deltaTime);
+        const seconds = deltaTime / 1000; // Convert to seconds
+
+        this.update(seconds);
         this.render();
         this.request = requestAnimationFrame(this.runLoop.bind(this));
     }
