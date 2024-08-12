@@ -21,12 +21,12 @@ export class Game {
 
     /**
      * Start the game loop.
-     * @param timeStamp timestamp in milliseconds
+     * @param currentTimeStamp timestamp in milliseconds
      */
-    runLoop(timeStamp: number) {
+    runLoop(currentTimeStamp: number) {
         if (!this.isRunning) return; // isRunningがfalseならばループを終了
 
-        const deltaTime = timeStamp - this.currentTimestamp;
+        const deltaTime = currentTimeStamp - this.currentTimestamp;
 
         // deltaTimeが目標フレーム時間に達していなければ次のフレームへ進む
         if (deltaTime < this.targetFrameTime) {
@@ -34,7 +34,7 @@ export class Game {
             return;
         }
 
-        this.currentTimestamp = timeStamp;
+        this.currentTimestamp = currentTimeStamp;
         const seconds = deltaTime / 1000; // Convert to seconds
 
         this.update(seconds);
