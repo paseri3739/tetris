@@ -1,6 +1,6 @@
-import { CellSize } from "enums/GridEnums.js";
-import { GameObject } from "interfaces/GameObject.js";
-import { Cell, Grid } from "./Grid.js";
+import { CellSize } from "enums/GridEnums";
+import { GameObject } from "interfaces/GameObject";
+import { Cell, Grid } from "./Grid";
 
 export class TetriMino implements Subject, GameObject {
     columnIndex: number;

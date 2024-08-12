@@ -23,7 +23,8 @@ export class Game {
      * @param timeStamp timestamp in milliseconds
      */
     runLoop(timeStamp: number) {
-        this.isRunning = true;
+        if (!this.isRunning) return; // isRunningがfalseならばループを終了
+
         const deltaTime = (timeStamp - this.currentTimestamp) / 1000; // Convert to seconds
         this.currentTimestamp = timeStamp;
         this.update(deltaTime);
@@ -31,8 +32,21 @@ export class Game {
         this.request = requestAnimationFrame(this.runLoop.bind(this));
     }
 
+    /**
+     * Start the game.
+     */
+    startLoop() {
+        this.isRunning = true;
+        this.currentTimestamp = performance.now(); // タイムスタンプを初期化
+        this.runLoop(this.currentTimestamp); // ゲームループを開始
+    }
+
+    /**
+     * Stop the game loop.
+     */
     stopLoop() {
-        cancelAnimationFrame(this.request);
+        this.isRunning = false;
+        cancelAnimationFrame(this.request); // アニメーションフレームをキャンセル
     }
 
     /**
