@@ -4,12 +4,16 @@ import { GameObject } from "interfaces/GameObject";
  * GameLoop class. This class will handle the game loop.
  */
 export class Game {
+    private isRunning: boolean = false;
     private currentTimestamp: number = 0;
     private request: number = 0;
     private readonly gameObjects: GameObject[];
     private readonly context: CanvasRenderingContext2D;
 
     constructor(context: CanvasRenderingContext2D) {
+        if (!context) {
+            throw new Error("CanvasRenderingContext2D is required.");
+        }
         this.context = context;
         this.gameObjects = [];
     }
@@ -18,15 +22,16 @@ export class Game {
      * Start the game loop.
      * @param timeStamp timestamp in milliseconds
      */
-    run(timeStamp: number) {
+    runLoop(timeStamp: number) {
+        this.isRunning = true;
         const deltaTime = (timeStamp - this.currentTimestamp) / 1000; // Convert to seconds
         this.currentTimestamp = timeStamp;
         this.update(deltaTime);
         this.render();
-        this.request = requestAnimationFrame(this.run.bind(this));
+        this.request = requestAnimationFrame(this.runLoop.bind(this));
     }
 
-    stop() {
+    stopLoop() {
         cancelAnimationFrame(this.request);
     }
 
@@ -42,7 +47,7 @@ export class Game {
      * Update the game state based on the elapsed time.
      * @param deltaTime seconds
      */
-    update(deltaTime: number) {
+    private update(deltaTime: number) {
         for (const gameObject of this.gameObjects) {
             gameObject.update(deltaTime);
         }
@@ -51,7 +56,7 @@ export class Game {
     /**
      * Render the game state.
      */
-    render() {
+    private render() {
         this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height); // 画面をクリア
         for (const gameObject of this.gameObjects) {
             gameObject.render(this.context);
