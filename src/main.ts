@@ -1,4 +1,4 @@
-import { GameLoop } from "GameLoop.js";
+import { Game } from "GameLoop.js";
 import { Grid } from "./Grid.js";
 import { TetriMino, TetriMinoType } from "./TetriMino.js";
 
@@ -9,6 +9,6 @@ import { TetriMino, TetriMinoType } from "./TetriMino.js";
     const grid = new Grid(canvas);
     const tetriMino = new TetriMino(3, 0, TetriMinoType.I, "blue");
 
-    const gameLoop = new GameLoop(context);
+    const gameLoop = new Game(context);
     gameLoop.run(performance.now());
 })();

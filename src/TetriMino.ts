@@ -1,9 +1,8 @@
 import { CellSize } from "enums/GridEnums.js";
-import { Renderable } from "interfaces/Renderable.js";
-import { Updatable } from "interfaces/Updatable.js";
+import { GameObject } from "interfaces/GameObject.js";
 import { Cell, Grid } from "./Grid.js";
 
-export class TetriMino implements Subject, Updatable, Renderable {
+export class TetriMino implements Subject, GameObject {
     columnIndex: number;
     rowIndex: number;
     x: number;

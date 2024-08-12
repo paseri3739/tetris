@@ -1,20 +1,17 @@
-import { Renderable } from "./interfaces/Renderable.js";
-import { Updatable } from "./interfaces/Updatable.js";
+import { GameObject } from "interfaces/GameObject";
 
 /**
  * GameLoop class. This class will handle the game loop.
  */
-export class GameLoop {
+export class Game {
     private currentTimestamp: number = 0;
     private request: number = 0;
-    private readonly updatables: Updatable[];
-    private readonly renderables: Renderable[];
+    private readonly gameObjects: GameObject[];
     private readonly context: CanvasRenderingContext2D;
 
     constructor(context: CanvasRenderingContext2D) {
         this.context = context;
-        this.updatables = [];
-        this.renderables = [];
+        this.gameObjects = [];
     }
 
     /**
@@ -34,19 +31,11 @@ export class GameLoop {
     }
 
     /**
-     * Add an updatable object to the game loop.
-     * @param updatable IUpdatable
-     */
-    addUpdatable(updatable: Updatable) {
-        this.updatables.push(updatable);
-    }
-
-    /**
      * Add a renderable object to the game loop.
      * @param renderable IRenderable
      */
-    addRenderable(renderable: Renderable) {
-        this.renderables.push(renderable);
+    addGameObject(gameObject: GameObject) {
+        this.gameObjects.push(gameObject);
     }
 
     /**
@@ -54,8 +43,8 @@ export class GameLoop {
      * @param deltaTime seconds
      */
     update(deltaTime: number) {
-        for (const updatable of this.updatables) {
-            updatable.update(deltaTime);
+        for (const gameObject of this.gameObjects) {
+            gameObject.update(deltaTime);
         }
     }
 
@@ -64,8 +53,8 @@ export class GameLoop {
      */
     render() {
         this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height); // 画面をクリア
-        for (const renderable of this.renderables) {
-            renderable.render(this.context);
+        for (const gameObject of this.gameObjects) {
+            gameObject.render(this.context);
         }
     }
 }

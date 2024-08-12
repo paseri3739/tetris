@@ -1,6 +1,5 @@
 import { CellSize, GridPixel, GridTable } from "enums/GridEnums";
-import { Renderable } from "interfaces/Renderable.js";
-import { Updatable } from "interfaces/Updatable.js";
+import { GameObject } from "interfaces/GameObject";
 
 enum CellStatus {
     Empty = 0,
@@ -51,7 +50,7 @@ export class Cell {
 /**
  * Grid class represents a grid of cells.
  */
-export class Grid implements Updatable, Renderable {
+export class Grid implements GameObject {
     canvas: HTMLCanvasElement;
     context: CanvasRenderingContext2D;
     cellWidth: number;
