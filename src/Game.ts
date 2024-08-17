@@ -1,4 +1,6 @@
+import { InputSystem } from "InputSystem";
 import { GameObject } from "interfaces/GameObject";
+import { Scene } from "interfaces/Scene";
 
 /**
  * GameLoop class. This class will handle the game loop.
@@ -7,7 +9,10 @@ export class Game {
     private isRunning: boolean = false;
     private currentTimestamp: number = 0;
     private request: number = 0;
-    private readonly gameObjects: GameObject[];
+    private scenes: Scene[] = [];
+    private currentScene: Scene | null = null;
+    private readonly inputSystem: InputSystem;
+    private gameObjects: GameObject[];
     private readonly context: CanvasRenderingContext2D;
     private readonly targetFrameTime: number = 1000 / 60; // 60fpsを目標とするフレーム時間
 
@@ -17,6 +22,17 @@ export class Game {
         }
         this.context = context;
         this.gameObjects = [];
+        this.inputSystem = new InputSystem();
+    }
+
+    addScene(scene: Scene) {
+        this.scenes.push(scene);
+        scene.game = this;
+    }
+
+    changeScene(scene: Scene) {
+        this.scenes = [scene];
+        scene.game = this;
     }
 
     /**
@@ -25,6 +41,7 @@ export class Game {
      */
     runLoop(currentTimeStamp: number) {
         if (!this.isRunning) return; // isRunningがfalseならばループを終了
+        if (!this.scenes) return;
 
         const deltaTime = currentTimeStamp - this.currentTimestamp;
 
@@ -37,8 +54,11 @@ export class Game {
         this.currentTimestamp = currentTimeStamp;
         const seconds = deltaTime / 1000; // Convert to seconds
 
-        this.update(seconds);
-        this.render();
+        // this.update(seconds);
+        // this.render();
+        this.currentScene?.processInput(this.inputSystem);
+        this.currentScene?.update(deltaTime);
+        this.currentScene?.render(this.context);
         this.request = requestAnimationFrame(this.runLoop.bind(this));
     }
 
