@@ -97,23 +97,4 @@ export class Game {
             this.gameObjects.splice(index, 1);
         }
     }
-    /**
-     * Update the game state based on the elapsed time.
-     * @param deltaTime seconds
-     */
-    private update(deltaTime: number) {
-        for (const gameObject of this.gameObjects) {
-            gameObject.update(deltaTime);
-        }
-    }
-
-    /**
-     * Render the game state.
-     */
-    private render() {
-        this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height); // 画面をクリア
-        for (const gameObject of this.gameObjects) {
-            gameObject.render(this.context);
-        }
-    }
 }
