@@ -68,6 +68,16 @@ export class Game {
     }
 
     /**
+     * Remove a renderable object from the game loop.
+     * @param gameObject
+     */
+    removeGameObject(gameObject: GameObject) {
+        const index = this.gameObjects.indexOf(gameObject);
+        if (index !== -1) {
+            this.gameObjects.splice(index, 1);
+        }
+    }
+    /**
      * Update the game state based on the elapsed time.
      * @param deltaTime seconds
      */
