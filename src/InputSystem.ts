@@ -1,24 +1,23 @@
-import { InputState } from "InputState";
+import { InputDevice } from "interfaces/InputDevice";
 
 export class InputSystem {
-    inputState: InputState;
+    devices: InputDevice[] = [];
 
-    constructor() {
-        this.inputState = new InputState();
-
-        window.addEventListener("keydown", this.handleKeyDown.bind(this));
-        window.addEventListener("keyup", this.handleKeyUp.bind(this));
+    constructor(inputDevices: InputDevice[]) {
+        this.devices.push(...inputDevices);
     }
 
-    private handleKeyDown(event: KeyboardEvent) {
-        this.inputState.setKeyDown(event.key);
+    addDevice(inputDevice: InputDevice) {
+        this.devices.push(inputDevice);
     }
 
-    private handleKeyUp(event: KeyboardEvent) {
-        this.inputState.setKeyUp(event.key);
+    updateState() {
+        this.devices.forEach((device) => {
+            device.updateState();
+        });
     }
 
-    isKeyPressed(key: string) {
-        return this.inputState.isKeyPressed(key);
+    isKeyPressed(key: any) {
+        return this.devices.some((device) => device.isKeyPressed(key));
     }
 }

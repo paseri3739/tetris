@@ -1,6 +1,7 @@
 import { InputSystem } from "InputSystem";
 import { GameObject } from "interfaces/GameObject";
 import { Scene } from "interfaces/Scene";
+import { KeyboardInput } from "KeyboardInput";
 
 /**
  * GameLoop class. This class will handle the game loop.
@@ -22,7 +23,7 @@ export class Game {
         }
         this.context = context;
         this.gameObjects = [];
-        this.inputSystem = new InputSystem();
+        this.inputSystem = new InputSystem([new KeyboardInput()]);
     }
 
     addScene(scene: Scene) {

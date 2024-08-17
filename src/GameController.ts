@@ -1,4 +1,5 @@
 import { InputSystem } from "InputSystem";
+import { KeyboardInput } from "KeyboardInput";
 
 /**
  * GameController class. This class will handle the game controls.
@@ -7,7 +8,7 @@ export class GameController {
     inputSystem: InputSystem;
 
     constructor() {
-        this.inputSystem = new InputSystem();
+        this.inputSystem = new InputSystem([new KeyboardInput()]);
     }
 
     /**
