@@ -1,5 +1,5 @@
+import { GameObject } from "common/interfaces/GameObject";
 import { CellSize } from "enums/GridEnums";
-import { GameObject } from "interfaces/GameObject";
 import { Cell, Grid } from "./Grid";
 
 export class TetriMino implements GameObject {

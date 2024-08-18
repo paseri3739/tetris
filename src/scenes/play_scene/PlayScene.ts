@@ -1,7 +1,7 @@
 import { Game } from "Game";
-import { InputSystem } from "input_system/InputSystem";
-import { GameObject } from "interfaces/GameObject";
-import { Scene } from "interfaces/Scene";
+import { InputSystem } from "common/input_system/InputSystem";
+import { GameObject } from "common/interfaces/GameObject";
+import { Scene } from "common/interfaces/Scene";
 
 export class PlayScene implements Scene {
     game: Game;

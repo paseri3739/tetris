@@ -1,7 +1,7 @@
-import { InputSystem } from "input_system/InputSystem";
-import { KeyboardInput } from "input_system/KeyboardInput";
-import { GameObject } from "interfaces/GameObject";
-import { Scene } from "interfaces/Scene";
+import { InputSystem } from "common/input_system/InputSystem";
+import { KeyboardInput } from "common/input_system/KeyboardInput";
+import { GameObject } from "common/interfaces/GameObject";
+import { Scene } from "common/interfaces/Scene";
 
 /**
  * GameLoop class. This class will handle the game loop.
@@ -70,7 +70,7 @@ export class Game {
      */
     startLoop() {
         this.isRunning = true;
-        this.currentTimestamp = performance.now(); // タイムスタンプを初期化
+        this.currentTimestamp = window.performance.now(); // タイムスタンプを初期化
         this.runLoop(this.currentTimestamp); // ゲームループを開始
     }
 

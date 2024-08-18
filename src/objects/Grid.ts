@@ -1,5 +1,5 @@
+import { GameObject } from "common/interfaces/GameObject";
 import { CellSize, GridPixel, GridTable } from "enums/GridEnums";
-import { GameObject } from "interfaces/GameObject";
 
 enum CellStatus {
     Empty = 0,
