@@ -1,6 +1,6 @@
-import { DynamicGameObject, GameObjectState } from "../../common/interfaces/DynamicGameObject";
+import { DynamicGameObject, GameObjectState } from "../../common/interfaces/DynamicGameObject.js";
 import { GameComponent } from "../../common/interfaces/GameComponent.js";
-import { TetriMino } from "../../objects/TetriMino";
+import { TetriMino } from "../../objects/TetriMino.js";
 
 export class BoundaryCheckComponent implements GameComponent {
     owner!: TetriMino;

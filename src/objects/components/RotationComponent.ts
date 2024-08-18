@@ -1,4 +1,4 @@
-import { DynamicGameObject } from "common/interfaces/DynamicGameObject.js";
+import { DynamicGameObject } from "../../common/interfaces/DynamicGameObject.js";
 import { GameComponent } from "../../common/interfaces/GameComponent.js";
 import { RotateMatrix, TetriMino, TetriMinoShapes } from "../../objects/TetriMino.js";
 export class RotationComponent implements GameComponent {

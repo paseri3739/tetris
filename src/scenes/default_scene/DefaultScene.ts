@@ -1,15 +1,15 @@
-import { CellSize } from "objects/Cell";
-import { BoundaryCheckComponent } from "objects/components/BoundaryCheckComponent";
-import { MovementComponent } from "objects/components/MovementComponent";
-import { PositionComponent } from "objects/components/PositionComponent";
-import { RotationComponent } from "objects/components/RotationComponent";
-import { TetriMino, TetriMinoType } from "objects/TetriMino";
-import { InputSystem } from "../../common/input_system/InputSystem";
-import { DynamicGameObject, GameObjectState } from "../../common/interfaces/DynamicGameObject";
+import { InputSystem } from "../../common/input_system/InputSystem.js";
+import { DynamicGameObject, GameObjectState } from "../../common/interfaces/DynamicGameObject.js";
 import { Scene } from "../../common/interfaces/Scene.js";
-import { StaticGameObject } from "../../common/interfaces/StaticGameObject";
+import { StaticGameObject } from "../../common/interfaces/StaticGameObject.js";
 import { Game } from "../../Game.js";
+import { CellSize } from "../../objects/Cell.js";
+import { BoundaryCheckComponent } from "../../objects/components/BoundaryCheckComponent.js";
+import { MovementComponent } from "../../objects/components/MovementComponent.js";
+import { PositionComponent } from "../../objects/components/PositionComponent.js";
+import { RotationComponent } from "../../objects/components/RotationComponent.js";
 import { Grid, GridPixel } from "../../objects/Grid.js";
+import { TetriMino, TetriMinoType } from "../../objects/TetriMino.js";
 
 export class DefaultScene implements Scene {
     game: Game;
