@@ -15,14 +15,16 @@ export class Game {
     private currentScene: Scene | null = null;
     private readonly inputSystem: InputSystem;
     private gameObjects: GameObject[] = [];
+    private readonly canvas: HTMLCanvasElement;
     private readonly context: CanvasRenderingContext2D;
     private readonly targetFrameTime: number = 1000 / 60; // 60fpsを目標とするフレーム時間
 
-    constructor(context: CanvasRenderingContext2D) {
-        if (!context) {
-            throw new Error("CanvasRenderingContext2D is required.");
+    constructor(canvas: HTMLCanvasElement) {
+        if (!canvas) {
+            throw new Error("Canvas is required.");
         }
-        this.context = context;
+        this.canvas = canvas;
+        this.context = canvas.getContext("2d")!;
         this.inputSystem = new InputSystem([new KeyboardInput()]);
     }
 
