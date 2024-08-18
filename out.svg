@@ -1,74 +1,100 @@
-<svg version="1.1" baseProfile="full" width="4786.5" height="567.0" viewbox="0 0 4786.5 567" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events">
+<svg version="1.1" baseProfile="full" width="4337.0" height="970.0" viewbox="0 0 4337 970" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events">
 <desc >#.interface: fill=lightblue
 #.enumeration: fill=lightgreen
 #.type: fill=lightgray
 [Game|-isRunning: boolean;-currentTimestamp: number;-request: number;-scenes: Scene\[\];-currentScene: Scene;-inputSystem: InputSystem;-canvas: HTMLCanvasElement;-context: CanvasRenderingContext2D;-targetFrameTime: number|+addScene(): void;+removeScene(): void;+changeScene(): void;-runLoop(): void;+startLoop(): void;+stopLoop(): void]
-[Cell|+cellStatus: CellStatus;+cellWidth: CellSize;+cellHeight: CellSize;+position: { x: number; y: number; }|+render(): void]
+[Cell|+x: number;+y: number;+cellStatus: CellStatus;+cellWidth: CellSize;+cellHeight: CellSize|+render(): void]
 [&lt;enumeration&gt;CellStatus|Empty;Filled]
 [&lt;enumeration&gt;CellSize|Width;Height]
 [StaticGameObject]&lt;:--[Cell]
-[Grid|+position: { x: number; y: number; };+cells: Cell\[\]\[\]|+render(): void]
+[Grid|+x: number;+y: number;+cells: Cell\[\]\[\]|+render(): void]
 [&lt;enumeration&gt;GridTable|Rows;Cols]
 [&lt;enumeration&gt;GridPixel|Width;Height]
 [StaticGameObject]&lt;:--[Grid]
-[TetriMino|-type: TetriMinoType;-movementComponent: MovementComponent;-positionComponent: PositionComponent|+update(): void;+render(): void;+processInput(): void]
+[TetriMino|+x: number;+y: number;+state: GameObjectState;+components: GameComponent\[\];-type: TetriMinoType;-movementComponent: MovementComponent;-positionComponent: PositionComponent;-rotationComponent: RotationComponent;-boundaryCheckComponent: BoundaryCheckComponent|+getType(): TetriMinoType;+setState(): void;+getState(): GameObjectState;+addComponent(): void;+removeComponent(): void;+update(): void;+render(): void;+processInput(): void]
 [&lt;enumeration&gt;TetriMinoType|I;J;L;O;S;T;Z;None]
 [DynamicGameObject]&lt;:--[TetriMino]
 [GameController|+inputState: InputState|+updateState(): void;+isKeyPressed(): boolean]
 [InputDevice]&lt;:--[GameController]
 [InputState|+keys: Record&lt;string, boolean&gt;|+setKeyDown(): void;+setKeyUp(): void;+isKeyPressed(): boolean]
 [InputSystem|+devices: InputDevice\[\]|+addDevice(): void;+updateState(): void;+isKeyPressed(): boolean]
-[KeyboardInput|+inputState: InputState|+updateState(): void;+isKeyPressed(): boolean]
+[KeyboardInput|+inputState: InputState|+attachEventListeners(): void;+updateState(): void;+isKeyPressed(): boolean]
 [InputDevice]&lt;:--[KeyboardInput]
-[&lt;interface&gt;DynamicGameObject|+state: GameObjectState;+components: GameComponent\[\]|+update(): void;+render(): void;+processInput(): void;+addComponent(): void;+removeComponent(): void]
+[&lt;interface&gt;DynamicGameObject|+state: GameObjectState;+components: GameComponent\[\]|+setState(): void;+getState(): GameObjectState;+update(): void;+render(): void;+processInput(): void;+addComponent(): void;+removeComponent(): void]
 [&lt;enumeration&gt;GameObjectState|Active;Inactive;Destroyed]
-[&lt;interface&gt;GameComponent|+owner: DynamicGameObject|]
+[GameObject]&lt;:--[DynamicGameObject]
+[&lt;interface&gt;GameComponent|+owner: DynamicGameObject|+update(): void]
+[&lt;interface&gt;GameObject|+x: number;+y: number|]
 [&lt;interface&gt;InputDevice||+updateState(): void;+isKeyPressed(): boolean]
-[&lt;interface&gt;Observer|+update: (data: any) =&gt; void|]
-[&lt;interface&gt;Scene|+game: Game;+gameObjects: DynamicGameObject\[\]|+addGameObject(): void;+removeGameObject(): void;+update(): void;+render(): void;+processInput(): void;+close(): void]
-[&lt;interface&gt;StaticGameObject|+position: { x: number; y: number; }|+render(): void]
-[&lt;interface&gt;Subject|+observers: Observer\[\];+subscribe: (observer: Observer) =&gt; void;+unsubscribe: (observer: Observer) =&gt; void;+notify: () =&gt; void|]
+[&lt;interface&gt;Scene|+game: Game;+staticGameObjects: StaticGameObject\[\];+dynamicGameObjects: DynamicGameObject\[\]|+addDynamicGameObject(): void;+addStaticGameObject(): void;+removeDynamicGameObject(): void;+removeStaticGameObject(): void;+update(): void;+render(): void;+processInput(): void;+close(): void]
+[&lt;interface&gt;StaticGameObject||+render(): void]
+[GameObject]&lt;:--[StaticGameObject]
 [ServiceLocator|-components: Map&lt;string, GameComponent&gt;|+addComponent(): void;+getComponent(): T]
-[MovementComponent|+speed: number;+direction: { x: number; y: number; }|+setDirection(): void;+updatePosition(): void]
-[PositionComponent|+owner: DynamicGameObject;+x: number;+y: number|+setPotision(): void;+getPotision(): { x: number; y: number; }]
+[BoundaryCheckComponent|+owner: TetriMino;-gameWidth: number;-gameHeight: number|+update(): void]
+[GameComponent]&lt;:--[BoundaryCheckComponent]
+[MovementComponent|+owner: DynamicGameObject|+update(): void]
+[GameComponent]&lt;:--[MovementComponent]
+[PositionComponent|+owner: DynamicGameObject|+update(): void;+getPosition(): { x: number; y: number; };+setPosition(): void]
 [GameComponent]&lt;:--[PositionComponent]
-[DefaultScene|+game: Game;+gameObjects: DynamicGameObject\[\]|+close(): void;+addGameObject(): void;+removeGameObject(): void;+update(): void;+render(): void;+processInput(): void]
+[RotationComponent|+owner: TetriMino|+update(): void;-rotateShape(): number\[\]\[\]]
+[GameComponent]&lt;:--[RotationComponent]
+[DefaultScene|+game: Game;+staticGameObjects: StaticGameObject\[\];+dynamicGameObjects: DynamicGameObject\[\]|+addDynamicGameObject(): void;+addStaticGameObject(): void;+removeDynamicGameObject(): void;+removeStaticGameObject(): void;+update(): void;+render(): void;+processInput(): void;+close(): void]
 [Scene]&lt;:--[DefaultScene]</desc>
 <g stroke-width="1.0" text-align="left" font="12pt Helvetica, Arial, sans-serif" font-size="12pt" font-family="Helvetica" font-weight="normal" font-style="normal">
 <g font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" stroke-width="3.0" stroke-linejoin="round" stroke-linecap="round" stroke="#33322E">
 <g stroke="transparent" fill="transparent">
-<rect x="0.0" y="0.0" height="567.0" width="4786.5" stroke="none"></rect>
+<rect x="0.0" y="0.0" height="970.0" width="4337.0" stroke="none"></rect>
 </g>
 <g transform="translate(8, 8)" fill="#33322E">
 <g transform="translate(20, 20)" fill="#eee8d5" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal">
 <g stroke-dasharray="6 6">
-<path d="M654.1 216.4 L589.75 308 L589.75 335.5 L589.8 335.5 " fill="none"></path>
+<path d="M1245.9 487.6 L1179 576 L1179 678.5 L1179.0 678.5 " fill="none"></path>
 </g>
-<path d="M658.5 219.5 L654.1 216.4 L649.8 213.3 L661.8 205.5 Z"></path>
+<path d="M1250.2 490.8 L1245.9 487.6 L1241.7 484.4 L1254.0 477.0 Z"></path>
 <g stroke-dasharray="6 6">
-<path d="M786.2 214.2 L894.75 308 L894.75 350.5 L894.8 350.5 " fill="none"></path>
+<path d="M1315.1 487.6 L1382 576 L1382 693.5 L1382.0 693.5 " fill="none"></path>
 </g>
-<path d="M789.7 210.2 L786.2 214.2 L782.8 218.3 L776.2 205.5 Z"></path>
+<path d="M1319.3 484.4 L1315.1 487.6 L1310.8 490.8 L1307.0 477.0 Z"></path>
 <g stroke-dasharray="6 6">
-<path d="M1407.5 241.3 L1407.5 308 L1407.5 343 L1407.5 343.0 " fill="none"></path>
+<path d="M810.0 554.3 L810 576 L810 596 L810.0 596.0 " fill="none"></path>
 </g>
-<path d="M1412.8 241.3 L1407.5 241.3 L1402.2 241.3 L1407.5 228.0 Z"></path>
+<path d="M815.3 554.3 L810.0 554.3 L804.7 554.3 L810.0 541.0 Z"></path>
 <g stroke-dasharray="6 6">
-<path d="M1834.5 196.9 L1746.5 308 L1746.5 365.5 L1746.5 365.5 " fill="none"></path>
+<path d="M1957.8 191.9 L1695.5 308 L1695.5 388 L1695.5 388.0 " fill="none"></path>
 </g>
-<path d="M1838.7 200.3 L1834.5 196.9 L1830.3 193.6 L1842.8 186.5 Z"></path>
+<path d="M1960.0 196.8 L1957.8 191.9 L1955.6 187.0 L1970.0 186.5 Z"></path>
 <g stroke-dasharray="6 6">
-<path d="M1987.6 191.8 L2258 308 L2258 365.5 L2258.0 365.5 " fill="none"></path>
+<path d="M2110.1 196.7 L2203 308 L2203 380.5 L2203.0 380.5 " fill="none"></path>
 </g>
-<path d="M1989.7 186.9 L1987.6 191.8 L1985.5 196.7 L1975.4 186.5 Z"></path>
+<path d="M2114.1 193.3 L2110.1 196.7 L2106.0 200.2 L2101.5 186.5 Z"></path>
 <g stroke-dasharray="6 6">
-<path d="M2914.5 192.3 L2914.5 308 L2914.5 335.5 L2914.5 335.5 " fill="none"></path>
+<path d="M1027.4 183.3 L810 308 L810 343 L810.0 343.0 " fill="none"></path>
 </g>
-<path d="M2919.8 192.3 L2914.5 192.3 L2909.2 192.3 L2914.5 179.0 Z"></path>
+<path d="M1030.1 187.9 L1027.4 183.3 L1024.8 178.7 L1039.0 176.7 Z"></path>
 <g stroke-dasharray="6 6">
-<path d="M3517.5 248.8 L3517.5 308 L3517.5 328 L3517.5 328.0 " fill="none"></path>
+<path d="M1153.8 195.4 L1280.5 308 L1280.5 407 L1280.5 407.0 " fill="none"></path>
 </g>
-<path d="M3522.8 248.8 L3517.5 248.8 L3512.2 248.8 L3517.5 235.5 Z"></path>
+<path d="M1157.3 191.4 L1153.8 195.4 L1150.2 199.3 L1143.8 186.5 Z"></path>
+<g stroke-dasharray="6 6">
+<path d="M2776.6 195.3 L2483.5 308 L2483.5 380.5 L2483.5 380.5 " fill="none"></path>
+</g>
+<path d="M2778.5 200.3 L2776.6 195.3 L2774.7 190.3 L2789.1 190.5 Z"></path>
+<g stroke-dasharray="6 6">
+<path d="M2860.1 200.5 L2765 308 L2765 395.5 L2765.0 395.5 " fill="none"></path>
+</g>
+<path d="M2864.1 204.0 L2860.1 200.5 L2856.1 197.0 L2868.9 190.5 Z"></path>
+<g stroke-dasharray="6 6">
+<path d="M2959.9 200.5 L3055 308 L3055 365.5 L3055.0 365.5 " fill="none"></path>
+</g>
+<path d="M2963.9 197.0 L2959.9 200.5 L2955.9 204.0 L2951.1 190.5 Z"></path>
+<g stroke-dasharray="6 6">
+<path d="M3041.6 195.3 L3330.5 308 L3330.5 388 L3330.5 388.0 " fill="none"></path>
+</g>
+<path d="M3043.6 190.4 L3041.6 195.3 L3039.7 200.3 L3029.2 190.5 Z"></path>
+<g stroke-dasharray="6 6">
+<path d="M3673.5 271.3 L3673.5 308 L3673.5 328 L3673.5 328.0 " fill="none"></path>
+</g>
+<path d="M3678.8 271.3 L3673.5 271.3 L3668.2 271.3 L3673.5 258.0 Z"></path>
 <g data-name="Game">
 <g fill="#eee8d5" stroke="#33322E" data-name="Game">
 <rect x="0.0" y="0.0" height="288.0" width="315.0" data-name="Game"></rect>
@@ -109,28 +135,27 @@
 </g>
 <g data-name="Cell">
 <g fill="#eee8d5" stroke="#33322E" data-name="Cell">
-<rect x="493.3" y="335.5" height="168.0" width="193.0" data-name="Cell"></rect>
-<path d="M493.3 366.5 L686.3 366.5" fill="none" data-name="Cell"></path>
-<path d="M493.3 472.5 L686.3 472.5" fill="none" data-name="Cell"></path>
+<rect x="1082.5" y="678.5" height="153.0" width="193.0" data-name="Cell"></rect>
+<path d="M1082.5 709.5 L1275.5 709.5" fill="none" data-name="Cell"></path>
+<path d="M1082.5 800.5 L1275.5 800.5" fill="none" data-name="Cell"></path>
 </g>
-<g transform="translate(493.25, 335.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="Cell">
+<g transform="translate(1082.5, 678.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="Cell">
 <g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="Cell">
 <a id="src/objects/Cell.ts.Cell" xlink:href="src/objects/Cell.ts"><text x="88.5" y="13.5" stroke="none" text-anchor="middle" data-name="Cell">Cell</text></a>
 
 </g>
 </g>
-<g transform="translate(493.25, 366.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Cell">
+<g transform="translate(1082.5, 709.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Cell">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Cell">
-<text x="0.0" y="13.5" stroke="none" data-name="Cell">+cellStatus: CellStatus</text>
-<text x="0.0" y="28.5" stroke="none" data-name="Cell">+cellWidth: CellSize</text>
-<text x="0.0" y="43.5" stroke="none" data-name="Cell">+cellHeight: CellSize</text>
-<text x="0.0" y="58.5" stroke="none" data-name="Cell">+position: { x: number</text>
-<text x="0.0" y="73.5" stroke="none" data-name="Cell">y: number</text>
-<text x="0.0" y="88.5" stroke="none" data-name="Cell">}</text>
+<text x="0.0" y="13.5" stroke="none" data-name="Cell">+x: number</text>
+<text x="0.0" y="28.5" stroke="none" data-name="Cell">+y: number</text>
+<text x="0.0" y="43.5" stroke="none" data-name="Cell">+cellStatus: CellStatus</text>
+<text x="0.0" y="58.5" stroke="none" data-name="Cell">+cellWidth: CellSize</text>
+<text x="0.0" y="73.5" stroke="none" data-name="Cell">+cellHeight: CellSize</text>
 
 </g>
 </g>
-<g transform="translate(493.25, 472.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Cell">
+<g transform="translate(1082.5, 800.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Cell">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Cell">
 <text x="0.0" y="13.5" stroke="none" data-name="Cell">+render(): void</text>
 
@@ -177,25 +202,22 @@
 </g>
 <g data-name="StaticGameObject">
 <g fill="lightblue" stroke="#33322E" data-name="StaticGameObject">
-<rect x="611.0" y="82.5" height="123.0" width="188.0" data-name="StaticGameObject"></rect>
-<path d="M611.0 113.5 L799.0 113.5" fill="none" data-name="StaticGameObject"></path>
-<path d="M611.0 174.5 L799.0 174.5" fill="none" data-name="StaticGameObject"></path>
+<rect x="1201.5" y="407.0" height="70.0" width="158.0" data-name="StaticGameObject"></rect>
+<path d="M1201.5 438.0 L1359.5 438.0" fill="none" data-name="StaticGameObject"></path>
+<path d="M1201.5 446.0 L1359.5 446.0" fill="none" data-name="StaticGameObject"></path>
 </g>
-<g transform="translate(611, 82.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="StaticGameObject">
+<g transform="translate(1201.5, 407)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="StaticGameObject">
 <g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="StaticGameObject">
-<a id="src/common/interfaces/StaticGameObject.ts.StaticGameObject" xlink:href="src/common/interfaces/StaticGameObject.ts"><text x="86.0" y="13.5" stroke="none" text-anchor="middle" data-name="StaticGameObject">StaticGameObject</text></a>
+<a id="src/common/interfaces/StaticGameObject.ts.StaticGameObject" xlink:href="src/common/interfaces/StaticGameObject.ts"><text x="71.0" y="13.5" stroke="none" text-anchor="middle" data-name="StaticGameObject">StaticGameObject</text></a>
 
 </g>
 </g>
-<g transform="translate(611, 113.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="StaticGameObject">
-<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="StaticGameObject">
-<text x="0.0" y="13.5" stroke="none" data-name="StaticGameObject">+position: { x: number</text>
-<text x="0.0" y="28.5" stroke="none" data-name="StaticGameObject">y: number</text>
-<text x="0.0" y="43.5" stroke="none" data-name="StaticGameObject">}</text>
+<g transform="translate(1201.5, 438)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="StaticGameObject">
+<g transform="translate(8, 8)" fill="#33322E" data-name="StaticGameObject">
 
 </g>
 </g>
-<g transform="translate(611, 174.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="StaticGameObject">
+<g transform="translate(1201.5, 446)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="StaticGameObject">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="StaticGameObject">
 <text x="0.0" y="13.5" stroke="none" data-name="StaticGameObject">+render(): void</text>
 
@@ -204,26 +226,25 @@
 </g>
 <g data-name="Grid">
 <g fill="#eee8d5" stroke="#33322E" data-name="Grid">
-<rect x="800.8" y="350.5" height="138.0" width="188.0" data-name="Grid"></rect>
-<path d="M800.8 381.5 L988.8 381.5" fill="none" data-name="Grid"></path>
-<path d="M800.8 457.5 L988.8 457.5" fill="none" data-name="Grid"></path>
+<rect x="1315.5" y="693.5" height="123.0" width="133.0" data-name="Grid"></rect>
+<path d="M1315.5 724.5 L1448.5 724.5" fill="none" data-name="Grid"></path>
+<path d="M1315.5 785.5 L1448.5 785.5" fill="none" data-name="Grid"></path>
 </g>
-<g transform="translate(800.75, 350.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="Grid">
+<g transform="translate(1315.5, 693.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="Grid">
 <g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="Grid">
-<a id="src/objects/Grid.ts.Grid" xlink:href="src/objects/Grid.ts"><text x="86.0" y="13.5" stroke="none" text-anchor="middle" data-name="Grid">Grid</text></a>
+<a id="src/objects/Grid.ts.Grid" xlink:href="src/objects/Grid.ts"><text x="58.5" y="13.5" stroke="none" text-anchor="middle" data-name="Grid">Grid</text></a>
 
 </g>
 </g>
-<g transform="translate(800.75, 381.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Grid">
+<g transform="translate(1315.5, 724.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Grid">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Grid">
-<text x="0.0" y="13.5" stroke="none" data-name="Grid">+position: { x: number</text>
-<text x="0.0" y="28.5" stroke="none" data-name="Grid">y: number</text>
-<text x="0.0" y="43.5" stroke="none" data-name="Grid">}</text>
-<text x="0.0" y="58.5" stroke="none" data-name="Grid">+cells: Cell[][]</text>
+<text x="0.0" y="13.5" stroke="none" data-name="Grid">+x: number</text>
+<text x="0.0" y="28.5" stroke="none" data-name="Grid">+y: number</text>
+<text x="0.0" y="43.5" stroke="none" data-name="Grid">+cells: Cell[][]</text>
 
 </g>
 </g>
-<g transform="translate(800.75, 457.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Grid">
+<g transform="translate(1315.5, 785.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Grid">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Grid">
 <text x="0.0" y="13.5" stroke="none" data-name="Grid">+render(): void</text>
 
@@ -232,16 +253,16 @@
 </g>
 <g data-name="GridTable">
 <g fill="lightgreen" stroke="#33322E" data-name="GridTable">
-<rect x="839.0" y="105.5" height="77.0" width="93.0" data-name="GridTable"></rect>
-<path d="M839.0 136.5 L932.0 136.5" fill="none" data-name="GridTable"></path>
+<rect x="611.0" y="105.5" height="77.0" width="93.0" data-name="GridTable"></rect>
+<path d="M611.0 136.5 L704.0 136.5" fill="none" data-name="GridTable"></path>
 </g>
-<g transform="translate(839, 105.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="GridTable">
+<g transform="translate(611, 105.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="GridTable">
 <g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="GridTable">
 <a id="src/objects/Grid.ts.GridTable" xlink:href="src/objects/Grid.ts"><text x="38.5" y="13.5" stroke="none" text-anchor="middle" data-name="GridTable">GridTable</text></a>
 
 </g>
 </g>
-<g transform="translate(839, 136.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="GridTable">
+<g transform="translate(611, 136.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="GridTable">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="GridTable">
 <text x="0.0" y="13.5" stroke="none" data-name="GridTable">Rows</text>
 <text x="0.0" y="28.5" stroke="none" data-name="GridTable">Cols</text>
@@ -251,16 +272,16 @@
 </g>
 <g data-name="GridPixel">
 <g fill="lightgreen" stroke="#33322E" data-name="GridPixel">
-<rect x="972.0" y="105.5" height="77.0" width="87.0" data-name="GridPixel"></rect>
-<path d="M972.0 136.5 L1059.0 136.5" fill="none" data-name="GridPixel"></path>
+<rect x="744.0" y="105.5" height="77.0" width="87.0" data-name="GridPixel"></rect>
+<path d="M744.0 136.5 L831.0 136.5" fill="none" data-name="GridPixel"></path>
 </g>
-<g transform="translate(972, 105.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="GridPixel">
+<g transform="translate(744, 105.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="GridPixel">
 <g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="GridPixel">
 <a id="src/objects/Grid.ts.GridPixel" xlink:href="src/objects/Grid.ts"><text x="35.5" y="13.5" stroke="none" text-anchor="middle" data-name="GridPixel">GridPixel</text></a>
 
 </g>
 </g>
-<g transform="translate(972, 136.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="GridPixel">
+<g transform="translate(744, 136.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="GridPixel">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="GridPixel">
 <text x="0.0" y="13.5" stroke="none" data-name="GridPixel">Width</text>
 <text x="0.0" y="28.5" stroke="none" data-name="GridPixel">Height</text>
@@ -270,45 +291,56 @@
 </g>
 <g data-name="TetriMino">
 <g fill="#eee8d5" stroke="#33322E" data-name="TetriMino">
-<rect x="1218.5" y="343.0" height="153.0" width="378.0" data-name="TetriMino"></rect>
-<path d="M1218.5 374.0 L1596.5 374.0" fill="none" data-name="TetriMino"></path>
-<path d="M1218.5 435.0 L1596.5 435.0" fill="none" data-name="TetriMino"></path>
+<rect x="577.5" y="596.0" height="318.0" width="465.0" data-name="TetriMino"></rect>
+<path d="M577.5 627.0 L1042.5 627.0" fill="none" data-name="TetriMino"></path>
+<path d="M577.5 778.0 L1042.5 778.0" fill="none" data-name="TetriMino"></path>
 </g>
-<g transform="translate(1218.5, 343)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="TetriMino">
+<g transform="translate(577.5, 596)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="TetriMino">
 <g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="TetriMino">
-<a id="src/objects/TetriMino.ts.TetriMino" xlink:href="src/objects/TetriMino.ts"><text x="181.0" y="13.5" stroke="none" text-anchor="middle" data-name="TetriMino">TetriMino</text></a>
+<a id="src/objects/TetriMino.ts.TetriMino" xlink:href="src/objects/TetriMino.ts"><text x="224.5" y="13.5" stroke="none" text-anchor="middle" data-name="TetriMino">TetriMino</text></a>
 
 </g>
 </g>
-<g transform="translate(1218.5, 374)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="TetriMino">
+<g transform="translate(577.5, 627)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="TetriMino">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="TetriMino">
-<text x="0.0" y="13.5" stroke="none" data-name="TetriMino">-type: TetriMinoType</text>
-<text x="0.0" y="28.5" stroke="none" data-name="TetriMino">-movementComponent: MovementComponent</text>
-<text x="0.0" y="43.5" stroke="none" data-name="TetriMino">-positionComponent: PositionComponent</text>
+<text x="0.0" y="13.5" stroke="none" data-name="TetriMino">+x: number</text>
+<text x="0.0" y="28.5" stroke="none" data-name="TetriMino">+y: number</text>
+<text x="0.0" y="43.5" stroke="none" data-name="TetriMino">+state: GameObjectState</text>
+<text x="0.0" y="58.5" stroke="none" data-name="TetriMino">+components: GameComponent[]</text>
+<text x="0.0" y="73.5" stroke="none" data-name="TetriMino">-type: TetriMinoType</text>
+<text x="0.0" y="88.5" stroke="none" data-name="TetriMino">-movementComponent: MovementComponent</text>
+<text x="0.0" y="103.5" stroke="none" data-name="TetriMino">-positionComponent: PositionComponent</text>
+<text x="0.0" y="118.5" stroke="none" data-name="TetriMino">-rotationComponent: RotationComponent</text>
+<text x="0.0" y="133.5" stroke="none" data-name="TetriMino">-boundaryCheckComponent: BoundaryCheckComponent</text>
 
 </g>
 </g>
-<g transform="translate(1218.5, 435)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="TetriMino">
+<g transform="translate(577.5, 778)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="TetriMino">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="TetriMino">
-<text x="0.0" y="13.5" stroke="none" data-name="TetriMino">+update(): void</text>
-<text x="0.0" y="28.5" stroke="none" data-name="TetriMino">+render(): void</text>
-<text x="0.0" y="43.5" stroke="none" data-name="TetriMino">+processInput(): void</text>
+<text x="0.0" y="13.5" stroke="none" data-name="TetriMino">+getType(): TetriMinoType</text>
+<text x="0.0" y="28.5" stroke="none" data-name="TetriMino">+setState(): void</text>
+<text x="0.0" y="43.5" stroke="none" data-name="TetriMino">+getState(): GameObjectState</text>
+<text x="0.0" y="58.5" stroke="none" data-name="TetriMino">+addComponent(): void</text>
+<text x="0.0" y="73.5" stroke="none" data-name="TetriMino">+removeComponent(): void</text>
+<text x="0.0" y="88.5" stroke="none" data-name="TetriMino">+update(): void</text>
+<text x="0.0" y="103.5" stroke="none" data-name="TetriMino">+render(): void</text>
+<text x="0.0" y="118.5" stroke="none" data-name="TetriMino">+processInput(): void</text>
 
 </g>
 </g>
 </g>
 <g data-name="TetriMinoType">
 <g fill="lightgreen" stroke="#33322E" data-name="TetriMinoType">
-<rect x="1099.0" y="60.5" height="167.0" width="128.0" data-name="TetriMinoType"></rect>
-<path d="M1099.0 91.5 L1227.0 91.5" fill="none" data-name="TetriMinoType"></path>
+<rect x="871.0" y="60.5" height="167.0" width="128.0" data-name="TetriMinoType"></rect>
+<path d="M871.0 91.5 L999.0 91.5" fill="none" data-name="TetriMinoType"></path>
 </g>
-<g transform="translate(1099, 60.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="TetriMinoType">
+<g transform="translate(871, 60.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="TetriMinoType">
 <g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="TetriMinoType">
 <a id="src/objects/TetriMino.ts.TetriMinoType" xlink:href="src/objects/TetriMino.ts"><text x="56.0" y="13.5" stroke="none" text-anchor="middle" data-name="TetriMinoType">TetriMinoType</text></a>
 
 </g>
 </g>
-<g transform="translate(1099, 91.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="TetriMinoType">
+<g transform="translate(871, 91.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="TetriMinoType">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="TetriMinoType">
 <text x="0.0" y="13.5" stroke="none" data-name="TetriMinoType">I</text>
 <text x="0.0" y="28.5" stroke="none" data-name="TetriMinoType">J</text>
@@ -324,53 +356,55 @@
 </g>
 <g data-name="DynamicGameObject">
 <g fill="lightblue" stroke="#33322E" data-name="DynamicGameObject">
-<rect x="1267.0" y="60.0" height="168.0" width="281.0" data-name="DynamicGameObject"></rect>
-<path d="M1267.0 91.0 L1548.0 91.0" fill="none" data-name="DynamicGameObject"></path>
-<path d="M1267.0 137.0 L1548.0 137.0" fill="none" data-name="DynamicGameObject"></path>
+<rect x="669.5" y="343.0" height="198.0" width="281.0" data-name="DynamicGameObject"></rect>
+<path d="M669.5 374.0 L950.5 374.0" fill="none" data-name="DynamicGameObject"></path>
+<path d="M669.5 420.0 L950.5 420.0" fill="none" data-name="DynamicGameObject"></path>
 </g>
-<g transform="translate(1267, 60)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="DynamicGameObject">
+<g transform="translate(669.5, 343)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="DynamicGameObject">
 <g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="DynamicGameObject">
 <a id="src/common/interfaces/DynamicGameObject.ts.DynamicGameObject" xlink:href="src/common/interfaces/DynamicGameObject.ts"><text x="132.5" y="13.5" stroke="none" text-anchor="middle" data-name="DynamicGameObject">DynamicGameObject</text></a>
 
 </g>
 </g>
-<g transform="translate(1267, 91)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="DynamicGameObject">
+<g transform="translate(669.5, 374)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="DynamicGameObject">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="DynamicGameObject">
 <text x="0.0" y="13.5" stroke="none" data-name="DynamicGameObject">+state: GameObjectState</text>
 <text x="0.0" y="28.5" stroke="none" data-name="DynamicGameObject">+components: GameComponent[]</text>
 
 </g>
 </g>
-<g transform="translate(1267, 137)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="DynamicGameObject">
+<g transform="translate(669.5, 420)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="DynamicGameObject">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="DynamicGameObject">
-<text x="0.0" y="13.5" stroke="none" data-name="DynamicGameObject">+update(): void</text>
-<text x="0.0" y="28.5" stroke="none" data-name="DynamicGameObject">+render(): void</text>
-<text x="0.0" y="43.5" stroke="none" data-name="DynamicGameObject">+processInput(): void</text>
-<text x="0.0" y="58.5" stroke="none" data-name="DynamicGameObject">+addComponent(): void</text>
-<text x="0.0" y="73.5" stroke="none" data-name="DynamicGameObject">+removeComponent(): void</text>
+<text x="0.0" y="13.5" stroke="none" data-name="DynamicGameObject">+setState(): void</text>
+<text x="0.0" y="28.5" stroke="none" data-name="DynamicGameObject">+getState(): GameObjectState</text>
+<text x="0.0" y="43.5" stroke="none" data-name="DynamicGameObject">+update(): void</text>
+<text x="0.0" y="58.5" stroke="none" data-name="DynamicGameObject">+render(): void</text>
+<text x="0.0" y="73.5" stroke="none" data-name="DynamicGameObject">+processInput(): void</text>
+<text x="0.0" y="88.5" stroke="none" data-name="DynamicGameObject">+addComponent(): void</text>
+<text x="0.0" y="103.5" stroke="none" data-name="DynamicGameObject">+removeComponent(): void</text>
 
 </g>
 </g>
 </g>
 <g data-name="GameController">
 <g fill="#eee8d5" stroke="#33322E" data-name="GameController">
-<rect x="1636.5" y="365.5" height="108.0" width="220.0" data-name="GameController"></rect>
-<path d="M1636.5 396.5 L1856.5 396.5" fill="none" data-name="GameController"></path>
-<path d="M1636.5 427.5 L1856.5 427.5" fill="none" data-name="GameController"></path>
+<rect x="1585.5" y="388.0" height="108.0" width="220.0" data-name="GameController"></rect>
+<path d="M1585.5 419.0 L1805.5 419.0" fill="none" data-name="GameController"></path>
+<path d="M1585.5 450.0 L1805.5 450.0" fill="none" data-name="GameController"></path>
 </g>
-<g transform="translate(1636.5, 365.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="GameController">
+<g transform="translate(1585.5, 388)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="GameController">
 <g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="GameController">
 <a id="src/common/input_system/GameController.ts.GameController" xlink:href="src/common/input_system/GameController.ts"><text x="102.0" y="13.5" stroke="none" text-anchor="middle" data-name="GameController">GameController</text></a>
 
 </g>
 </g>
-<g transform="translate(1636.5, 396.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="GameController">
+<g transform="translate(1585.5, 419)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="GameController">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="GameController">
 <text x="0.0" y="13.5" stroke="none" data-name="GameController">+inputState: InputState</text>
 
 </g>
 </g>
-<g transform="translate(1636.5, 427.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="GameController">
+<g transform="translate(1585.5, 450)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="GameController">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="GameController">
 <text x="0.0" y="13.5" stroke="none" data-name="GameController">+updateState(): void</text>
 <text x="0.0" y="28.5" stroke="none" data-name="GameController">+isKeyPressed(): boolean</text>
@@ -380,22 +414,22 @@
 </g>
 <g data-name="InputDevice">
 <g fill="lightblue" stroke="#33322E" data-name="InputDevice">
-<rect x="1766.5" y="101.5" height="85.0" width="220.0" data-name="InputDevice"></rect>
-<path d="M1766.5 132.5 L1986.5 132.5" fill="none" data-name="InputDevice"></path>
-<path d="M1766.5 140.5 L1986.5 140.5" fill="none" data-name="InputDevice"></path>
+<rect x="1956.0" y="101.5" height="85.0" width="220.0" data-name="InputDevice"></rect>
+<path d="M1956.0 132.5 L2176.0 132.5" fill="none" data-name="InputDevice"></path>
+<path d="M1956.0 140.5 L2176.0 140.5" fill="none" data-name="InputDevice"></path>
 </g>
-<g transform="translate(1766.5, 101.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="InputDevice">
+<g transform="translate(1956, 101.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="InputDevice">
 <g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="InputDevice">
 <a id="src/common/interfaces/InputDevice.ts.InputDevice" xlink:href="src/common/interfaces/InputDevice.ts"><text x="102.0" y="13.5" stroke="none" text-anchor="middle" data-name="InputDevice">InputDevice</text></a>
 
 </g>
 </g>
-<g transform="translate(1766.5, 132.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="InputDevice">
+<g transform="translate(1956, 132.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="InputDevice">
 <g transform="translate(8, 8)" fill="#33322E" data-name="InputDevice">
 
 </g>
 </g>
-<g transform="translate(1766.5, 140.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="InputDevice">
+<g transform="translate(1956, 140.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="InputDevice">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="InputDevice">
 <text x="0.0" y="13.5" stroke="none" data-name="InputDevice">+updateState(): void</text>
 <text x="0.0" y="28.5" stroke="none" data-name="InputDevice">+isKeyPressed(): boolean</text>
@@ -405,23 +439,23 @@
 </g>
 <g data-name="InputState">
 <g fill="#eee8d5" stroke="#33322E" data-name="InputState">
-<rect x="2026.5" y="82.5" height="123.0" width="268.0" data-name="InputState"></rect>
-<path d="M2026.5 113.5 L2294.5 113.5" fill="none" data-name="InputState"></path>
-<path d="M2026.5 144.5 L2294.5 144.5" fill="none" data-name="InputState"></path>
+<rect x="1193.0" y="82.5" height="123.0" width="268.0" data-name="InputState"></rect>
+<path d="M1193.0 113.5 L1461.0 113.5" fill="none" data-name="InputState"></path>
+<path d="M1193.0 144.5 L1461.0 144.5" fill="none" data-name="InputState"></path>
 </g>
-<g transform="translate(2026.5, 82.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="InputState">
+<g transform="translate(1193, 82.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="InputState">
 <g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="InputState">
 <a id="src/common/input_system/InputState.ts.InputState" xlink:href="src/common/input_system/InputState.ts"><text x="126.0" y="13.5" stroke="none" text-anchor="middle" data-name="InputState">InputState</text></a>
 
 </g>
 </g>
-<g transform="translate(2026.5, 113.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="InputState">
+<g transform="translate(1193, 113.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="InputState">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="InputState">
 <text x="0.0" y="13.5" stroke="none" data-name="InputState">+keys: Record&lt;string, boolean&gt;</text>
 
 </g>
 </g>
-<g transform="translate(2026.5, 144.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="InputState">
+<g transform="translate(1193, 144.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="InputState">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="InputState">
 <text x="0.0" y="13.5" stroke="none" data-name="InputState">+setKeyDown(): void</text>
 <text x="0.0" y="28.5" stroke="none" data-name="InputState">+setKeyUp(): void</text>
@@ -432,23 +466,23 @@
 </g>
 <g data-name="InputSystem">
 <g fill="#eee8d5" stroke="#33322E" data-name="InputSystem">
-<rect x="2334.5" y="82.5" height="123.0" width="220.0" data-name="InputSystem"></rect>
-<path d="M2334.5 113.5 L2554.5 113.5" fill="none" data-name="InputSystem"></path>
-<path d="M2334.5 144.5 L2554.5 144.5" fill="none" data-name="InputSystem"></path>
+<rect x="1501.0" y="82.5" height="123.0" width="220.0" data-name="InputSystem"></rect>
+<path d="M1501.0 113.5 L1721.0 113.5" fill="none" data-name="InputSystem"></path>
+<path d="M1501.0 144.5 L1721.0 144.5" fill="none" data-name="InputSystem"></path>
 </g>
-<g transform="translate(2334.5, 82.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="InputSystem">
+<g transform="translate(1501, 82.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="InputSystem">
 <g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="InputSystem">
 <a id="src/common/input_system/InputSystem.ts.InputSystem" xlink:href="src/common/input_system/InputSystem.ts"><text x="102.0" y="13.5" stroke="none" text-anchor="middle" data-name="InputSystem">InputSystem</text></a>
 
 </g>
 </g>
-<g transform="translate(2334.5, 113.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="InputSystem">
+<g transform="translate(1501, 113.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="InputSystem">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="InputSystem">
 <text x="0.0" y="13.5" stroke="none" data-name="InputSystem">+devices: InputDevice[]</text>
 
 </g>
 </g>
-<g transform="translate(2334.5, 144.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="InputSystem">
+<g transform="translate(1501, 144.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="InputSystem">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="InputSystem">
 <text x="0.0" y="13.5" stroke="none" data-name="InputSystem">+addDevice(): void</text>
 <text x="0.0" y="28.5" stroke="none" data-name="InputSystem">+updateState(): void</text>
@@ -459,42 +493,43 @@
 </g>
 <g data-name="KeyboardInput">
 <g fill="#eee8d5" stroke="#33322E" data-name="KeyboardInput">
-<rect x="2148.0" y="365.5" height="108.0" width="220.0" data-name="KeyboardInput"></rect>
-<path d="M2148.0 396.5 L2368.0 396.5" fill="none" data-name="KeyboardInput"></path>
-<path d="M2148.0 427.5 L2368.0 427.5" fill="none" data-name="KeyboardInput"></path>
+<rect x="2079.0" y="380.5" height="123.0" width="248.0" data-name="KeyboardInput"></rect>
+<path d="M2079.0 411.5 L2327.0 411.5" fill="none" data-name="KeyboardInput"></path>
+<path d="M2079.0 442.5 L2327.0 442.5" fill="none" data-name="KeyboardInput"></path>
 </g>
-<g transform="translate(2148, 365.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="KeyboardInput">
+<g transform="translate(2079, 380.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="KeyboardInput">
 <g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="KeyboardInput">
-<a id="src/common/input_system/KeyboardInput.ts.KeyboardInput" xlink:href="src/common/input_system/KeyboardInput.ts"><text x="102.0" y="13.5" stroke="none" text-anchor="middle" data-name="KeyboardInput">KeyboardInput</text></a>
+<a id="src/common/input_system/KeyboardInput.ts.KeyboardInput" xlink:href="src/common/input_system/KeyboardInput.ts"><text x="116.0" y="13.5" stroke="none" text-anchor="middle" data-name="KeyboardInput">KeyboardInput</text></a>
 
 </g>
 </g>
-<g transform="translate(2148, 396.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="KeyboardInput">
+<g transform="translate(2079, 411.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="KeyboardInput">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="KeyboardInput">
 <text x="0.0" y="13.5" stroke="none" data-name="KeyboardInput">+inputState: InputState</text>
 
 </g>
 </g>
-<g transform="translate(2148, 427.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="KeyboardInput">
+<g transform="translate(2079, 442.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="KeyboardInput">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="KeyboardInput">
-<text x="0.0" y="13.5" stroke="none" data-name="KeyboardInput">+updateState(): void</text>
-<text x="0.0" y="28.5" stroke="none" data-name="KeyboardInput">+isKeyPressed(): boolean</text>
+<text x="0.0" y="13.5" stroke="none" data-name="KeyboardInput">+attachEventListeners(): void</text>
+<text x="0.0" y="28.5" stroke="none" data-name="KeyboardInput">+updateState(): void</text>
+<text x="0.0" y="43.5" stroke="none" data-name="KeyboardInput">+isKeyPressed(): boolean</text>
 
 </g>
 </g>
 </g>
 <g data-name="GameObjectState">
 <g fill="lightgreen" stroke="#33322E" data-name="GameObjectState">
-<rect x="2594.5" y="98.0" height="92.0" width="155.0" data-name="GameObjectState"></rect>
-<path d="M2594.5 129.0 L2749.5 129.0" fill="none" data-name="GameObjectState"></path>
+<rect x="1761.0" y="98.0" height="92.0" width="155.0" data-name="GameObjectState"></rect>
+<path d="M1761.0 129.0 L1916.0 129.0" fill="none" data-name="GameObjectState"></path>
 </g>
-<g transform="translate(2594.5, 98)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="GameObjectState">
+<g transform="translate(1761, 98)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="GameObjectState">
 <g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="GameObjectState">
 <a id="src/common/interfaces/DynamicGameObject.ts.GameObjectState" xlink:href="src/common/interfaces/DynamicGameObject.ts"><text x="69.5" y="13.5" stroke="none" text-anchor="middle" data-name="GameObjectState">GameObjectState</text></a>
 
 </g>
 </g>
-<g transform="translate(2594.5, 129)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="GameObjectState">
+<g transform="translate(1761, 129)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="GameObjectState">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="GameObjectState">
 <text x="0.0" y="13.5" stroke="none" data-name="GameObjectState">Active</text>
 <text x="0.0" y="28.5" stroke="none" data-name="GameObjectState">Inactive</text>
@@ -503,131 +538,109 @@
 </g>
 </g>
 </g>
+<g data-name="GameObject">
+<g fill="lightblue" stroke="#33322E" data-name="GameObject">
+<rect x="1039.0" y="101.5" height="85.0" width="114.0" data-name="GameObject"></rect>
+<path d="M1039.0 132.5 L1153.0 132.5" fill="none" data-name="GameObject"></path>
+<path d="M1039.0 178.5 L1153.0 178.5" fill="none" data-name="GameObject"></path>
+</g>
+<g transform="translate(1039, 101.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="GameObject">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="GameObject">
+<a id="src/common/interfaces/GameObject.ts.GameObject" xlink:href="src/common/interfaces/GameObject.ts"><text x="49.0" y="13.5" stroke="none" text-anchor="middle" data-name="GameObject">GameObject</text></a>
+
+</g>
+</g>
+<g transform="translate(1039, 132.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="GameObject">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="GameObject">
+<text x="0.0" y="13.5" stroke="none" data-name="GameObject">+x: number</text>
+<text x="0.0" y="28.5" stroke="none" data-name="GameObject">+y: number</text>
+
+</g>
+</g>
+<g transform="translate(1039, 178.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="GameObject">
+<g transform="translate(8, 8)" fill="#33322E" data-name="GameObject">
+
+</g>
+</g>
+</g>
 <g data-name="GameComponent">
 <g fill="lightblue" stroke="#33322E" data-name="GameComponent">
-<rect x="2789.5" y="109.0" height="70.0" width="250.0" data-name="GameComponent"></rect>
-<path d="M2789.5 140.0 L3039.5 140.0" fill="none" data-name="GameComponent"></path>
-<path d="M2789.5 171.0 L3039.5 171.0" fill="none" data-name="GameComponent"></path>
+<rect x="2785.0" y="97.5" height="93.0" width="250.0" data-name="GameComponent"></rect>
+<path d="M2785.0 128.5 L3035.0 128.5" fill="none" data-name="GameComponent"></path>
+<path d="M2785.0 159.5 L3035.0 159.5" fill="none" data-name="GameComponent"></path>
 </g>
-<g transform="translate(2789.5, 109)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="GameComponent">
+<g transform="translate(2785, 97.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="GameComponent">
 <g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="GameComponent">
 <a id="src/common/interfaces/GameComponent.ts.GameComponent" xlink:href="src/common/interfaces/GameComponent.ts"><text x="117.0" y="13.5" stroke="none" text-anchor="middle" data-name="GameComponent">GameComponent</text></a>
 
 </g>
 </g>
-<g transform="translate(2789.5, 140)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="GameComponent">
+<g transform="translate(2785, 128.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="GameComponent">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="GameComponent">
 <text x="0.0" y="13.5" stroke="none" data-name="GameComponent">+owner: DynamicGameObject</text>
 
 </g>
 </g>
-<g transform="translate(2789.5, 171)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="GameComponent">
-<g transform="translate(8, 8)" fill="#33322E" data-name="GameComponent">
-
-</g>
-</g>
-</g>
-<g data-name="Observer">
-<g fill="lightblue" stroke="#33322E" data-name="Observer">
-<rect x="3079.5" y="109.0" height="70.0" width="240.0" data-name="Observer"></rect>
-<path d="M3079.5 140.0 L3319.5 140.0" fill="none" data-name="Observer"></path>
-<path d="M3079.5 171.0 L3319.5 171.0" fill="none" data-name="Observer"></path>
-</g>
-<g transform="translate(3079.5, 109)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Observer">
-<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="Observer">
-<a id="src/common/interfaces/Observer.ts.Observer" xlink:href="src/common/interfaces/Observer.ts"><text x="112.0" y="13.5" stroke="none" text-anchor="middle" data-name="Observer">Observer</text></a>
-
-</g>
-</g>
-<g transform="translate(3079.5, 140)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Observer">
-<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Observer">
-<text x="0.0" y="13.5" stroke="none" data-name="Observer">+update: (data: any) =&gt; void</text>
-
-</g>
-</g>
-<g transform="translate(3079.5, 171)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Observer">
-<g transform="translate(8, 8)" fill="#33322E" data-name="Observer">
+<g transform="translate(2785, 159.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="GameComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="GameComponent">
+<text x="0.0" y="13.5" stroke="none" data-name="GameComponent">+update(): void</text>
 
 </g>
 </g>
 </g>
 <g data-name="Scene">
 <g fill="lightblue" stroke="#33322E" data-name="Scene">
-<rect x="3359.5" y="52.5" height="183.0" width="316.0" data-name="Scene"></rect>
-<path d="M3359.5 83.5 L3675.5 83.5" fill="none" data-name="Scene"></path>
-<path d="M3359.5 129.5 L3675.5 129.5" fill="none" data-name="Scene"></path>
+<rect x="3481.0" y="30.0" height="228.0" width="385.0" data-name="Scene"></rect>
+<path d="M3481.0 61.0 L3866.0 61.0" fill="none" data-name="Scene"></path>
+<path d="M3481.0 122.0 L3866.0 122.0" fill="none" data-name="Scene"></path>
 </g>
-<g transform="translate(3359.5, 52.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Scene">
+<g transform="translate(3481, 30)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Scene">
 <g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="Scene">
-<a id="src/common/interfaces/Scene.ts.Scene" xlink:href="src/common/interfaces/Scene.ts"><text x="150.0" y="13.5" stroke="none" text-anchor="middle" data-name="Scene">Scene</text></a>
+<a id="src/common/interfaces/Scene.ts.Scene" xlink:href="src/common/interfaces/Scene.ts"><text x="184.5" y="13.5" stroke="none" text-anchor="middle" data-name="Scene">Scene</text></a>
 
 </g>
 </g>
-<g transform="translate(3359.5, 83.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Scene">
+<g transform="translate(3481, 61)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Scene">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Scene">
 <text x="0.0" y="13.5" stroke="none" data-name="Scene">+game: Game</text>
-<text x="0.0" y="28.5" stroke="none" data-name="Scene">+gameObjects: DynamicGameObject[]</text>
+<text x="0.0" y="28.5" stroke="none" data-name="Scene">+staticGameObjects: StaticGameObject[]</text>
+<text x="0.0" y="43.5" stroke="none" data-name="Scene">+dynamicGameObjects: DynamicGameObject[]</text>
 
 </g>
 </g>
-<g transform="translate(3359.5, 129.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Scene">
+<g transform="translate(3481, 122)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Scene">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Scene">
-<text x="0.0" y="13.5" stroke="none" data-name="Scene">+addGameObject(): void</text>
-<text x="0.0" y="28.5" stroke="none" data-name="Scene">+removeGameObject(): void</text>
-<text x="0.0" y="43.5" stroke="none" data-name="Scene">+update(): void</text>
-<text x="0.0" y="58.5" stroke="none" data-name="Scene">+render(): void</text>
-<text x="0.0" y="73.5" stroke="none" data-name="Scene">+processInput(): void</text>
-<text x="0.0" y="88.5" stroke="none" data-name="Scene">+close(): void</text>
-
-</g>
-</g>
-</g>
-<g data-name="Subject">
-<g fill="lightblue" stroke="#33322E" data-name="Subject">
-<rect x="3715.5" y="86.5" height="115.0" width="361.0" data-name="Subject"></rect>
-<path d="M3715.5 117.5 L4076.5 117.5" fill="none" data-name="Subject"></path>
-<path d="M3715.5 193.5 L4076.5 193.5" fill="none" data-name="Subject"></path>
-</g>
-<g transform="translate(3715.5, 86.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Subject">
-<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="Subject">
-<a id="src/common/interfaces/Subject.ts.Subject" xlink:href="src/common/interfaces/Subject.ts"><text x="172.5" y="13.5" stroke="none" text-anchor="middle" data-name="Subject">Subject</text></a>
-
-</g>
-</g>
-<g transform="translate(3715.5, 117.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Subject">
-<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Subject">
-<text x="0.0" y="13.5" stroke="none" data-name="Subject">+observers: Observer[]</text>
-<text x="0.0" y="28.5" stroke="none" data-name="Subject">+subscribe: (observer: Observer) =&gt; void</text>
-<text x="0.0" y="43.5" stroke="none" data-name="Subject">+unsubscribe: (observer: Observer) =&gt; void</text>
-<text x="0.0" y="58.5" stroke="none" data-name="Subject">+notify: () =&gt; void</text>
-
-</g>
-</g>
-<g transform="translate(3715.5, 193.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Subject">
-<g transform="translate(8, 8)" fill="#33322E" data-name="Subject">
+<text x="0.0" y="13.5" stroke="none" data-name="Scene">+addDynamicGameObject(): void</text>
+<text x="0.0" y="28.5" stroke="none" data-name="Scene">+addStaticGameObject(): void</text>
+<text x="0.0" y="43.5" stroke="none" data-name="Scene">+removeDynamicGameObject(): void</text>
+<text x="0.0" y="58.5" stroke="none" data-name="Scene">+removeStaticGameObject(): void</text>
+<text x="0.0" y="73.5" stroke="none" data-name="Scene">+update(): void</text>
+<text x="0.0" y="88.5" stroke="none" data-name="Scene">+render(): void</text>
+<text x="0.0" y="103.5" stroke="none" data-name="Scene">+processInput(): void</text>
+<text x="0.0" y="118.5" stroke="none" data-name="Scene">+close(): void</text>
 
 </g>
 </g>
 </g>
 <g data-name="ServiceLocator">
 <g fill="#eee8d5" stroke="#33322E" data-name="ServiceLocator">
-<rect x="4116.5" y="90.0" height="108.0" width="375.0" data-name="ServiceLocator"></rect>
-<path d="M4116.5 121.0 L4491.5 121.0" fill="none" data-name="ServiceLocator"></path>
-<path d="M4116.5 152.0 L4491.5 152.0" fill="none" data-name="ServiceLocator"></path>
+<rect x="3906.0" y="90.0" height="108.0" width="375.0" data-name="ServiceLocator"></rect>
+<path d="M3906.0 121.0 L4281.0 121.0" fill="none" data-name="ServiceLocator"></path>
+<path d="M3906.0 152.0 L4281.0 152.0" fill="none" data-name="ServiceLocator"></path>
 </g>
-<g transform="translate(4116.5, 90)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="ServiceLocator">
+<g transform="translate(3906, 90)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="ServiceLocator">
 <g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="ServiceLocator">
 <a id="src/common/service_locator/ServiceLocator.ts.ServiceLocator" xlink:href="src/common/service_locator/ServiceLocator.ts"><text x="179.5" y="13.5" stroke="none" text-anchor="middle" data-name="ServiceLocator">ServiceLocator</text></a>
 
 </g>
 </g>
-<g transform="translate(4116.5, 121)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ServiceLocator">
+<g transform="translate(3906, 121)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ServiceLocator">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="ServiceLocator">
 <text x="0.0" y="13.5" stroke="none" data-name="ServiceLocator">-components: Map&lt;string, GameComponent&gt;</text>
 
 </g>
 </g>
-<g transform="translate(4116.5, 152)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ServiceLocator">
+<g transform="translate(3906, 152)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ServiceLocator">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="ServiceLocator">
 <text x="0.0" y="13.5" stroke="none" data-name="ServiceLocator">+addComponent(): void</text>
 <text x="0.0" y="28.5" stroke="none" data-name="ServiceLocator">+getComponent(): T</text>
@@ -635,92 +648,143 @@
 </g>
 </g>
 </g>
+<g data-name="BoundaryCheckComponent">
+<g fill="#eee8d5" stroke="#33322E" data-name="BoundaryCheckComponent">
+<rect x="2367.0" y="380.5" height="123.0" width="233.0" data-name="BoundaryCheckComponent"></rect>
+<path d="M2367.0 411.5 L2600.0 411.5" fill="none" data-name="BoundaryCheckComponent"></path>
+<path d="M2367.0 472.5 L2600.0 472.5" fill="none" data-name="BoundaryCheckComponent"></path>
+</g>
+<g transform="translate(2367, 380.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="BoundaryCheckComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="BoundaryCheckComponent">
+<a id="src/objects/components/BoundaryCheckComponent.ts.BoundaryCheckComponent" xlink:href="src/objects/components/BoundaryCheckComponent.ts"><text x="108.5" y="13.5" stroke="none" text-anchor="middle" data-name="BoundaryCheckComponent">BoundaryCheckComponent</text></a>
+
+</g>
+</g>
+<g transform="translate(2367, 411.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="BoundaryCheckComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="BoundaryCheckComponent">
+<text x="0.0" y="13.5" stroke="none" data-name="BoundaryCheckComponent">+owner: TetriMino</text>
+<text x="0.0" y="28.5" stroke="none" data-name="BoundaryCheckComponent">-gameWidth: number</text>
+<text x="0.0" y="43.5" stroke="none" data-name="BoundaryCheckComponent">-gameHeight: number</text>
+
+</g>
+</g>
+<g transform="translate(2367, 472.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="BoundaryCheckComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="BoundaryCheckComponent">
+<text x="0.0" y="13.5" stroke="none" data-name="BoundaryCheckComponent">+update(): void</text>
+
+</g>
+</g>
+</g>
 <g data-name="MovementComponent">
 <g fill="#eee8d5" stroke="#33322E" data-name="MovementComponent">
-<rect x="4531.5" y="67.5" height="153.0" width="199.0" data-name="MovementComponent"></rect>
-<path d="M4531.5 98.5 L4730.5 98.5" fill="none" data-name="MovementComponent"></path>
-<path d="M4531.5 174.5 L4730.5 174.5" fill="none" data-name="MovementComponent"></path>
+<rect x="2640.0" y="395.5" height="93.0" width="250.0" data-name="MovementComponent"></rect>
+<path d="M2640.0 426.5 L2890.0 426.5" fill="none" data-name="MovementComponent"></path>
+<path d="M2640.0 457.5 L2890.0 457.5" fill="none" data-name="MovementComponent"></path>
 </g>
-<g transform="translate(4531.5, 67.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="MovementComponent">
+<g transform="translate(2640, 395.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="MovementComponent">
 <g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="MovementComponent">
-<a id="src/objects/components/MovementComponent.ts.MovementComponent" xlink:href="src/objects/components/MovementComponent.ts"><text x="91.5" y="13.5" stroke="none" text-anchor="middle" data-name="MovementComponent">MovementComponent</text></a>
+<a id="src/objects/components/MovementComponent.ts.MovementComponent" xlink:href="src/objects/components/MovementComponent.ts"><text x="117.0" y="13.5" stroke="none" text-anchor="middle" data-name="MovementComponent">MovementComponent</text></a>
 
 </g>
 </g>
-<g transform="translate(4531.5, 98.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="MovementComponent">
+<g transform="translate(2640, 426.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="MovementComponent">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="MovementComponent">
-<text x="0.0" y="13.5" stroke="none" data-name="MovementComponent">+speed: number</text>
-<text x="0.0" y="28.5" stroke="none" data-name="MovementComponent">+direction: { x: number</text>
-<text x="0.0" y="43.5" stroke="none" data-name="MovementComponent">y: number</text>
-<text x="0.0" y="58.5" stroke="none" data-name="MovementComponent">}</text>
+<text x="0.0" y="13.5" stroke="none" data-name="MovementComponent">+owner: DynamicGameObject</text>
 
 </g>
 </g>
-<g transform="translate(4531.5, 174.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="MovementComponent">
+<g transform="translate(2640, 457.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="MovementComponent">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="MovementComponent">
-<text x="0.0" y="13.5" stroke="none" data-name="MovementComponent">+setDirection(): void</text>
-<text x="0.0" y="28.5" stroke="none" data-name="MovementComponent">+updatePosition(): void</text>
+<text x="0.0" y="13.5" stroke="none" data-name="MovementComponent">+update(): void</text>
 
 </g>
 </g>
 </g>
 <g data-name="PositionComponent">
 <g fill="#eee8d5" stroke="#33322E" data-name="PositionComponent">
-<rect x="2789.5" y="335.5" height="168.0" width="250.0" data-name="PositionComponent"></rect>
-<path d="M2789.5 366.5 L3039.5 366.5" fill="none" data-name="PositionComponent"></path>
-<path d="M2789.5 427.5 L3039.5 427.5" fill="none" data-name="PositionComponent"></path>
+<rect x="2930.0" y="365.5" height="153.0" width="250.0" data-name="PositionComponent"></rect>
+<path d="M2930.0 396.5 L3180.0 396.5" fill="none" data-name="PositionComponent"></path>
+<path d="M2930.0 427.5 L3180.0 427.5" fill="none" data-name="PositionComponent"></path>
 </g>
-<g transform="translate(2789.5, 335.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="PositionComponent">
+<g transform="translate(2930, 365.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="PositionComponent">
 <g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="PositionComponent">
 <a id="src/objects/components/PositionComponent.ts.PositionComponent" xlink:href="src/objects/components/PositionComponent.ts"><text x="117.0" y="13.5" stroke="none" text-anchor="middle" data-name="PositionComponent">PositionComponent</text></a>
 
 </g>
 </g>
-<g transform="translate(2789.5, 366.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="PositionComponent">
+<g transform="translate(2930, 396.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="PositionComponent">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="PositionComponent">
 <text x="0.0" y="13.5" stroke="none" data-name="PositionComponent">+owner: DynamicGameObject</text>
-<text x="0.0" y="28.5" stroke="none" data-name="PositionComponent">+x: number</text>
-<text x="0.0" y="43.5" stroke="none" data-name="PositionComponent">+y: number</text>
 
 </g>
 </g>
-<g transform="translate(2789.5, 427.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="PositionComponent">
+<g transform="translate(2930, 427.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="PositionComponent">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="PositionComponent">
-<text x="0.0" y="13.5" stroke="none" data-name="PositionComponent">+setPotision(): void</text>
-<text x="0.0" y="28.5" stroke="none" data-name="PositionComponent">+getPotision(): { x: number</text>
+<text x="0.0" y="13.5" stroke="none" data-name="PositionComponent">+update(): void</text>
+<text x="0.0" y="28.5" stroke="none" data-name="PositionComponent">+getPosition(): { x: number</text>
 <text x="0.0" y="43.5" stroke="none" data-name="PositionComponent">y: number</text>
 <text x="0.0" y="58.5" stroke="none" data-name="PositionComponent">}</text>
+<text x="0.0" y="73.5" stroke="none" data-name="PositionComponent">+setPosition(): void</text>
+
+</g>
+</g>
+</g>
+<g data-name="RotationComponent">
+<g fill="#eee8d5" stroke="#33322E" data-name="RotationComponent">
+<rect x="3220.0" y="388.0" height="108.0" width="221.0" data-name="RotationComponent"></rect>
+<path d="M3220.0 419.0 L3441.0 419.0" fill="none" data-name="RotationComponent"></path>
+<path d="M3220.0 450.0 L3441.0 450.0" fill="none" data-name="RotationComponent"></path>
+</g>
+<g transform="translate(3220, 388)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="RotationComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="RotationComponent">
+<a id="src/objects/components/RotationComponent.ts.RotationComponent" xlink:href="src/objects/components/RotationComponent.ts"><text x="102.5" y="13.5" stroke="none" text-anchor="middle" data-name="RotationComponent">RotationComponent</text></a>
+
+</g>
+</g>
+<g transform="translate(3220, 419)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="RotationComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="RotationComponent">
+<text x="0.0" y="13.5" stroke="none" data-name="RotationComponent">+owner: TetriMino</text>
+
+</g>
+</g>
+<g transform="translate(3220, 450)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="RotationComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="RotationComponent">
+<text x="0.0" y="13.5" stroke="none" data-name="RotationComponent">+update(): void</text>
+<text x="0.0" y="28.5" stroke="none" data-name="RotationComponent">-rotateShape(): number[][]</text>
 
 </g>
 </g>
 </g>
 <g data-name="DefaultScene">
 <g fill="#eee8d5" stroke="#33322E" data-name="DefaultScene">
-<rect x="3359.5" y="328.0" height="183.0" width="316.0" data-name="DefaultScene"></rect>
-<path d="M3359.5 359.0 L3675.5 359.0" fill="none" data-name="DefaultScene"></path>
-<path d="M3359.5 405.0 L3675.5 405.0" fill="none" data-name="DefaultScene"></path>
+<rect x="3481.0" y="328.0" height="228.0" width="385.0" data-name="DefaultScene"></rect>
+<path d="M3481.0 359.0 L3866.0 359.0" fill="none" data-name="DefaultScene"></path>
+<path d="M3481.0 420.0 L3866.0 420.0" fill="none" data-name="DefaultScene"></path>
 </g>
-<g transform="translate(3359.5, 328)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="DefaultScene">
+<g transform="translate(3481, 328)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="DefaultScene">
 <g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="DefaultScene">
-<a id="src/scenes/default_scene/DefaultScene.ts.DefaultScene" xlink:href="src/scenes/default_scene/DefaultScene.ts"><text x="150.0" y="13.5" stroke="none" text-anchor="middle" data-name="DefaultScene">DefaultScene</text></a>
+<a id="src/scenes/default_scene/DefaultScene.ts.DefaultScene" xlink:href="src/scenes/default_scene/DefaultScene.ts"><text x="184.5" y="13.5" stroke="none" text-anchor="middle" data-name="DefaultScene">DefaultScene</text></a>
 
 </g>
 </g>
-<g transform="translate(3359.5, 359)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="DefaultScene">
+<g transform="translate(3481, 359)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="DefaultScene">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="DefaultScene">
 <text x="0.0" y="13.5" stroke="none" data-name="DefaultScene">+game: Game</text>
-<text x="0.0" y="28.5" stroke="none" data-name="DefaultScene">+gameObjects: DynamicGameObject[]</text>
+<text x="0.0" y="28.5" stroke="none" data-name="DefaultScene">+staticGameObjects: StaticGameObject[]</text>
+<text x="0.0" y="43.5" stroke="none" data-name="DefaultScene">+dynamicGameObjects: DynamicGameObject[]</text>
 
 </g>
 </g>
-<g transform="translate(3359.5, 405)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="DefaultScene">
+<g transform="translate(3481, 420)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="DefaultScene">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="DefaultScene">
-<text x="0.0" y="13.5" stroke="none" data-name="DefaultScene">+close(): void</text>
-<text x="0.0" y="28.5" stroke="none" data-name="DefaultScene">+addGameObject(): void</text>
-<text x="0.0" y="43.5" stroke="none" data-name="DefaultScene">+removeGameObject(): void</text>
-<text x="0.0" y="58.5" stroke="none" data-name="DefaultScene">+update(): void</text>
-<text x="0.0" y="73.5" stroke="none" data-name="DefaultScene">+render(): void</text>
-<text x="0.0" y="88.5" stroke="none" data-name="DefaultScene">+processInput(): void</text>
+<text x="0.0" y="13.5" stroke="none" data-name="DefaultScene">+addDynamicGameObject(): void</text>
+<text x="0.0" y="28.5" stroke="none" data-name="DefaultScene">+addStaticGameObject(): void</text>
+<text x="0.0" y="43.5" stroke="none" data-name="DefaultScene">+removeDynamicGameObject(): void</text>
+<text x="0.0" y="58.5" stroke="none" data-name="DefaultScene">+removeStaticGameObject(): void</text>
+<text x="0.0" y="73.5" stroke="none" data-name="DefaultScene">+update(): void</text>
+<text x="0.0" y="88.5" stroke="none" data-name="DefaultScene">+render(): void</text>
+<text x="0.0" y="103.5" stroke="none" data-name="DefaultScene">+processInput(): void</text>
+<text x="0.0" y="118.5" stroke="none" data-name="DefaultScene">+close(): void</text>
 
 </g>
 </g>
