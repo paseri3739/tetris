@@ -1,4 +1,4 @@
-import { InputSystem } from "InputSystem";
+import { InputSystem } from "input_system/InputSystem";
 import { GameComponent } from "./GameComponent";
 
 export interface GameObject {

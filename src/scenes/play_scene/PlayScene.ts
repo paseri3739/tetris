@@ -1,5 +1,5 @@
 import { Game } from "Game";
-import { InputSystem } from "InputSystem";
+import { InputSystem } from "input_system/InputSystem";
 import { GameObject } from "interfaces/GameObject";
 import { Scene } from "interfaces/Scene";
 

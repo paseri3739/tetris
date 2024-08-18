@@ -1,7 +1,7 @@
-import { InputSystem } from "InputSystem";
+import { InputSystem } from "input_system/InputSystem";
+import { KeyboardInput } from "input_system/KeyboardInput";
 import { GameObject } from "interfaces/GameObject";
 import { Scene } from "interfaces/Scene";
-import { KeyboardInput } from "KeyboardInput";
 
 /**
  * GameLoop class. This class will handle the game loop.
