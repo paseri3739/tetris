@@ -4,9 +4,9 @@ import { MovementComponent } from "./components/MovementComponent";
 import { PositionComponent } from "./components/PositionComponent";
 
 export class TetriMino implements GameObject {
-    private type: TetriMinoType;
-    private movementComponent: MovementComponent;
-    private positionComponent: PositionComponent;
+    private readonly type: TetriMinoType;
+    private readonly movementComponent: MovementComponent;
+    private readonly positionComponent: PositionComponent;
 
     constructor(type: TetriMinoType, movementComponent: MovementComponent, positionComponent: PositionComponent) {
         this.type = type;
