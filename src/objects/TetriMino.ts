@@ -1,17 +1,47 @@
 import { InputSystem } from "common/input_system/InputSystem";
-import { DynamicGameObject } from "common/interfaces/GameObject";
+import { DynamicGameObject, GameObjectState } from "common/interfaces/DynamicGameObject";
+import { GameComponent } from "common/interfaces/GameComponent";
 import { MovementComponent } from "./components/MovementComponent";
 import { PositionComponent } from "./components/PositionComponent";
 
 export class TetriMino implements DynamicGameObject {
+    x: number;
+    y: number;
+    state: GameObjectState;
+    components: GameComponent[];
     private readonly type: TetriMinoType;
     private readonly movementComponent: MovementComponent;
     private readonly positionComponent: PositionComponent;
 
-    constructor(type: TetriMinoType, movementComponent: MovementComponent, positionComponent: PositionComponent) {
+    constructor(
+        x: number,
+        y: number,
+        state: GameObjectState = GameObjectState.Active,
+        components: GameComponent[] = [],
+        type: TetriMinoType,
+        movementComponent: MovementComponent,
+        positionComponent: PositionComponent
+    ) {
+        this.x = x;
+        this.y = y;
+        this.state = state;
+        this.components = components;
         this.type = type;
         this.movementComponent = movementComponent;
         this.positionComponent = positionComponent;
+    }
+
+    setState(state: GameObjectState): void {
+        throw new Error("Method not implemented.");
+    }
+    getState(): GameObjectState {
+        throw new Error("Method not implemented.");
+    }
+    addComponent(component: GameComponent): void {
+        throw new Error("Method not implemented.");
+    }
+    removeComponent(component: GameComponent): void {
+        throw new Error("Method not implemented.");
     }
 
     update(deltaTime: number, ...args: any[]): void {

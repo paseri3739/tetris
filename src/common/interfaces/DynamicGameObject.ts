@@ -1,5 +1,6 @@
 import { InputSystem } from "input_system/InputSystem";
 import { GameComponent } from "./GameComponent";
+import { GameObject } from "./GameObject";
 
 export enum GameObjectState {
     Active,
@@ -7,7 +8,7 @@ export enum GameObjectState {
     Destroyed,
 }
 
-export interface DynamicGameObject {
+export interface DynamicGameObject extends GameObject {
     state: GameObjectState;
     components: GameComponent[];
     setState(state: GameObjectState): void;

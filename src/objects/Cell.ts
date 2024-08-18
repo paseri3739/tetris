@@ -12,13 +12,15 @@ export enum CellSize {
  * Cell class represents a single cell in the grid.
  */
 export class Cell implements StaticGameObject {
+    x: number;
+    y: number;
     cellStatus: CellStatus = CellStatus.Empty;
     cellWidth: CellSize = CellSize.Width;
     cellHeight: CellSize = CellSize.Height;
-    position: { x: number; y: number };
 
-    constructor(position: { x: number; y: number }, cellStatus: CellStatus, cellWidth: CellSize, cellHeight: CellSize) {
-        this.position = position;
+    constructor(x: number, y: number, cellStatus: CellStatus, cellWidth: CellSize, cellHeight: CellSize) {
+        this.x = x;
+        this.y = y;
         this.cellStatus = cellStatus;
         this.cellWidth = cellWidth;
         this.cellHeight = cellHeight;
