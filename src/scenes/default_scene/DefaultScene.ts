@@ -1,31 +1,63 @@
-import { Game } from "Game";
 import { InputSystem } from "common/input_system/InputSystem";
 import { DynamicGameObject } from "common/interfaces/DynamicGameObject";
-import { Scene } from "common/interfaces/Scene";
+import { isDynamicGameObject, isStaticGameObject, Scene } from "common/interfaces/Scene";
+import { StaticGameObject } from "common/interfaces/StaticGameObject";
+import { Game } from "Game";
 
 export class DefaultScene implements Scene {
     game: Game;
+    staticGameObjects: StaticGameObject[];
     dynamicGameObjects: DynamicGameObject[];
-    constructor(game: Game) {
+    constructor(game: Game, staticGameObjects: StaticGameObject[] = [], dynamicGameObjects: DynamicGameObject[] = []) {
         this.game = game;
-        this.dynamicGameObjects = [];
+
+        this.staticGameObjects = staticGameObjects;
+        this.dynamicGameObjects = dynamicGameObjects;
     }
-    close(): void {
-        throw new Error("Method not implemented.");
+
+    addGameObject(gameObject: unknown): void {
+        if (isStaticGameObject(gameObject)) {
+            this.staticGameObjects.push(gameObject);
+        }
+        if (isDynamicGameObject(gameObject)) {
+            this.dynamicGameObjects.push(gameObject);
+        }
     }
-    addGameObject(gameObject: DynamicGameObject): void {
-        throw new Error("Method not implemented.");
-    }
-    removeGameObject(gameObject: DynamicGameObject): void {
-        throw new Error("Method not implemented.");
+
+    removeGameObject(gameObject: unknown): void {
+        if (isStaticGameObject(gameObject)) {
+            const index = this.staticGameObjects.indexOf(gameObject);
+            if (index > -1) {
+                this.staticGameObjects.splice(index, 1);
+            }
+        }
+        if (isDynamicGameObject(gameObject)) {
+            const index = this.dynamicGameObjects.indexOf(gameObject);
+            if (index > -1) {
+                this.dynamicGameObjects.splice(index, 1);
+            }
+        }
     }
     update(deltaTime: number): void {
-        throw new Error("Method not implemented.");
+        this.dynamicGameObjects.forEach((gameObject) => {
+            gameObject.update(deltaTime);
+        });
     }
     render(context: CanvasRenderingContext2D): void {
-        throw new Error("Method not implemented.");
+        this.staticGameObjects.forEach((gameObject) => {
+            gameObject.render(context);
+        });
+        this.dynamicGameObjects.forEach((gameObject) => {
+            gameObject.render(context);
+        });
     }
     processInput(input: InputSystem): void {
-        throw new Error("Method not implemented.");
+        this.dynamicGameObjects.forEach((gameObject) => {
+            gameObject.processInput(input);
+        });
+    }
+    close(): void {
+        this.dynamicGameObjects = [];
+        this.staticGameObjects = [];
     }
 }
