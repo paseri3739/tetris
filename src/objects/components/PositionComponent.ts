@@ -3,23 +3,21 @@ import { GameComponent } from "common/interfaces/GameComponent.js";
 
 export class PositionComponent implements GameComponent {
     owner: DynamicGameObject;
-    x: number = 0;
-    y: number = 0;
 
     constructor(owner: DynamicGameObject) {
         this.owner = owner;
     }
 
-    setPotision(x: number, y: number) {
-        this.x = x;
-        this.y = y;
+    update(deltaTime: number): void {
+        // 位置は外部で直接変更されるので、ここでは特に処理しない
     }
 
-    getPotision() {
-        return { x: this.x, y: this.y };
+    getPosition(): { x: number; y: number } {
+        return { x: this.owner.x, y: this.owner.y };
     }
 
-    update(deltaTime: number, ...args: any[]): void {
-        // throw new Error("Method not implemented.");
+    setPosition(x: number, y: number): void {
+        this.owner.x = x;
+        this.owner.y = y;
     }
 }
