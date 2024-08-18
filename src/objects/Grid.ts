@@ -36,6 +36,10 @@ export class Grid implements StaticGameObject {
     }
 
     render(context: CanvasRenderingContext2D): void {
-        throw new Error("Method not implemented.");
+        for (let i = 0; i < GridTable.Rows; i++) {
+            for (let j = 0; j < GridTable.Cols; j++) {
+                this.cells[i][j].render(context);
+            }
+        }
     }
 }
