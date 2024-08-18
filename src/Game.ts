@@ -71,9 +71,9 @@ export class Game {
         this.currentTimestamp = currentTimeStamp;
         const seconds = deltaTime / 1000; // Convert to seconds
 
-        this.currentScene?.processInput(this.inputSystem);
-        this.currentScene?.update(deltaTime);
-        this.currentScene?.render(this.context);
+        this.currentScene.processInput(this.inputSystem);
+        this.currentScene.update(deltaTime);
+        this.currentScene.render(this.context);
         this.request = requestAnimationFrame(this.runLoop.bind(this));
     }
 
