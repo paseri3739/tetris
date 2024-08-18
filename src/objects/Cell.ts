@@ -1,5 +1,4 @@
-import { InputSystem } from "common/input_system/InputSystem";
-import { GameObject } from "common/interfaces/GameObject";
+import { StaticGameObject } from "common/interfaces/StaticGameObject";
 
 export enum CellStatus {
     Empty = 0,
@@ -12,29 +11,20 @@ export enum CellSize {
 /**
  * Cell class represents a single cell in the grid.
  */
-export class Cell implements GameObject {
+export class Cell implements StaticGameObject {
     cellStatus: CellStatus = CellStatus.Empty;
     cellWidth: CellSize = CellSize.Width;
     cellHeight: CellSize = CellSize.Height;
+    position: { x: number; y: number };
 
-    constructor(status: CellStatus, width?: CellSize, height?: CellSize) {
-        this.cellStatus = status;
-
-        if (width !== undefined) {
-            this.cellWidth = width;
-        }
-
-        if (height !== undefined) {
-            this.cellHeight = height;
-        }
+    constructor(position: { x: number; y: number }, cellStatus: CellStatus, cellWidth: CellSize, cellHeight: CellSize) {
+        this.position = position;
+        this.cellStatus = cellStatus;
+        this.cellWidth = cellWidth;
+        this.cellHeight = cellHeight;
     }
-    update(deltaTime: number, ...args: any[]): void {
-        throw new Error("Method not implemented.");
-    }
+
     render(context: CanvasRenderingContext2D): void {
-        throw new Error("Method not implemented.");
-    }
-    processInput(input: InputSystem): void {
-        throw new Error("Method not implemented.");
+        context.fillStyle = this.cellStatus === CellStatus.Empty ? "white" : "black";
     }
 }

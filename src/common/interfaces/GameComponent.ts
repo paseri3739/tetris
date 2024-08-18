@@ -1,5 +1,6 @@
-import { GameObject } from "./GameObject";
+import { DynamicGameObject } from "./DynamicGameObject";
 
 export interface GameComponent {
-    owner: GameObject;
+    owner: DynamicGameObject;
+    update(deltaTime: number, ...args: any[]): void;
 }

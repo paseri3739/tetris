@@ -1,11 +1,11 @@
 import { Game } from "Game";
 import { InputSystem } from "common/input_system/InputSystem";
-import { GameObject } from "common/interfaces/GameObject";
+import { DynamicGameObject } from "common/interfaces/GameObject";
 import { Scene } from "common/interfaces/Scene";
 
 export class DefaultScene implements Scene {
     game: Game;
-    gameObjects: GameObject[];
+    gameObjects: DynamicGameObject[];
     constructor(game: Game) {
         this.game = game;
         this.gameObjects = [];
@@ -13,10 +13,10 @@ export class DefaultScene implements Scene {
     close(): void {
         throw new Error("Method not implemented.");
     }
-    addGameObject(gameObject: GameObject): void {
+    addGameObject(gameObject: DynamicGameObject): void {
         throw new Error("Method not implemented.");
     }
-    removeGameObject(gameObject: GameObject): void {
+    removeGameObject(gameObject: DynamicGameObject): void {
         throw new Error("Method not implemented.");
     }
     update(deltaTime: number): void {

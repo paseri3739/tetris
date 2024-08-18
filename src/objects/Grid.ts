@@ -1,5 +1,4 @@
-import { InputSystem } from "common/input_system/InputSystem";
-import { GameObject } from "common/interfaces/GameObject";
+import { StaticGameObject } from "common/interfaces/StaticGameObject";
 import { Cell, CellSize, CellStatus } from "./Cell";
 export enum GridTable {
     Rows = 20, // 20行
@@ -13,36 +12,27 @@ export enum GridPixel {
 /**
  * Grid class represents a grid of cells.
  */
-export class Grid implements GameObject {
-    private grid: Cell[][] = [];
-    private rows: GridTable = GridTable.Rows;
-    private cols: GridTable = GridTable.Cols;
-    private width: GridPixel = GridPixel.Width;
-    private height: GridPixel = GridPixel.Height;
+export class Grid implements StaticGameObject {
+    position: { x: number; y: number };
+    cells: Cell[][];
 
-    constructor(gridTable?: GridTable, gridPixel?: GridPixel) {
-        if (gridTable !== undefined) {
-            this.rows = gridTable;
-            this.cols = gridTable;
+    constructor(position: { x: number; y: number }) {
+        this.position = position;
+        this.cells = [];
+        for (let i = 0; i < GridTable.Rows; i++) {
+            this.cells[i] = [];
+            for (let j = 0; j < GridTable.Cols; j++) {
+                this.cells[i][j] = new Cell(
+                    { x: this.position.x + j * CellSize.Width, y: this.position.y + i * CellSize.Height },
+                    CellStatus.Empty,
+                    CellSize.Width,
+                    CellSize.Height
+                );
+            }
         }
-
-        if (gridPixel !== undefined) {
-            this.width = gridPixel;
-            this.height = gridPixel;
-        }
-
-        // gridの各行と各列に新しいCellを割り当てる
-        this.grid = new Array(this.rows)
-            .fill(null)
-            .map(() => new Array(this.cols).fill(null).map(() => new Cell(CellStatus.Empty, CellSize.Width, CellSize.Height)));
     }
-    update(deltaTime: number, ...args: any[]): void {
-        throw new Error("Method not implemented.");
-    }
+
     render(context: CanvasRenderingContext2D): void {
-        throw new Error("Method not implemented.");
-    }
-    processInput(input: InputSystem): void {
         throw new Error("Method not implemented.");
     }
 }

@@ -1,9 +1,9 @@
 import { InputSystem } from "common/input_system/InputSystem";
-import { GameObject } from "common/interfaces/GameObject";
+import { DynamicGameObject } from "common/interfaces/GameObject";
 import { MovementComponent } from "./components/MovementComponent";
 import { PositionComponent } from "./components/PositionComponent";
 
-export class TetriMino implements GameObject {
+export class TetriMino implements DynamicGameObject {
     private readonly type: TetriMinoType;
     private readonly movementComponent: MovementComponent;
     private readonly positionComponent: PositionComponent;

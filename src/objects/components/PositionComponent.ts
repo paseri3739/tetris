@@ -1,12 +1,12 @@
+import { DynamicGameObject } from "common/interfaces/DynamicGameObject";
 import { GameComponent } from "common/interfaces/GameComponent";
-import { GameObject } from "common/interfaces/GameObject";
 
 export class PositionComponent implements GameComponent {
-    owner: GameObject;
+    owner: DynamicGameObject;
     x: number = 0;
     y: number = 0;
 
-    constructor(owner: GameObject) {
+    constructor(owner: DynamicGameObject) {
         this.owner = owner;
     }
 
@@ -17,5 +17,9 @@ export class PositionComponent implements GameComponent {
 
     getPotision() {
         return { x: this.x, y: this.y };
+    }
+
+    update(deltaTime: number, ...args: any[]): void {
+        // throw new Error("Method not implemented.");
     }
 }

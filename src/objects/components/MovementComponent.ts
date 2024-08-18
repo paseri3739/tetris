@@ -1,8 +1,13 @@
-export class MovementComponent {
+import { DynamicGameObject } from "common/interfaces/DynamicGameObject";
+import { GameComponent } from "common/interfaces/GameComponent";
+
+export class MovementComponent implements GameComponent {
+    owner: DynamicGameObject;
     speed: number;
     direction: { x: number; y: number };
 
-    constructor(speed = 1) {
+    constructor(owner: DynamicGameObject, speed = 1) {
+        this.owner = owner;
         this.speed = speed;
         this.direction = { x: 0, y: 0 };
     }
@@ -15,4 +20,6 @@ export class MovementComponent {
         position.x += this.direction.x * this.speed;
         position.y += this.direction.y * this.speed;
     }
+
+    update(deltaTime: number, ...args: any[]): void {}
 }

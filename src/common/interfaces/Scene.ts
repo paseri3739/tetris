@@ -1,12 +1,12 @@
 import { Game } from "Game";
 import { InputSystem } from "input_system/InputSystem";
-import { GameObject } from "./GameObject";
+import { DynamicGameObject } from "./DynamicGameObject";
 
 export interface Scene {
     game: Game;
-    gameObjects: GameObject[];
-    addGameObject(gameObject: GameObject): void;
-    removeGameObject(gameObject: GameObject): void;
+    gameObjects: DynamicGameObject[];
+    addGameObject(gameObject: DynamicGameObject): void;
+    removeGameObject(gameObject: DynamicGameObject): void;
     update(deltaTime: number): void;
     render(context: CanvasRenderingContext2D): void;
     processInput(input: InputSystem): void;
