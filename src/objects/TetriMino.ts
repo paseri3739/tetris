@@ -43,16 +43,16 @@ export class TetriMino implements DynamicGameObject {
         return this.type;
     }
     setState(state: GameObjectState): void {
-        throw new Error("Method not implemented.");
+        this.state = state;
     }
     getState(): GameObjectState {
-        throw new Error("Method not implemented.");
+        return this.state;
     }
     addComponent(component: GameComponent): void {
-        throw new Error("Method not implemented.");
+        this.components.push(component);
     }
     removeComponent(component: GameComponent): void {
-        throw new Error("Method not implemented.");
+        this.components = this.components.filter((c) => c !== component);
     }
 
     update(deltaTime: number, input: InputSystem): void {
