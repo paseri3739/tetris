@@ -2,7 +2,7 @@ import { CellSize } from "enums/GridEnums";
 import { GameObject } from "interfaces/GameObject";
 import { Cell, Grid } from "./Grid";
 
-export class TetriMino implements Subject, GameObject {
+export class TetriMino implements GameObject {
     columnIndex: number;
     rowIndex: number;
     x: number;

@@ -13,7 +13,7 @@ export class Game {
     private scenes: Scene[] = [];
     private currentScene: Scene | null = null;
     private readonly inputSystem: InputSystem;
-    private gameObjects: GameObject[];
+    private gameObjects: GameObject[] = [];
     private readonly context: CanvasRenderingContext2D;
     private readonly targetFrameTime: number = 1000 / 60; // 60fpsを目標とするフレーム時間
 
@@ -22,7 +22,6 @@ export class Game {
             throw new Error("CanvasRenderingContext2D is required.");
         }
         this.context = context;
-        this.gameObjects = [];
         this.inputSystem = new InputSystem([new KeyboardInput()]);
     }
 
@@ -40,7 +39,7 @@ export class Game {
      * Start the game loop.
      * @param currentTimeStamp timestamp in milliseconds
      */
-    runLoop(currentTimeStamp: number) {
+    private runLoop(currentTimeStamp: number) {
         if (!this.isRunning) return; // isRunningがfalseならばループを終了
         if (!this.scenes) return;
 

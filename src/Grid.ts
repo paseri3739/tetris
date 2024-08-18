@@ -8,7 +8,7 @@ enum CellStatus {
 /**
  * Cell class represents a single cell in the grid.
  */
-export class Cell {
+export class Cell implements GameObject {
     x: number;
     y: number;
     width: number;

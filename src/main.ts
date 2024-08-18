@@ -5,5 +5,5 @@ import { Game } from "Game";
     const canvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
     const context = canvas.getContext("2d")!;
     const gameLoop = new Game(context);
-    gameLoop.runLoop(performance.now());
+    gameLoop.startLoop();
 })();
