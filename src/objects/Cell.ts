@@ -1,7 +1,7 @@
 import { InputSystem } from "common/input_system/InputSystem";
 import { GameObject } from "common/interfaces/GameObject";
 
-enum CellStatus {
+export enum CellStatus {
     Empty = 0,
     Filled = 1,
 }
@@ -17,10 +17,16 @@ export class Cell implements GameObject {
     cellWidth: CellSize = CellSize.Width;
     cellHeight: CellSize = CellSize.Height;
 
-    constructor(status: CellStatus, width: CellSize, height: CellSize) {
+    constructor(status: CellStatus, width?: CellSize, height?: CellSize) {
         this.cellStatus = status;
-        this.cellWidth = width;
-        this.cellHeight = height;
+
+        if (width !== undefined) {
+            this.cellWidth = width;
+        }
+
+        if (height !== undefined) {
+            this.cellHeight = height;
+        }
     }
     update(deltaTime: number, ...args: any[]): void {
         throw new Error("Method not implemented.");
