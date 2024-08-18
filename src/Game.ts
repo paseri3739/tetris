@@ -32,7 +32,7 @@ export class Game {
     }
 
     changeScene(scene: Scene) {
-        this.scenes = [scene];
+        this.currentScene = scene;
         scene.game = this;
     }
 
