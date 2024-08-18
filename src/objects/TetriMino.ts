@@ -1,8 +1,19 @@
 import { InputSystem } from "common/input_system/InputSystem";
 import { GameObject } from "common/interfaces/GameObject";
+import { MovementComponent } from "./components/MovementComponent";
+import { PositionComponent } from "./components/PositionComponent";
 
 export class TetriMino implements GameObject {
-    constructor() {}
+    private type: TetriMinoType;
+    private movementComponent: MovementComponent;
+    private positionComponent: PositionComponent;
+
+    constructor(type: TetriMinoType, movementComponent: MovementComponent, positionComponent: PositionComponent) {
+        this.type = type;
+        this.movementComponent = movementComponent;
+        this.positionComponent = positionComponent;
+    }
+
     update(deltaTime: number, ...args: any[]): void {
         throw new Error("Method not implemented.");
     }
