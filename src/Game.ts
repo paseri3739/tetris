@@ -1,6 +1,7 @@
 import { InputSystem } from "common/input_system/InputSystem";
 import { KeyboardInput } from "common/input_system/KeyboardInput";
 import { Scene } from "common/interfaces/Scene";
+import { DefaultScene } from "scenes/default_scene/DefaultScene";
 
 /**
  * GameLoop class. This class will handle the game loop.
@@ -11,7 +12,7 @@ export class Game {
     // id of the requestAnimationFrame. This is used to stop the game loop.
     private request: number = 0;
     private scenes: Scene[] = [];
-    private currentScene: Scene | null = null;
+    private currentScene: Scene = new DefaultScene(this);
     private readonly inputSystem: InputSystem;
     private readonly canvas: HTMLCanvasElement;
     private readonly context: CanvasRenderingContext2D;

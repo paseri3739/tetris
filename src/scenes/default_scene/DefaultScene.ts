@@ -3,12 +3,15 @@ import { InputSystem } from "common/input_system/InputSystem";
 import { GameObject } from "common/interfaces/GameObject";
 import { Scene } from "common/interfaces/Scene";
 
-export class PlayScene implements Scene {
+export class DefaultScene implements Scene {
     game: Game;
     gameObjects: GameObject[];
     constructor(game: Game) {
         this.game = game;
         this.gameObjects = [];
+    }
+    close(): void {
+        throw new Error("Method not implemented.");
     }
     addGameObject(gameObject: GameObject): void {
         throw new Error("Method not implemented.");
