@@ -1,6 +1,5 @@
 import { InputSystem } from "common/input_system/InputSystem";
 import { KeyboardInput } from "common/input_system/KeyboardInput";
-import { GameObject } from "common/interfaces/GameObject";
 import { Scene } from "common/interfaces/Scene";
 
 /**
@@ -13,7 +12,6 @@ export class Game {
     private request: number = 0;
     private scenes: Scene[] = [];
     private currentScene: Scene | null = null;
-    private gameObjects: GameObject[] = [];
     private readonly inputSystem: InputSystem;
     private readonly canvas: HTMLCanvasElement;
     private readonly context: CanvasRenderingContext2D;
@@ -80,22 +78,5 @@ export class Game {
     stopLoop() {
         this.isRunning = false;
         cancelAnimationFrame(this.request); // アニメーションフレームをキャンセル
-    }
-
-    /**
-     * Add a renderable object to the game loop.
-     */
-    addGameObject(gameObject: GameObject) {
-        this.gameObjects.push(gameObject);
-    }
-
-    /**
-     * Remove a renderable object from the game loop.
-     */
-    removeGameObject(gameObject: GameObject) {
-        const index = this.gameObjects.indexOf(gameObject);
-        if (index !== -1) {
-            this.gameObjects.splice(index, 1);
-        }
     }
 }
