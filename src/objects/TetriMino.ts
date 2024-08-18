@@ -82,6 +82,7 @@ export class TetriMino implements DynamicGameObject {
 
     processInput(input: InputSystem): void {
         // Input processing logic, if any, can go here
+        input.updateState();
     }
 }
 
