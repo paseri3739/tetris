@@ -8,7 +8,7 @@ export class MovementComponent implements GameComponent {
         this.owner = owner;
     }
 
-    update(deltaTime: number, direction: { x: number; y: number }): void {
+    updateOwner(deltaTime: number, direction: { x: number; y: number }): void {
         this.owner.x += direction.x;
         this.owner.y += direction.y;
     }

@@ -7,7 +7,7 @@ export class RotationComponent implements GameComponent {
         this.owner = owner;
     }
 
-    update(deltaTime: number, rotateClockwise: boolean): void {
+    updateOwner(deltaTime: number, rotateClockwise: boolean): void {
         const matrix = rotateClockwise ? RotateMatrix.clockwise : RotateMatrix.counterclockwise;
         const shape = TetriMinoShapes[this.owner.getType()];
         const rotatedShape = this.rotateShape(shape, matrix);

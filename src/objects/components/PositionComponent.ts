@@ -8,7 +8,7 @@ export class PositionComponent implements GameComponent {
         this.owner = owner;
     }
 
-    update(deltaTime: number): void {
+    updateOwner(deltaTime: number): void {
         // 位置は外部で直接変更されるので、ここでは特に処理しない
     }
 
