@@ -23,13 +23,30 @@ export class Game {
         if (!canvas) {
             throw new Error("Canvas is required.");
         }
+
         this.canvas = canvas;
         this.canvas.width = GridPixel.Width;
         this.canvas.height = GridPixel.Height;
         const context = canvas.getContext("2d");
+
         if (!context) {
             throw new Error("Failed to get 2D context.");
         }
+
+        // デバイスピクセル比を取得
+        const dpr = window.devicePixelRatio || 1;
+
+        // キャンバスの実際のピクセルサイズを設定
+        canvas.style.width = `${canvas.width}px`;
+        canvas.style.height = `${canvas.height}px`;
+
+        // キャンバスの解像度を調整
+        canvas.width *= dpr;
+        canvas.height *= dpr;
+
+        // コンテキストのスケールを調整
+        context.scale(dpr, dpr);
+
         this.context = context;
         this.inputSystem = new InputSystem([new KeyboardInput()]);
     }
