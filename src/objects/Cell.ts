@@ -2,10 +2,14 @@ import { InputSystem } from "common/input_system/InputSystem";
 import { GameObject } from "common/interfaces/GameObject";
 import { ServiceLocator } from "common/service_locator/ServiceLocator";
 
+enum CellStatus {
+    Empty = 0,
+    Filled = 1,
+}
 /**
- * Grid class represents a grid of cells.
+ * Cell class represents a single cell in the grid.
  */
-export class Grid implements GameObject {
+export class Cell implements GameObject {
     serviceLocator: ServiceLocator;
     constructor() {
         this.serviceLocator = new ServiceLocator();
