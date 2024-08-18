@@ -1,5 +1,6 @@
 import { StaticGameObject } from "common/interfaces/StaticGameObject.js";
 import { Cell, CellSize, CellStatus } from "./Cell.js";
+import { TetriMino, TetriMinoShapes } from "./TetriMino.js";
 export enum GridTable {
     Rows = 20, // 20行
     Cols = 10, // 10列
@@ -50,5 +51,45 @@ export class Grid implements StaticGameObject {
                 );
             }
         }
+    }
+
+    mapTetriMinoToGrid(tetriMino: TetriMino): void {
+        const shape = TetriMinoShapes[tetriMino.getType()];
+        const posX = tetriMino.x;
+        const posY = tetriMino.y;
+
+        shape.forEach((row, y) => {
+            row.forEach((cell, x) => {
+                if (cell === 1) {
+                    const gridX = posX + x;
+                    const gridY = posY + y;
+                    if (this.isWithinBounds(gridX, gridY)) {
+                        this.cells[gridY][gridX].cellStatus = CellStatus.Filled;
+                    }
+                }
+            });
+        });
+    }
+
+    unmapTetriMinoFromGrid(tetriMino: TetriMino): void {
+        const shape = TetriMinoShapes[tetriMino.getType()];
+        const posX = tetriMino.x;
+        const posY = tetriMino.y;
+
+        shape.forEach((row, y) => {
+            row.forEach((cell, x) => {
+                if (cell === 1) {
+                    const gridX = posX + x;
+                    const gridY = posY + y;
+                    if (this.isWithinBounds(gridX, gridY)) {
+                        this.cells[gridY][gridX].cellStatus = CellStatus.Empty;
+                    }
+                }
+            });
+        });
+    }
+
+    private isWithinBounds(x: number, y: number): boolean {
+        return x >= 0 && x < GridTable.Cols && y >= 0 && y < GridTable.Rows;
     }
 }

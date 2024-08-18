@@ -9,22 +9,30 @@ export class DefaultScene implements Scene {
     game: Game;
     staticGameObjects: StaticGameObject[];
     dynamicGameObjects: DynamicGameObject[];
+
     constructor(game: Game, staticGameObjects: StaticGameObject[] = [], dynamicGameObjects: DynamicGameObject[] = []) {
         this.game = game;
 
+        // 初期化時に静的オブジェクトにグリッドを追加
         this.staticGameObjects = staticGameObjects;
         this.staticGameObjects.push(new Grid(0, 0));
+
+        // 動的オブジェクトの初期化
         this.dynamicGameObjects = dynamicGameObjects;
     }
+
     addDynamicGameObject(dynamicGameObject: DynamicGameObject): void {
         this.dynamicGameObjects.push(dynamicGameObject);
     }
+
     addStaticGameObject(staticGameObject: StaticGameObject): void {
         this.staticGameObjects.push(staticGameObject);
     }
+
     removeDynamicGameObject(dynamicGameObject: DynamicGameObject): void {
         this.dynamicGameObjects = this.dynamicGameObjects.filter((obj) => obj !== dynamicGameObject);
     }
+
     removeStaticGameObject(staticGameObject: StaticGameObject): void {
         this.staticGameObjects = this.staticGameObjects.filter((obj) => obj !== staticGameObject);
     }
@@ -34,6 +42,7 @@ export class DefaultScene implements Scene {
             gameObject.update(deltaTime);
         });
     }
+
     render(context: CanvasRenderingContext2D): void {
         this.staticGameObjects.forEach((gameObject) => {
             gameObject.render(context);
@@ -42,11 +51,13 @@ export class DefaultScene implements Scene {
             gameObject.render(context);
         });
     }
+
     processInput(input: InputSystem): void {
         this.dynamicGameObjects.forEach((gameObject) => {
             gameObject.processInput(input);
         });
     }
+
     close(): void {
         this.dynamicGameObjects = [];
         this.staticGameObjects = [];
