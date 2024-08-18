@@ -13,7 +13,7 @@ export class Game {
     // id of the requestAnimationFrame. This is used to stop the game loop.
     private request: number = 0;
     private scenes: Scene[] = [];
-    private currentScene: Scene = new DefaultScene(this);
+    private currentScene: Scene;
     private readonly inputSystem: InputSystem;
     private canvas: HTMLCanvasElement;
     private readonly context: CanvasRenderingContext2D;
@@ -49,6 +49,15 @@ export class Game {
 
         this.context = context;
         this.inputSystem = new InputSystem([new KeyboardInput()]);
+        this.currentScene = new DefaultScene(this);
+    }
+
+    getCanvas(): HTMLCanvasElement {
+        return this.canvas;
+    }
+
+    getContext(): CanvasRenderingContext2D {
+        return this.context;
     }
 
     addScene(scene: Scene) {

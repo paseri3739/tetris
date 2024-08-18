@@ -27,7 +27,12 @@ export class Cell implements StaticGameObject {
         this.cellHeight = cellHeight;
     }
 
-    render(context: CanvasRenderingContext2D): void {
+    render(context: CanvasRenderingContext2D | null): void {
+        if (!context) {
+            console.error("Context is undefined. Ensure a valid CanvasRenderingContext2D is passed.");
+            return;
+        }
+
         context.fillStyle = this.cellStatus === CellStatus.Empty ? "white" : "black";
         context.fillRect(this.x, this.y, this.cellWidth, this.cellHeight);
     }

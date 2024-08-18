@@ -38,6 +38,7 @@ export class DefaultScene implements Scene {
                 new BoundaryCheckComponent(GridPixel.Width, GridPixel.Height)
             )
         );
+        this.render(this.game.getContext());
     }
 
     addDynamicGameObject(dynamicGameObject: DynamicGameObject): void {
