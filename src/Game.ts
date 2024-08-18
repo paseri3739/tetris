@@ -36,10 +36,17 @@ export class Game {
     }
 
     removeScene(scene: Scene) {
-        scene.close();
+        const index = this.scenes.indexOf(scene);
+        if (index > -1) {
+            this.scenes.splice(index, 1);
+            scene.close();
+        }
     }
 
     changeScene(scene: Scene) {
+        if (this.currentScene) {
+            this.currentScene.close();
+        }
         this.currentScene = scene;
         scene.game = this;
     }
