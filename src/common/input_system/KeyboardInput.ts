@@ -6,11 +6,24 @@ export class KeyboardInput implements InputDevice {
 
     constructor() {
         this.inputState = new InputState();
+        this.attachEventListeners();
     }
 
-    updateState(): void {}
+    attachEventListeners() {
+        window.addEventListener("keydown", (event) => {
+            this.inputState.setKeyDown(event.key);
+        });
 
-    isKeyPressed(key: any): boolean {
+        window.addEventListener("keyup", (event) => {
+            this.inputState.setKeyUp(event.key);
+        });
+    }
+
+    updateState(): void {
+        // キーボードの状態はリアルタイムで更新されるので、特に何もしません
+    }
+
+    isKeyPressed(key: string): boolean {
         return this.inputState.isKeyPressed(key);
     }
 }
