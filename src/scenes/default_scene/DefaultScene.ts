@@ -1,14 +1,14 @@
 import { Game } from "Game";
 import { InputSystem } from "common/input_system/InputSystem";
-import { DynamicGameObject } from "common/interfaces/GameObject";
+import { DynamicGameObject } from "common/interfaces/DynamicGameObject";
 import { Scene } from "common/interfaces/Scene";
 
 export class DefaultScene implements Scene {
     game: Game;
-    gameObjects: DynamicGameObject[];
+    dynamicGameObjects: DynamicGameObject[];
     constructor(game: Game) {
         this.game = game;
-        this.gameObjects = [];
+        this.dynamicGameObjects = [];
     }
     close(): void {
         throw new Error("Method not implemented.");
