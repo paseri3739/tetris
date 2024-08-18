@@ -25,7 +25,8 @@ export class Grid implements StaticGameObject {
             this.cells[i] = [];
             for (let j = 0; j < GridTable.Cols; j++) {
                 this.cells[i][j] = new Cell(
-                    { x: this.x + j * CellSize.Width, y: this.y + i * CellSize.Height },
+                    this.x + j * CellSize.Width,
+                    this.y + i * CellSize.Height,
                     CellStatus.Empty,
                     CellSize.Width,
                     CellSize.Height
