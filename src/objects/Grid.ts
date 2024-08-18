@@ -1,5 +1,5 @@
-import { StaticGameObject } from "common/interfaces/StaticGameObject";
-import { Cell, CellSize, CellStatus } from "./Cell";
+import { Cell, CellSize, CellStatus } from "././Cell.js";
+import { StaticGameObject } from "./common/interfaces/StaticGameObject.js";
 export enum GridTable {
     Rows = 20, // 20行
     Cols = 10, // 10列

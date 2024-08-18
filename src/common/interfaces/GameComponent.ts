@@ -1,4 +1,4 @@
-import { DynamicGameObject } from "./DynamicGameObject";
+import { DynamicGameObject } from "././DynamicGameObject.js";
 
 export interface GameComponent {
     owner: DynamicGameObject;

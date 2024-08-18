@@ -1,8 +1,8 @@
-import { InputSystem } from "common/input_system/InputSystem";
-import { DynamicGameObject, GameObjectState } from "common/interfaces/DynamicGameObject";
-import { GameComponent } from "common/interfaces/GameComponent";
-import { MovementComponent } from "./components/MovementComponent";
-import { PositionComponent } from "./components/PositionComponent";
+import { MovementComponent } from "././components/MovementComponent.js";
+import { PositionComponent } from "././components/PositionComponent.js";
+import { InputSystem } from "./common/input_system/InputSystem.js";
+import { DynamicGameObject, GameObjectState } from "./common/interfaces/DynamicGameObject.js";
+import { GameComponent } from "./common/interfaces/GameComponent.js";
 
 export class TetriMino implements DynamicGameObject {
     x: number;
@@ -32,16 +32,16 @@ export class TetriMino implements DynamicGameObject {
     }
 
     setState(state: GameObjectState): void {
-        throw new Error("Method not implemented.");
+        this.state = state;
     }
     getState(): GameObjectState {
-        throw new Error("Method not implemented.");
+        return this.state;
     }
     addComponent(component: GameComponent): void {
-        throw new Error("Method not implemented.");
+        this.components.push(component);
     }
     removeComponent(component: GameComponent): void {
-        throw new Error("Method not implemented.");
+        this.components = this.components.filter((c) => c !== component);
     }
 
     update(deltaTime: number, ...args: any[]): void {

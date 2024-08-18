@@ -1,4 +1,4 @@
-import { InputDevice } from "interfaces/InputDevice";
+import { InputDevice } from "./interfaces/InputDevice.js";
 
 export class InputSystem {
     devices: InputDevice[] = [];

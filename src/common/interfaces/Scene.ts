@@ -1,7 +1,7 @@
-import { Game } from "Game";
-import { InputSystem } from "input_system/InputSystem";
-import { DynamicGameObject } from "./DynamicGameObject";
-import { StaticGameObject } from "./StaticGameObject";
+import { DynamicGameObject } from "././DynamicGameObject.js";
+import { StaticGameObject } from "././StaticGameObject.js";
+import { Game } from "./Game.js";
+import { InputSystem } from "./input_system/InputSystem.js";
 
 export interface Scene {
     game: Game;

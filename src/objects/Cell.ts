@@ -1,4 +1,4 @@
-import { StaticGameObject } from "common/interfaces/StaticGameObject";
+import { StaticGameObject } from "./common/interfaces/StaticGameObject.js";
 
 export enum CellStatus {
     Empty = 0,
