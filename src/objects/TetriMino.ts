@@ -34,9 +34,13 @@ export class TetriMino implements DynamicGameObject {
         this.components = components;
         this.type = type;
         this.movementComponent = movementComponent;
+        this.movementComponent.setOwner(this);
         this.positionComponent = positionComponent;
+        this.positionComponent.setOwner(this);
         this.rotationComponent = rotationComponent;
+        this.rotationComponent.setOwner(this);
         this.boundaryCheckComponent = boundaryCheckComponent;
+        this.boundaryCheckComponent.setOwner(this);
     }
 
     getPositionComponent(): PositionComponent {

@@ -1,9 +1,15 @@
+import { CellSize } from "objects/Cell";
+import { BoundaryCheckComponent } from "objects/components/BoundaryCheckComponent";
+import { MovementComponent } from "objects/components/MovementComponent";
+import { PositionComponent } from "objects/components/PositionComponent";
+import { RotationComponent } from "objects/components/RotationComponent";
+import { TetriMino, TetriMinoType } from "objects/TetriMino";
 import { InputSystem } from "../../common/input_system/InputSystem";
-import { DynamicGameObject } from "../../common/interfaces/DynamicGameObject";
+import { DynamicGameObject, GameObjectState } from "../../common/interfaces/DynamicGameObject";
 import { Scene } from "../../common/interfaces/Scene.js";
 import { StaticGameObject } from "../../common/interfaces/StaticGameObject";
 import { Game } from "../../Game.js";
-import { Grid } from "../../objects/Grid.js";
+import { Grid, GridPixel } from "../../objects/Grid.js";
 
 export class DefaultScene implements Scene {
     game: Game;
@@ -19,6 +25,19 @@ export class DefaultScene implements Scene {
 
         // 動的オブジェクトの初期化
         this.dynamicGameObjects = dynamicGameObjects;
+        this.dynamicGameObjects.push(
+            new TetriMino(
+                CellSize.Width * 5,
+                CellSize.Height * 5,
+                GameObjectState.Active,
+                [],
+                TetriMinoType.L,
+                new MovementComponent(),
+                new PositionComponent(),
+                new RotationComponent(),
+                new BoundaryCheckComponent(GridPixel.Width, GridPixel.Height)
+            )
+        );
     }
 
     addDynamicGameObject(dynamicGameObject: DynamicGameObject): void {

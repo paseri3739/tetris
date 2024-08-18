@@ -1,16 +1,18 @@
-import { GameObjectState } from "../../common/interfaces/DynamicGameObject";
+import { DynamicGameObject, GameObjectState } from "../../common/interfaces/DynamicGameObject";
 import { GameComponent } from "../../common/interfaces/GameComponent.js";
 import { TetriMino } from "../../objects/TetriMino";
 
 export class BoundaryCheckComponent implements GameComponent {
-    owner: TetriMino;
+    owner!: TetriMino;
     private readonly gameWidth: number;
     private readonly gameHeight: number;
 
-    constructor(owner: TetriMino, gameWidth: number, gameHeight: number) {
-        this.owner = owner;
+    constructor(gameWidth: number, gameHeight: number) {
         this.gameWidth = gameWidth;
         this.gameHeight = gameHeight;
+    }
+    setOwner(owner: DynamicGameObject): void {
+        this.owner = owner as TetriMino;
     }
 
     updateOwner(deltaTime: number): void {

@@ -1,10 +1,12 @@
+import { DynamicGameObject } from "common/interfaces/DynamicGameObject.js";
 import { GameComponent } from "../../common/interfaces/GameComponent.js";
 import { RotateMatrix, TetriMino, TetriMinoShapes } from "../../objects/TetriMino.js";
 export class RotationComponent implements GameComponent {
-    owner: TetriMino;
+    owner!: TetriMino;
 
-    constructor(owner: TetriMino) {
-        this.owner = owner;
+    constructor() {}
+    setOwner(owner: DynamicGameObject): void {
+        this.owner = owner as TetriMino;
     }
 
     updateOwner(deltaTime: number, rotateClockwise: boolean): void {

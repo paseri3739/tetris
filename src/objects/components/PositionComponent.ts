@@ -2,9 +2,10 @@ import { DynamicGameObject } from "../../common/interfaces/DynamicGameObject.js"
 import { GameComponent } from "../../common/interfaces/GameComponent.js";
 
 export class PositionComponent implements GameComponent {
-    owner: DynamicGameObject;
+    owner!: DynamicGameObject;
 
-    constructor(owner: DynamicGameObject) {
+    constructor() {}
+    setOwner(owner: DynamicGameObject): void {
         this.owner = owner;
     }
 
