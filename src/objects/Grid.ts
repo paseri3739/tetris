@@ -1,15 +1,11 @@
 import { InputSystem } from "common/input_system/InputSystem";
 import { GameObject } from "common/interfaces/GameObject";
-import { ServiceLocator } from "common/service_locator/ServiceLocator";
 
 /**
  * Grid class represents a grid of cells.
  */
 export class Grid implements GameObject {
-    serviceLocator: ServiceLocator;
-    constructor() {
-        this.serviceLocator = new ServiceLocator();
-    }
+    constructor() {}
     update(deltaTime: number, ...args: any[]): void {
         throw new Error("Method not implemented.");
     }

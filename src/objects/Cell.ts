@@ -1,6 +1,5 @@
 import { InputSystem } from "common/input_system/InputSystem";
 import { GameObject } from "common/interfaces/GameObject";
-import { ServiceLocator } from "common/service_locator/ServiceLocator";
 
 enum CellStatus {
     Empty = 0,
@@ -10,10 +9,7 @@ enum CellStatus {
  * Cell class represents a single cell in the grid.
  */
 export class Cell implements GameObject {
-    serviceLocator: ServiceLocator;
-    constructor() {
-        this.serviceLocator = new ServiceLocator();
-    }
+    constructor() {}
     update(deltaTime: number, ...args: any[]): void {
         throw new Error("Method not implemented.");
     }
