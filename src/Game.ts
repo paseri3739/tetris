@@ -52,6 +52,10 @@ export class Game {
         this.currentScene = new DefaultScene(this);
     }
 
+    getInputSystem(): InputSystem {
+        return this.inputSystem;
+    }
+
     getCanvas(): HTMLCanvasElement {
         return this.canvas;
     }

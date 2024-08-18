@@ -63,14 +63,10 @@ export class TetriMino implements DynamicGameObject {
         this.components = this.components.filter((c) => c !== component);
     }
 
-    update(deltaTime: number, input: InputSystem): void {
+    update(deltaTime: number): void {
         const direction = { x: 0, y: 0 };
-        if (input.isKeyPressed("ArrowLeft")) direction.x = -1;
-        if (input.isKeyPressed("ArrowRight")) direction.x = 1;
-        if (input.isKeyPressed("ArrowDown")) direction.y = 1;
 
         this.movementComponent.updateOwner(deltaTime, direction);
-        this.rotationComponent.updateOwner(deltaTime, input.isKeyPressed("ArrowUp"));
         this.boundaryCheckComponent.updateOwner(deltaTime);
 
         // 他のコンポーネントの更新もここで呼び出す
