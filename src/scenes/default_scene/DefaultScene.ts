@@ -14,17 +14,17 @@ export class DefaultScene implements Scene {
         this.staticGameObjects = staticGameObjects;
         this.dynamicGameObjects = dynamicGameObjects;
     }
-    addDynamicGameObject(gameObject: DynamicGameObject): void {
-        this.dynamicGameObjects.push(gameObject);
+    addDynamicGameObject(dynamicGameObject: DynamicGameObject): void {
+        this.dynamicGameObjects.push(dynamicGameObject);
     }
-    addStaticGameObject(gameObject: StaticGameObject): void {
-        this.staticGameObjects.push(gameObject);
+    addStaticGameObject(staticGameObject: StaticGameObject): void {
+        this.staticGameObjects.push(staticGameObject);
     }
-    removeDynamicGameObject(gameObject: DynamicGameObject): void {
-        this.dynamicGameObjects = this.dynamicGameObjects.filter((obj) => obj !== gameObject);
+    removeDynamicGameObject(dynamicGameObject: DynamicGameObject): void {
+        this.dynamicGameObjects = this.dynamicGameObjects.filter((obj) => obj !== dynamicGameObject);
     }
-    removeStaticGameObject(gameObject: StaticGameObject): void {
-        this.staticGameObjects = this.staticGameObjects.filter((obj) => obj !== gameObject);
+    removeStaticGameObject(staticGameObject: StaticGameObject): void {
+        this.staticGameObjects = this.staticGameObjects.filter((obj) => obj !== staticGameObject);
     }
 
     update(deltaTime: number): void {
