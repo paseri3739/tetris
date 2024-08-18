@@ -39,6 +39,15 @@ export class Grid implements StaticGameObject {
         for (let i = 0; i < GridTable.Rows; i++) {
             for (let j = 0; j < GridTable.Cols; j++) {
                 this.cells[i][j].render(context);
+
+                // セルの境界線を描画
+                context.strokeStyle = "black";
+                context.strokeRect(
+                    this.cells[i][j].x,
+                    this.cells[i][j].y,
+                    this.cells[i][j].cellWidth,
+                    this.cells[i][j].cellHeight
+                );
             }
         }
     }

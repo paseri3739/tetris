@@ -4,6 +4,7 @@ export enum CellStatus {
     Empty = 0,
     Filled = 1,
 }
+//FIXME: 動的に計算
 export enum CellSize {
     Width = 30, // 30px
     Height = 30, // 30px
@@ -28,5 +29,6 @@ export class Cell implements StaticGameObject {
 
     render(context: CanvasRenderingContext2D): void {
         context.fillStyle = this.cellStatus === CellStatus.Empty ? "white" : "black";
+        context.fillRect(this.x, this.y, this.cellWidth, this.cellHeight);
     }
 }

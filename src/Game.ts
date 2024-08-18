@@ -1,3 +1,4 @@
+import { GridPixel } from "objects/Grid.js";
 import { InputSystem } from "./common/input_system/InputSystem.js";
 import { KeyboardInput } from "./common/input_system/KeyboardInput.js";
 import { Scene } from "./common/interfaces/Scene.js";
@@ -14,7 +15,7 @@ export class Game {
     private scenes: Scene[] = [];
     private currentScene: Scene = new DefaultScene(this);
     private readonly inputSystem: InputSystem;
-    private readonly canvas: HTMLCanvasElement;
+    private canvas: HTMLCanvasElement;
     private readonly context: CanvasRenderingContext2D;
     private readonly targetFrameTime: number = 1000 / 60; // 60fpsを目標とするフレーム時間
 
@@ -23,6 +24,8 @@ export class Game {
             throw new Error("Canvas is required.");
         }
         this.canvas = canvas;
+        this.canvas.width = GridPixel.Width;
+        this.canvas.height = GridPixel.Height;
         const context = canvas.getContext("2d");
         if (!context) {
             throw new Error("Failed to get 2D context.");
