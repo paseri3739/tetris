@@ -1,5 +1,5 @@
-import { DynamicGameObject } from "./common/interfaces/DynamicGameObject.js";
-import { GameComponent } from "./common/interfaces/GameComponent.js";
+import { DynamicGameObject } from "common/interfaces/DynamicGameObject";
+import { GameComponent } from "common/interfaces/GameComponent.js";
 
 export class MovementComponent implements GameComponent {
     owner: DynamicGameObject;

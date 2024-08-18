@@ -1,8 +1,8 @@
+import { InputSystem } from "common/input_system/InputSystem.js";
+import { DynamicGameObject, GameObjectState } from "common/interfaces/DynamicGameObject.js";
+import { GameComponent } from "common/interfaces/GameComponent.js";
 import { MovementComponent } from "././components/MovementComponent.js";
 import { PositionComponent } from "././components/PositionComponent.js";
-import { InputSystem } from "./common/input_system/InputSystem.js";
-import { DynamicGameObject, GameObjectState } from "./common/interfaces/DynamicGameObject.js";
-import { GameComponent } from "./common/interfaces/GameComponent.js";
 
 export class TetriMino implements DynamicGameObject {
     x: number;

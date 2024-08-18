@@ -2,7 +2,7 @@ import { Grid } from "./objects/Grid.js";
 
 // Main
 (function () {
-    const canvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
+    const canvas = document.getElementById("canvas") as HTMLCanvasElement;
     // const gameLoop = new Game(canvas);
     // gameLoop.startLoop();
     const grid = new Grid(0, 0);

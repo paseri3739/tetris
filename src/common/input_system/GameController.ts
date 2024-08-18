@@ -1,5 +1,5 @@
-import { InputState } from "./common/input_system/InputState.js";
-import { InputDevice } from "./interfaces/InputDevice.js";
+import { InputDevice } from "common/interfaces/InputDevice.js";
+import { InputState } from "./InputState.js";
 
 /**
  * GameController class. This class will handle the game controls.

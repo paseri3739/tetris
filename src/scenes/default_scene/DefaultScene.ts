@@ -1,9 +1,9 @@
-import { InputSystem } from "./common/input_system/InputSystem.js";
-import { DynamicGameObject } from "./common/interfaces/DynamicGameObject.js";
-import { Scene } from "./common/interfaces/Scene.js";
-import { StaticGameObject } from "./common/interfaces/StaticGameObject.js";
-import { Game } from "./Game.js";
-import { Grid } from "./objects/Grid.js";
+import { InputSystem } from "common/input_system/InputSystem";
+import { DynamicGameObject } from "common/interfaces/DynamicGameObject";
+import { Scene } from "common/interfaces/Scene.js";
+import { StaticGameObject } from "common/interfaces/StaticGameObject";
+import { Game } from "Game";
+import { Grid } from "objects/Grid";
 
 export class DefaultScene implements Scene {
     game: Game;
