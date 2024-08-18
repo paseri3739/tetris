@@ -22,13 +22,21 @@ export class Game {
             throw new Error("Canvas is required.");
         }
         this.canvas = canvas;
-        this.context = canvas.getContext("2d")!;
+        const context = canvas.getContext("2d");
+        if (!context) {
+            throw new Error("Failed to get 2D context.");
+        }
+        this.context = context;
         this.inputSystem = new InputSystem([new KeyboardInput()]);
     }
 
     addScene(scene: Scene) {
         this.scenes.push(scene);
         scene.game = this;
+    }
+
+    removeScene(scene: Scene) {
+        scene.close();
     }
 
     changeScene(scene: Scene) {
