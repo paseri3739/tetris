@@ -13,8 +13,8 @@ export class Game {
     private request: number = 0;
     private scenes: Scene[] = [];
     private currentScene: Scene | null = null;
-    private readonly inputSystem: InputSystem;
     private gameObjects: GameObject[] = [];
+    private readonly inputSystem: InputSystem;
     private readonly canvas: HTMLCanvasElement;
     private readonly context: CanvasRenderingContext2D;
     private readonly targetFrameTime: number = 1000 / 60; // 60fpsを目標とするフレーム時間
@@ -84,7 +84,6 @@ export class Game {
 
     /**
      * Add a renderable object to the game loop.
-     * @param renderable IRenderable
      */
     addGameObject(gameObject: GameObject) {
         this.gameObjects.push(gameObject);
@@ -92,7 +91,6 @@ export class Game {
 
     /**
      * Remove a renderable object from the game loop.
-     * @param gameObject
      */
     removeGameObject(gameObject: GameObject) {
         const index = this.gameObjects.indexOf(gameObject);
