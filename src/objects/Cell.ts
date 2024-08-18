@@ -5,11 +5,23 @@ enum CellStatus {
     Empty = 0,
     Filled = 1,
 }
+export enum CellSize {
+    Width = 30, // 30px
+    Height = 30, // 30px
+}
 /**
  * Cell class represents a single cell in the grid.
  */
 export class Cell implements GameObject {
-    constructor() {}
+    cellStatus: CellStatus = CellStatus.Empty;
+    cellWidth: CellSize = CellSize.Width;
+    cellHeight: CellSize = CellSize.Height;
+
+    constructor(status: CellStatus, width: CellSize, height: CellSize) {
+        this.cellStatus = status;
+        this.cellWidth = width;
+        this.cellHeight = height;
+    }
     update(deltaTime: number, ...args: any[]): void {
         throw new Error("Method not implemented.");
     }

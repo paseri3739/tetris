@@ -1,6 +1,15 @@
 import { InputSystem } from "common/input_system/InputSystem";
 import { GameObject } from "common/interfaces/GameObject";
+import { CellSize } from "./Cell";
+export enum GridTable {
+    Rows = 20, // 20行
+    Cols = 10, // 10列
+}
 
+export enum GridPixel {
+    Width = CellSize.Width * GridTable.Cols, // 300px
+    Height = CellSize.Height * GridTable.Rows, // 600px
+}
 /**
  * Grid class represents a grid of cells.
  */
