@@ -1,6 +1,6 @@
 import { InputSystem } from "common/input_system/InputSystem";
 import { DynamicGameObject } from "common/interfaces/DynamicGameObject";
-import { isDynamicGameObject, isStaticGameObject, Scene } from "common/interfaces/Scene";
+import { Scene } from "common/interfaces/Scene";
 import { StaticGameObject } from "common/interfaces/StaticGameObject";
 import { Game } from "Game";
 
@@ -14,30 +14,19 @@ export class DefaultScene implements Scene {
         this.staticGameObjects = staticGameObjects;
         this.dynamicGameObjects = dynamicGameObjects;
     }
-
-    addGameObject(gameObject: unknown): void {
-        if (isStaticGameObject(gameObject)) {
-            this.staticGameObjects.push(gameObject);
-        }
-        if (isDynamicGameObject(gameObject)) {
-            this.dynamicGameObjects.push(gameObject);
-        }
+    addDynamicGameObject(gameObject: DynamicGameObject): void {
+        this.dynamicGameObjects.push(gameObject);
+    }
+    addStaticGameObject(gameObject: StaticGameObject): void {
+        this.staticGameObjects.push(gameObject);
+    }
+    removeDynamicGameObject(gameObject: DynamicGameObject): void {
+        this.dynamicGameObjects = this.dynamicGameObjects.filter((obj) => obj !== gameObject);
+    }
+    removeStaticGameObject(gameObject: StaticGameObject): void {
+        this.staticGameObjects = this.staticGameObjects.filter((obj) => obj !== gameObject);
     }
 
-    removeGameObject(gameObject: unknown): void {
-        if (isStaticGameObject(gameObject)) {
-            const index = this.staticGameObjects.indexOf(gameObject);
-            if (index > -1) {
-                this.staticGameObjects.splice(index, 1);
-            }
-        }
-        if (isDynamicGameObject(gameObject)) {
-            const index = this.dynamicGameObjects.indexOf(gameObject);
-            if (index > -1) {
-                this.dynamicGameObjects.splice(index, 1);
-            }
-        }
-    }
     update(deltaTime: number): void {
         this.dynamicGameObjects.forEach((gameObject) => {
             gameObject.update(deltaTime);
