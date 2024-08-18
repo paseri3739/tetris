@@ -9,6 +9,7 @@ import { KeyboardInput } from "KeyboardInput";
 export class Game {
     private isRunning: boolean = false;
     private currentTimestamp: number = 0;
+    // id of the requestAnimationFrame. This is used to stop the game loop.
     private request: number = 0;
     private scenes: Scene[] = [];
     private currentScene: Scene | null = null;

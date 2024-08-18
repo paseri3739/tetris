@@ -1,31 +1,19 @@
-import { InputSystem } from "InputSystem";
-import { KeyboardInput } from "KeyboardInput";
+import { InputState } from "InputState";
+import { InputDevice } from "interfaces/InputDevice";
 
 /**
  * GameController class. This class will handle the game controls.
  */
-export class GameController {
-    inputSystem: InputSystem;
+export class GameController implements InputDevice {
+    inputState: InputState;
 
     constructor() {
-        this.inputSystem = new InputSystem([new KeyboardInput()]);
+        this.inputState = new InputState();
     }
 
-    /**
-     * Update the game controls.
-     */
-    update() {
-        if (this.inputSystem.isKeyPressed("ArrowUp")) {
-            console.log("Up key is pressed");
-        }
-        if (this.inputSystem.isKeyPressed("ArrowDown")) {
-            console.log("Down key is pressed");
-        }
-        if (this.inputSystem.isKeyPressed("ArrowLeft")) {
-            console.log("Left key is pressed");
-        }
-        if (this.inputSystem.isKeyPressed("ArrowRight")) {
-            console.log("Right key is pressed");
-        }
+    updateState(): void {}
+
+    isKeyPressed(key: any): boolean {
+        return this.inputState.isKeyPressed(key);
     }
 }
