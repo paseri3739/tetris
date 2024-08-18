@@ -1,4 +1,4 @@
-import { GameComponent } from "common/interfaces/GameComponent.js";
+import { GameComponent } from "../../common/interfaces/GameComponent.js";
 
 export class ServiceLocator {
     private components: Map<string, GameComponent> = new Map();

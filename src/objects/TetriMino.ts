@@ -1,6 +1,6 @@
-import { InputSystem } from "common/input_system/InputSystem.js";
-import { DynamicGameObject, GameObjectState } from "common/interfaces/DynamicGameObject.js";
-import { GameComponent } from "common/interfaces/GameComponent.js";
+import { InputSystem } from "../common/input_system/InputSystem.js";
+import { DynamicGameObject, GameObjectState } from "../common/interfaces/DynamicGameObject.js";
+import { GameComponent } from "../common/interfaces/GameComponent.js";
 import { BoundaryCheckComponent } from "./components/BoundaryCheckComponent.js";
 import { MovementComponent } from "./components/MovementComponent.js";
 import { PositionComponent } from "./components/PositionComponent.js";

@@ -1,7 +1,7 @@
-import { GridPixel } from "objects/Grid.js";
 import { InputSystem } from "./common/input_system/InputSystem.js";
 import { KeyboardInput } from "./common/input_system/KeyboardInput.js";
 import { Scene } from "./common/interfaces/Scene.js";
+import { GridPixel } from "./objects/Grid.js";
 import { DefaultScene } from "./scenes/default_scene/DefaultScene.js";
 
 /**

@@ -1,4 +1,4 @@
-import { StaticGameObject } from "common/interfaces/StaticGameObject.js";
+import { StaticGameObject } from "../common/interfaces/StaticGameObject.js";
 import { Cell, CellSize, CellStatus } from "./Cell.js";
 import { TetriMino, TetriMinoShapes } from "./TetriMino.js";
 export enum GridTable {

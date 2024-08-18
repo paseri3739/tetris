@@ -1,4 +1,4 @@
-import { InputDevice } from "common/interfaces/InputDevice.js";
+import { InputDevice } from "../../common/interfaces/InputDevice.js";
 import { InputState } from "./InputState.js";
 
 /**

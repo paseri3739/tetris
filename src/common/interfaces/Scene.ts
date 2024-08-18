@@ -1,5 +1,5 @@
-import { InputSystem } from "common/input_system/InputSystem.js";
-import { Game } from "Game.js";
+import { InputSystem } from "../../common/input_system/InputSystem.js";
+import { Game } from "../../Game.js";
 import { DynamicGameObject } from "./DynamicGameObject.js";
 import { StaticGameObject } from "./StaticGameObject.js";
 

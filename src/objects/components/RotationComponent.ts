@@ -1,5 +1,5 @@
-import { GameComponent } from "common/interfaces/GameComponent.js";
-import { RotateMatrix, TetriMino, TetriMinoShapes } from "objects/TetriMino.js";
+import { GameComponent } from "../../common/interfaces/GameComponent.js";
+import { RotateMatrix, TetriMino, TetriMinoShapes } from "../../objects/TetriMino.js";
 export class RotationComponent implements GameComponent {
     owner: TetriMino;
 
