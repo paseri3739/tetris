@@ -9,8 +9,8 @@ export class RotationComponent implements GameComponent {
         this.owner = owner as TetriMino;
     }
 
-    updateOwner(deltaTime: number, rotateClockwise: boolean): void {
-        const matrix = rotateClockwise ? RotateMatrix.clockwise : RotateMatrix.counterclockwise;
+    updateOwner(deltaTime: number): void {
+        const matrix = RotateMatrix.clockwise;
         const shape = TetriMinoShapes[this.owner.getType()];
         const rotatedShape = this.rotateShape(shape, matrix);
         // Here, you would add logic to check for collisions or out-of-bounds situations

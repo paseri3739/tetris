@@ -68,6 +68,7 @@ export class TetriMino implements DynamicGameObject {
 
         this.movementComponent.updateOwner(deltaTime, direction);
         this.boundaryCheckComponent.updateOwner(deltaTime);
+        this.rotationComponent.updateOwner(deltaTime);
 
         // 他のコンポーネントの更新もここで呼び出す
         this.components.forEach((component) => component.updateOwner(deltaTime));
@@ -87,7 +88,7 @@ export class TetriMino implements DynamicGameObject {
     processInput(input: InputSystem): void {
         // Input processing logic, if any, can go here
         input.updateState();
-        // check some key pressed and do something through the components
+        // TODO: check some key pressed and do something through the components
     }
 }
 
