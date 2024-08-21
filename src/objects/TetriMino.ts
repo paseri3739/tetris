@@ -43,6 +43,10 @@ export class TetriMino implements DynamicGameObject {
         this.boundaryCheckComponent.setOwner(this);
     }
 
+    updateComponents(deltaTime: number): void {
+        this.components.forEach((component) => component.update(deltaTime));
+    }
+
     getPositionComponent(): PositionComponent {
         return this.positionComponent;
     }
@@ -66,12 +70,12 @@ export class TetriMino implements DynamicGameObject {
     update(deltaTime: number): void {
         const direction = { x: 0, y: 0 };
 
-        this.movementComponent.updateOwner(deltaTime, direction);
-        this.boundaryCheckComponent.updateOwner(deltaTime);
-        this.rotationComponent.updateOwner(deltaTime);
+        this.movementComponent.update(deltaTime);
+        this.boundaryCheckComponent.update(deltaTime);
+        this.rotationComponent.update(deltaTime);
 
         // 他のコンポーネントの更新もここで呼び出す
-        this.components.forEach((component) => component.updateOwner(deltaTime));
+        this.components.forEach((component) => component.update(deltaTime));
     }
 
     render(context: CanvasRenderingContext2D): void {
@@ -89,6 +93,8 @@ export class TetriMino implements DynamicGameObject {
         // Input processing logic, if any, can go here
         input.updateState();
         // TODO: check some key pressed and do something through the components
+        if (input.isKeyPressed("ArrowLeft")) {
+        }
     }
 }
 
