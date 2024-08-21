@@ -6,7 +6,6 @@ import { Game } from "../../Game.js";
 import { CellSize } from "../../objects/Cell.js";
 import { BoundaryCheckComponent } from "../../objects/components/BoundaryCheckComponent.js";
 import { MovementComponent } from "../../objects/components/MovementComponent.js";
-import { PositionComponent } from "../../objects/components/PositionComponent.js";
 import { RotationComponent } from "../../objects/components/RotationComponent.js";
 import { Grid, GridPixel } from "../../objects/Grid.js";
 import { TetriMino, TetriMinoType } from "../../objects/TetriMino.js";
@@ -33,7 +32,6 @@ export class DefaultScene implements Scene {
                 [],
                 TetriMinoType.L,
                 new MovementComponent(),
-                new PositionComponent(),
                 new RotationComponent(),
                 new BoundaryCheckComponent(GridPixel.Width, GridPixel.Height)
             )

@@ -3,7 +3,6 @@ import { DynamicGameObject, GameObjectState } from "../common/interfaces/Dynamic
 import { GameComponent } from "../common/interfaces/GameComponent.js";
 import { BoundaryCheckComponent } from "./components/BoundaryCheckComponent.js";
 import { MovementComponent } from "./components/MovementComponent.js";
-import { PositionComponent } from "./components/PositionComponent.js";
 import { RotationComponent } from "./components/RotationComponent.js";
 
 export class TetriMino implements DynamicGameObject {
@@ -13,7 +12,6 @@ export class TetriMino implements DynamicGameObject {
     components: GameComponent[];
     private readonly type: TetriMinoType;
     private readonly movementComponent: MovementComponent;
-    private readonly positionComponent: PositionComponent;
     private readonly rotationComponent: RotationComponent;
     private readonly boundaryCheckComponent: BoundaryCheckComponent;
 
@@ -24,7 +22,6 @@ export class TetriMino implements DynamicGameObject {
         components: GameComponent[] = [],
         type: TetriMinoType,
         movementComponent: MovementComponent,
-        positionComponent: PositionComponent,
         rotationComponent: RotationComponent,
         boundaryCheckComponent: BoundaryCheckComponent
     ) {
@@ -35,8 +32,6 @@ export class TetriMino implements DynamicGameObject {
         this.type = type;
         this.movementComponent = movementComponent;
         this.movementComponent.setOwner(this);
-        this.positionComponent = positionComponent;
-        this.positionComponent.setOwner(this);
         this.rotationComponent = rotationComponent;
         this.rotationComponent.setOwner(this);
         this.boundaryCheckComponent = boundaryCheckComponent;
@@ -45,10 +40,6 @@ export class TetriMino implements DynamicGameObject {
 
     updateComponents(deltaTime: number): void {
         this.components.forEach((component) => component.update(deltaTime));
-    }
-
-    getPositionComponent(): PositionComponent {
-        return this.positionComponent;
     }
 
     getType(): TetriMinoType {
