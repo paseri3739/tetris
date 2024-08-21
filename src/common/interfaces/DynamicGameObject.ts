@@ -13,7 +13,7 @@ export interface DynamicGameObject extends GameObject {
     components: GameComponent[];
     setState(state: GameObjectState): void;
     getState(): GameObjectState;
-    update(deltaTime: number, ...args: any[]): void;
+    update(deltaTime: number): void;
     render(context: CanvasRenderingContext2D): void;
     processInput(input: InputSystem): void;
     addComponent(component: GameComponent): void;
