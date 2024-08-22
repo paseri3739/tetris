@@ -1,6 +1,7 @@
 import { InputSystem } from "../common/input_system/InputSystem.js";
 import { DynamicGameObject, GameObjectState } from "../common/interfaces/DynamicGameObject.js";
 import { GameComponent } from "../common/interfaces/GameComponent.js";
+import { CellSize } from "./Cell.js";
 import { MovementComponent } from "./components/MovementComponent.js";
 import { RotationComponent } from "./components/RotationComponent.js";
 
@@ -91,10 +92,12 @@ export class TetriMino implements DynamicGameObject {
 
     render(context: CanvasRenderingContext2D): void {
         const shape = this.shape;
+        context.fillStyle = "blue"; // テトリミノの色を青に設定
+
         shape.forEach((row, y) => {
             row.forEach((cell, x) => {
                 if (cell) {
-                    context.fillRect(this.x + x, this.y + y, 1, 1);
+                    context.fillRect(this.x + x * CellSize.Width, this.y + y * CellSize.Height, CellSize.Width, CellSize.Height);
                 }
             });
         });
