@@ -33,9 +33,8 @@ export class DefaultScene implements Scene {
                 GameObjectState.Active,
                 [],
                 TetriMinoType.L,
-                new MovementComponent(),
-                new RotationComponent(),
-                new BoundaryCheckComponent(GridPixel.Width, GridPixel.Height)
+                new MovementComponent(new BoundaryCheckComponent(GridPixel.Width, GridPixel.Height)),
+                new RotationComponent()
             )
         );
         this.render(this.game.getContext());

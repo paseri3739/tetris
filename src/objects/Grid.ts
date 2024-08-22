@@ -35,6 +35,12 @@ export class Grid implements StaticGameObject {
             }
         }
     }
+    getX(): number {
+        return this.x;
+    }
+    getY(): number {
+        return this.y;
+    }
 
     render(context: CanvasRenderingContext2D): void {
         for (let i = 0; i < GridTable.Rows; i++) {

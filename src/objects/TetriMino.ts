@@ -1,7 +1,6 @@
 import { InputSystem } from "../common/input_system/InputSystem.js";
 import { DynamicGameObject, GameObjectState } from "../common/interfaces/DynamicGameObject.js";
 import { GameComponent } from "../common/interfaces/GameComponent.js";
-import { BoundaryCheckComponent } from "./components/BoundaryCheckComponent.js";
 import { MovementComponent } from "./components/MovementComponent.js";
 import { RotationComponent } from "./components/RotationComponent.js";
 
@@ -13,9 +12,9 @@ export class TetriMino implements DynamicGameObject {
     state: GameObjectState;
     components: GameComponent[];
     private readonly type: TetriMinoType;
+    private shape: number[][];
     private readonly movementComponent: MovementComponent;
     private readonly rotationComponent: RotationComponent;
-    private readonly boundaryCheckComponent: BoundaryCheckComponent;
 
     constructor(
         x: number,
@@ -26,8 +25,7 @@ export class TetriMino implements DynamicGameObject {
         components: GameComponent[] = [],
         type: TetriMinoType,
         movementComponent: MovementComponent,
-        rotationComponent: RotationComponent,
-        boundaryCheckComponent: BoundaryCheckComponent
+        rotationComponent: RotationComponent
     ) {
         this.x = x;
         this.y = y;
@@ -36,12 +34,18 @@ export class TetriMino implements DynamicGameObject {
         this.state = state;
         this.components = components;
         this.type = type;
+        this.shape = TetriMinoShapes[this.type];
         this.movementComponent = movementComponent;
         this.movementComponent.setOwner(this);
         this.rotationComponent = rotationComponent;
         this.rotationComponent.setOwner(this);
-        this.boundaryCheckComponent = boundaryCheckComponent;
-        this.boundaryCheckComponent.setOwner(this);
+    }
+
+    getX(): number {
+        return this.x;
+    }
+    getY(): number {
+        return this.y;
     }
 
     updateComponents(deltaTime: number): void {
@@ -51,6 +55,15 @@ export class TetriMino implements DynamicGameObject {
     getType(): TetriMinoType {
         return this.type;
     }
+
+    getShape(): number[][] {
+        return this.shape;
+    }
+
+    setShape(shape: number[][]): void {
+        this.shape = shape;
+    }
+
     setState(state: GameObjectState): void {
         this.state = state;
     }
@@ -65,10 +78,7 @@ export class TetriMino implements DynamicGameObject {
     }
 
     update(deltaTime: number): void {
-        const direction = { x: 0, y: 0 };
-
         this.movementComponent.update(deltaTime);
-        this.boundaryCheckComponent.update(deltaTime);
         this.rotationComponent.update(deltaTime);
 
         // 他のコンポーネントの更新もここで呼び出す
@@ -90,6 +100,9 @@ export class TetriMino implements DynamicGameObject {
         // Input processing logic, if any, can go here
         input.updateState();
         // TODO: check some key pressed and do something through the components
+        if (input.isKeyPressed("ArrowLeft")) {
+            this.movementComponent.setDirection(-1, 0);
+        }
     }
 }
 

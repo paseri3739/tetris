@@ -26,6 +26,12 @@ export class Cell implements StaticGameObject {
         this.cellWidth = cellWidth;
         this.cellHeight = cellHeight;
     }
+    getX(): number {
+        return this.x;
+    }
+    getY(): number {
+        return this.y;
+    }
 
     render(context: CanvasRenderingContext2D | null): void {
         if (!context) {
