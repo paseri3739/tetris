@@ -1,20 +1,23 @@
 import { DynamicGameObject } from "../../common/interfaces/DynamicGameObject.js";
 import { GameComponent } from "../../common/interfaces/GameComponent.js";
-import { TetriMino } from "../../objects/TetriMino.js";
 
 export class BoundaryCheckComponent implements GameComponent {
-    owner!: TetriMino;
+    owner!: DynamicGameObject;
+    private isBoundary: boolean;
     private readonly gameWidth: number;
     private readonly gameHeight: number;
 
     constructor(gameWidth: number, gameHeight: number) {
         this.gameWidth = gameWidth;
         this.gameHeight = gameHeight;
+        this.isBoundary = false;
     }
-    update(deltaTime: number): void {
-        throw new Error("Method not implemented.");
-    }
+    update(deltaTime: number): void {}
     setOwner(owner: DynamicGameObject): void {
-        this.owner = owner as TetriMino;
+        this.owner = owner;
+    }
+
+    isOutOfBoundary(): boolean {
+        return this.isBoundary;
     }
 }

@@ -1,8 +1,7 @@
 import { DynamicGameObject } from "../../common/interfaces/DynamicGameObject.js";
 import { GameComponent } from "../../common/interfaces/GameComponent.js";
-import { TetriMino } from "../../objects/TetriMino.js";
 export class RotationComponent implements GameComponent {
-    owner!: TetriMino;
+    owner!: DynamicGameObject;
     isClockwise: boolean;
 
     constructor() {
@@ -12,6 +11,6 @@ export class RotationComponent implements GameComponent {
         throw new Error("Method not implemented.");
     }
     setOwner(owner: DynamicGameObject): void {
-        this.owner = owner as TetriMino;
+        this.owner = owner;
     }
 }

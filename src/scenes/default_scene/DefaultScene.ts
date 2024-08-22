@@ -28,6 +28,8 @@ export class DefaultScene implements Scene {
             new TetriMino(
                 CellSize.Width * 5,
                 CellSize.Height * 5,
+                0,
+                0,
                 GameObjectState.Active,
                 [],
                 TetriMinoType.L,

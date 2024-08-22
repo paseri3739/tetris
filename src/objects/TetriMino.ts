@@ -8,6 +8,8 @@ import { RotationComponent } from "./components/RotationComponent.js";
 export class TetriMino implements DynamicGameObject {
     x: number;
     y: number;
+    velocityX: number;
+    velocityY: number;
     state: GameObjectState;
     components: GameComponent[];
     private readonly type: TetriMinoType;
@@ -18,6 +20,8 @@ export class TetriMino implements DynamicGameObject {
     constructor(
         x: number,
         y: number,
+        velocityX: number = 0,
+        velocityY: number = 0,
         state: GameObjectState = GameObjectState.Active,
         components: GameComponent[] = [],
         type: TetriMinoType,
@@ -27,6 +31,8 @@ export class TetriMino implements DynamicGameObject {
     ) {
         this.x = x;
         this.y = y;
+        this.velocityX = velocityX;
+        this.velocityY = velocityY;
         this.state = state;
         this.components = components;
         this.type = type;

@@ -9,6 +9,8 @@ export enum GameObjectState {
 }
 
 export interface DynamicGameObject extends GameObject {
+    velocityX: number;
+    velocityY: number;
     state: GameObjectState;
     components: GameComponent[];
     setState(state: GameObjectState): void;
