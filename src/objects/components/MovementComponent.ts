@@ -3,8 +3,13 @@ import { GameComponent } from "../../common/interfaces/GameComponent.js";
 
 export class MovementComponent implements GameComponent {
     owner!: DynamicGameObject;
+    directionX: number;
+    directionY: number;
 
-    constructor() {}
+    constructor() {
+        this.directionX = 0;
+        this.directionY = 0;
+    }
     update(deltaTime: number): void {
         throw new Error("Method not implemented.");
     }
@@ -12,8 +17,8 @@ export class MovementComponent implements GameComponent {
         this.owner = owner;
     }
 
-    setDirection(direction: { x: number; y: number }): void {
-        this.owner.x += direction.x;
-        this.owner.y += direction.y;
+    setDirection(directionX: number, directionY: number): void {
+        this.directionX = directionX;
+        this.directionY = directionY;
     }
 }

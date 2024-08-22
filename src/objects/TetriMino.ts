@@ -84,8 +84,6 @@ export class TetriMino implements DynamicGameObject {
         // Input processing logic, if any, can go here
         input.updateState();
         // TODO: check some key pressed and do something through the components
-        if (input.isKeyPressed("ArrowLeft")) {
-        }
     }
 }
 
