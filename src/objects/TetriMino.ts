@@ -44,6 +44,7 @@ export class TetriMino implements DynamicGameObject {
     getX(): number {
         return this.x;
     }
+
     getY(): number {
         return this.y;
     }
@@ -67,12 +68,15 @@ export class TetriMino implements DynamicGameObject {
     setState(state: GameObjectState): void {
         this.state = state;
     }
+
     getState(): GameObjectState {
         return this.state;
     }
+
     addComponent(component: GameComponent): void {
         this.components.push(component);
     }
+
     removeComponent(component: GameComponent): void {
         this.components = this.components.filter((c) => c !== component);
     }
@@ -86,7 +90,7 @@ export class TetriMino implements DynamicGameObject {
     }
 
     render(context: CanvasRenderingContext2D): void {
-        const shape = TetriMinoShapes[this.type];
+        const shape = this.shape;
         shape.forEach((row, y) => {
             row.forEach((cell, x) => {
                 if (cell) {
@@ -99,13 +103,20 @@ export class TetriMino implements DynamicGameObject {
     processInput(input: InputSystem): void {
         // Input processing logic, if any, can go here
         input.updateState();
-        // TODO: check some key pressed and do something through the components
+        // キー入力による移動処理
         if (input.isKeyPressed("ArrowLeft")) {
             this.movementComponent.setDirection(-1, 0);
+        } else if (input.isKeyPressed("ArrowRight")) {
+            this.movementComponent.setDirection(1, 0);
+        } else if (input.isKeyPressed("ArrowDown")) {
+            this.movementComponent.setDirection(0, 1);
+        } else if (input.isKeyPressed("ArrowUp")) {
+            this.rotationComponent.setClockwise(true);
+        } else if (input.isKeyPressed("Shift")) {
+            this.rotationComponent.setClockwise(false);
         }
     }
 }
-
 /**
  * TetriMinoType is an enum that represents the type of tetrimino.
  */

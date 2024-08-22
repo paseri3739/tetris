@@ -37,6 +37,8 @@ export class DefaultScene implements Scene {
                 new RotationComponent()
             )
         );
+
+        // 初期描画
         this.render(this.game.getContext());
     }
 
@@ -63,9 +65,12 @@ export class DefaultScene implements Scene {
     }
 
     render(context: CanvasRenderingContext2D): void {
+        context.clearRect(0, 0, this.game.getCanvas().width, this.game.getCanvas().height);
+
         this.staticGameObjects.forEach((gameObject) => {
             gameObject.render(context);
         });
+
         this.dynamicGameObjects.forEach((gameObject) => {
             gameObject.render(context);
         });
