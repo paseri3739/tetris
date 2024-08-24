@@ -117,11 +117,12 @@ export class TetriMino implements DynamicGameObject {
         if (input.isKeyPressed("ArrowLeft")) {
             this.movementComponent.setDirection(-1, 0);
         } else if (input.isKeyPressed("ArrowRight")) {
-            this.x += 1 * CellSize.Height; // 右矢印キーで1マス右に移動
+            this.movementComponent.setDirection(1, 0);
         }
 
         if (input.isKeyPressed("ArrowDown")) {
             this.dropInterval = 500; // 下矢印キーで落下速度を2倍に
+            this.movementComponent.setDirection(0, 1);
         } else {
             this.dropInterval = 1000; // 通常の落下速度に戻す
         }
