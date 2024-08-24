@@ -17,11 +17,14 @@ export class TetriMino implements DynamicGameObject {
     private readonly movementComponent: MovementComponent;
     private readonly rotationComponent: RotationComponent;
 
+    private dropInterval: number = 1000; // 1秒ごとに1マス落下
+    private lastDropTime: number = 0;
+
     constructor(
         x: number,
         y: number,
         velocityX: number = 0,
-        velocityY: number = 0,
+        velocityY: number = 1, // デフォルトで下方向の速度を1に設定
         state: GameObjectState = GameObjectState.Active,
         components: GameComponent[] = [],
         type: TetriMinoType,
@@ -83,10 +86,15 @@ export class TetriMino implements DynamicGameObject {
     }
 
     update(deltaTime: number): void {
-        this.movementComponent.update(deltaTime);
-        this.rotationComponent.update(deltaTime);
+        const currentTime = Date.now();
+        if (currentTime - this.lastDropTime >= this.dropInterval) {
+            this.y += 1 * CellSize.Height; // 1秒ごとに1マス落下
+            this.lastDropTime = currentTime;
+        }
 
-        // 他のコンポーネントの更新もここで呼び出す
+        this.movementComponent.update(deltaTime);
+        // this.rotationComponent.update(deltaTime);
+
         this.components.forEach((component) => component.update(deltaTime));
     }
 
@@ -104,19 +112,18 @@ export class TetriMino implements DynamicGameObject {
     }
 
     processInput(input: InputSystem): void {
-        // Input processing logic, if any, can go here
         input.updateState();
-        // キー入力による移動処理
+
         if (input.isKeyPressed("ArrowLeft")) {
-            this.movementComponent.setDirection(-1, 0);
+            this.x -= 1; // 左矢印キーで1マス左に移動
         } else if (input.isKeyPressed("ArrowRight")) {
-            this.movementComponent.setDirection(1, 0);
-        } else if (input.isKeyPressed("ArrowDown")) {
-            this.movementComponent.setDirection(0, 1);
-        } else if (input.isKeyPressed("ArrowUp")) {
-            this.rotationComponent.setClockwise(true);
-        } else if (input.isKeyPressed("Shift")) {
-            this.rotationComponent.setClockwise(false);
+            this.x += 1; // 右矢印キーで1マス右に移動
+        }
+
+        if (input.isKeyPressed("ArrowDown")) {
+            this.dropInterval = 500; // 下矢印キーで落下速度を2倍に
+        } else {
+            this.dropInterval = 1000; // 通常の落下速度に戻す
         }
     }
 }

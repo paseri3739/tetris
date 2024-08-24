@@ -69,7 +69,11 @@ export class RotationComponent implements GameComponent {
             for (let j = 0; j < cols; j++) {
                 const newI = j * rotationMatrix[0][0] + i * rotationMatrix[0][1];
                 const newJ = j * rotationMatrix[1][0] + i * rotationMatrix[1][1];
-                rotatedMatrix[newI][newJ] = matrix[i][j];
+
+                // 新しいインデックスが範囲内か確認
+                if (newI >= 0 && newI < cols && newJ >= 0 && newJ < rows) {
+                    rotatedMatrix[newI][newJ] = matrix[i][j];
+                }
             }
         }
 
