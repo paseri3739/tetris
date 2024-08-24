@@ -2,7 +2,7 @@ import { InputSystem } from "../common/input_system/InputSystem.js";
 import { DynamicGameObject, GameObjectState } from "../common/interfaces/DynamicGameObject.js";
 import { GameComponent } from "../common/interfaces/GameComponent.js";
 import { CellSize } from "./Cell.js";
-import { MovementComponent } from "./components/MovementComponent.js";
+import { GridMovementComponent } from "./components/GridMovementComponent.js";
 import { RotationComponent } from "./components/RotationComponent.js";
 
 export class TetriMino implements DynamicGameObject {
@@ -14,7 +14,7 @@ export class TetriMino implements DynamicGameObject {
     components: GameComponent[];
     private readonly type: TetriMinoType;
     private shape: number[][];
-    private readonly movementComponent: MovementComponent;
+    private readonly movementComponent: GridMovementComponent;
     private readonly rotationComponent: RotationComponent;
 
     private dropInterval: number = 1000; // 1秒ごとに1マス落下
@@ -28,7 +28,7 @@ export class TetriMino implements DynamicGameObject {
         state: GameObjectState = GameObjectState.Active,
         components: GameComponent[] = [],
         type: TetriMinoType,
-        movementComponent: MovementComponent,
+        movementComponent: GridMovementComponent,
         rotationComponent: RotationComponent
     ) {
         this.x = x;
@@ -115,7 +115,7 @@ export class TetriMino implements DynamicGameObject {
         input.updateState();
 
         if (input.isKeyPressed("ArrowLeft")) {
-            this.x -= 1 * CellSize.Width; // 左矢印キーで1マス左に移動
+            this.movementComponent.setDirection(-1, 0);
         } else if (input.isKeyPressed("ArrowRight")) {
             this.x += 1 * CellSize.Height; // 右矢印キーで1マス右に移動
         }

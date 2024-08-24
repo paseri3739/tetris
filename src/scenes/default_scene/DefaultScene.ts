@@ -5,7 +5,7 @@ import { StaticGameObject } from "../../common/interfaces/StaticGameObject.js";
 import { Game } from "../../Game.js";
 import { CellSize } from "../../objects/Cell.js";
 import { BoundaryCheckComponent } from "../../objects/components/BoundaryCheckComponent.js";
-import { MovementComponent } from "../../objects/components/MovementComponent.js";
+import { GridMovementComponent } from "../../objects/components/GridMovementComponent.js";
 import { RotationComponent } from "../../objects/components/RotationComponent.js";
 import { Grid, GridPixel } from "../../objects/Grid.js";
 import { TetriMino, TetriMinoType } from "../../objects/TetriMino.js";
@@ -33,7 +33,11 @@ export class DefaultScene implements Scene {
                 GameObjectState.Active,
                 [],
                 TetriMinoType.L,
-                new MovementComponent(new BoundaryCheckComponent(GridPixel.Width, GridPixel.Height)),
+                new GridMovementComponent(
+                    CellSize.Width,
+                    CellSize.Height,
+                    new BoundaryCheckComponent(GridPixel.Width, GridPixel.Height)
+                ),
                 new RotationComponent()
             )
         );
