@@ -16,6 +16,8 @@ export class TetriMino implements DynamicGameObject {
     private shape: number[][];
     private readonly movementComponent: GridMovementComponent;
     private readonly rotationComponent: RotationComponent;
+    private readonly colors: string[] = ["red", "blue", "green"];
+    private currentColor: string;
 
     private dropInterval: number = 1000; // 1秒ごとに1マス落下
     private lastDropTime: number = 0;
@@ -43,6 +45,12 @@ export class TetriMino implements DynamicGameObject {
         this.movementComponent.setOwner(this);
         this.rotationComponent = rotationComponent;
         this.rotationComponent.setOwner(this);
+        this.currentColor = this.getRandomColor();
+    }
+
+    private getRandomColor(): string {
+        const randomIndex = Math.floor(Math.random() * this.colors.length);
+        return this.colors[randomIndex];
     }
 
     getX(): number {
@@ -100,7 +108,7 @@ export class TetriMino implements DynamicGameObject {
 
     render(context: CanvasRenderingContext2D): void {
         const shape = this.shape;
-        context.fillStyle = "blue"; // テトリミノの色を青に設定
+        context.fillStyle = this.currentColor; // ランダムに選ばれた色を使用
 
         shape.forEach((row, y) => {
             row.forEach((cell, x) => {
