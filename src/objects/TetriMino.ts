@@ -115,9 +115,9 @@ export class TetriMino implements DynamicGameObject {
         input.updateState();
 
         if (input.isKeyPressed("ArrowLeft")) {
-            this.x -= 1; // 左矢印キーで1マス左に移動
+            this.x -= 1 * CellSize.Width; // 左矢印キーで1マス左に移動
         } else if (input.isKeyPressed("ArrowRight")) {
-            this.x += 1; // 右矢印キーで1マス右に移動
+            this.x += 1 * CellSize.Height; // 右矢印キーで1マス右に移動
         }
 
         if (input.isKeyPressed("ArrowDown")) {
