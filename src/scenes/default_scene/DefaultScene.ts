@@ -3,7 +3,7 @@ import { DynamicGameObject, GameObjectState } from "../../common/interfaces/Dyna
 import { Scene } from "../../common/interfaces/Scene.js";
 import { StaticGameObject } from "../../common/interfaces/StaticGameObject.js";
 import { Game } from "../../Game.js";
-import { CellSize } from "../../objects/Cell.js";
+import { GAME_CONFIG } from "../../game_config.js";
 import { BoundaryCheckComponent } from "../../objects/components/BoundaryCheckComponent.js";
 import { GridMovementComponent } from "../../objects/components/GridMovementComponent.js";
 import { RotationComponent } from "../../objects/components/RotationComponent.js";
@@ -26,16 +26,17 @@ export class DefaultScene implements Scene {
         this.dynamicGameObjects = dynamicGameObjects;
         this.dynamicGameObjects.push(
             new TetriMino(
-                CellSize.Width * 5,
-                CellSize.Height * 5,
+                GAME_CONFIG.cell.width * 5,
+                GAME_CONFIG.cell.height * 5,
                 0,
                 0,
                 GameObjectState.Active,
+                this.staticGameObjects[0] as Grid,
                 [],
                 TetriMinoType.L,
                 new GridMovementComponent(
-                    CellSize.Width,
-                    CellSize.Height,
+                    GAME_CONFIG.cell.width,
+                    GAME_CONFIG.cell.height,
                     new BoundaryCheckComponent(GridPixel.Width, GridPixel.Height)
                 ),
                 new RotationComponent()

@@ -1,7 +1,7 @@
 import { InputSystem } from "./common/input_system/InputSystem.js";
 import { KeyboardInput } from "./common/input_system/KeyboardInput.js";
 import { Scene } from "./common/interfaces/Scene.js";
-import { GridPixel } from "./objects/Grid.js";
+import { GAME_CONFIG } from "./game_config.js";
 import { DefaultScene } from "./scenes/default_scene/DefaultScene.js";
 
 /**
@@ -25,8 +25,8 @@ export class Game {
         }
 
         this.canvas = canvas;
-        this.canvas.width = GridPixel.Width;
-        this.canvas.height = GridPixel.Height;
+        this.canvas.width = GAME_CONFIG.canvas.width;
+        this.canvas.height = GAME_CONFIG.canvas.height;
         const context = canvas.getContext("2d");
 
         if (!context) {

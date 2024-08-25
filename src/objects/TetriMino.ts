@@ -1,15 +1,17 @@
 import { InputSystem } from "../common/input_system/InputSystem.js";
 import { DynamicGameObject, GameObjectState } from "../common/interfaces/DynamicGameObject.js";
 import { GameComponent } from "../common/interfaces/GameComponent.js";
-import { CellSize } from "./Cell.js";
+import { GAME_CONFIG } from "../game_config.js";
 import { GridMovementComponent } from "./components/GridMovementComponent.js";
 import { RotationComponent } from "./components/RotationComponent.js";
+import { Grid } from "./Grid.js";
 
 export class TetriMino implements DynamicGameObject {
     x: number;
     y: number;
     velocityX: number;
     velocityY: number;
+    grid: Grid;
     state: GameObjectState;
     components: GameComponent[];
     private readonly type: TetriMinoType;
@@ -28,6 +30,7 @@ export class TetriMino implements DynamicGameObject {
         velocityX: number = 0,
         velocityY: number = 1, // デフォルトで下方向の速度を1に設定
         state: GameObjectState = GameObjectState.Active,
+        grid: Grid,
         components: GameComponent[] = [],
         type: TetriMinoType,
         movementComponent: GridMovementComponent,
@@ -38,6 +41,7 @@ export class TetriMino implements DynamicGameObject {
         this.velocityX = velocityX;
         this.velocityY = velocityY;
         this.state = state;
+        this.grid = grid;
         this.components = components;
         this.type = type;
         this.shape = TetriMinoShapes[this.type];
@@ -96,14 +100,14 @@ export class TetriMino implements DynamicGameObject {
     update(deltaTime: number): void {
         const currentTime = Date.now();
         if (currentTime - this.lastDropTime >= this.dropInterval) {
-            this.y += 1 * CellSize.Height; // 1秒ごとに1マス落下
+            this.y += 1 * GAME_CONFIG.cell.height; // 1秒ごとに1マス落下
             this.lastDropTime = currentTime;
         }
 
         this.movementComponent.update(deltaTime);
-        // this.rotationComponent.update(deltaTime);
 
         this.components.forEach((component) => component.update(deltaTime));
+        this.mapToGrid();
     }
 
     render(context: CanvasRenderingContext2D): void {
@@ -113,7 +117,12 @@ export class TetriMino implements DynamicGameObject {
         shape.forEach((row, y) => {
             row.forEach((cell, x) => {
                 if (cell) {
-                    context.fillRect(this.x + x * CellSize.Width, this.y + y * CellSize.Height, CellSize.Width, CellSize.Height);
+                    context.fillRect(
+                        this.x + x * GAME_CONFIG.cell.width,
+                        this.y + y * GAME_CONFIG.cell.height,
+                        GAME_CONFIG.cell.width,
+                        GAME_CONFIG.cell.height
+                    );
                 }
             });
         });
@@ -134,6 +143,10 @@ export class TetriMino implements DynamicGameObject {
         } else {
             this.dropInterval = 1000; // 通常の落下速度に戻す
         }
+    }
+
+    mapToGrid(): void {
+        this.grid.mapTetriMinoToGrid(this);
     }
 }
 /**

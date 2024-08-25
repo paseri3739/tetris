@@ -1,14 +1,11 @@
 import { StaticGameObject } from "../common/interfaces/StaticGameObject.js";
+import { GAME_CONFIG } from "../game_config.js";
 
 export enum CellStatus {
     Empty = 0,
     Filled = 1,
 }
-//FIXME: 動的に計算
-export enum CellSize {
-    Width = 30, // 30px
-    Height = 30, // 30px
-}
+
 /**
  * Cell class represents a single cell in the grid.
  */
@@ -16,10 +13,10 @@ export class Cell implements StaticGameObject {
     x: number;
     y: number;
     cellStatus: CellStatus = CellStatus.Empty;
-    cellWidth: CellSize = CellSize.Width;
-    cellHeight: CellSize = CellSize.Height;
+    cellWidth: number = GAME_CONFIG.cell.width;
+    cellHeight: number = GAME_CONFIG.cell.height;
 
-    constructor(x: number, y: number, cellStatus: CellStatus, cellWidth: CellSize, cellHeight: CellSize) {
+    constructor(x: number, y: number, cellStatus: CellStatus, cellWidth: number, cellHeight: number) {
         this.x = x;
         this.y = y;
         this.cellStatus = cellStatus;

@@ -1,5 +1,6 @@
 import { StaticGameObject } from "../common/interfaces/StaticGameObject.js";
-import { Cell, CellSize, CellStatus } from "./Cell.js";
+import { GAME_CONFIG } from "../game_config.js";
+import { Cell, CellStatus } from "./Cell.js";
 import { TetriMino, TetriMinoShapes } from "./TetriMino.js";
 export enum GridTable {
     Rows = 20, // 20行
@@ -7,8 +8,8 @@ export enum GridTable {
 }
 
 export enum GridPixel {
-    Width = CellSize.Width * GridTable.Cols, // 300px
-    Height = CellSize.Height * GridTable.Rows, // 600px
+    Width = GAME_CONFIG.cell.width * GridTable.Cols, // 300px
+    Height = GAME_CONFIG.cell.height * GridTable.Rows, // 600px
 }
 /**
  * Grid class represents a grid of cells.
@@ -26,11 +27,11 @@ export class Grid implements StaticGameObject {
             this.cells[i] = [];
             for (let j = 0; j < GridTable.Cols; j++) {
                 this.cells[i][j] = new Cell(
-                    this.x + j * CellSize.Width,
-                    this.y + i * CellSize.Height,
+                    this.x + j * GAME_CONFIG.cell.width,
+                    this.y + i * GAME_CONFIG.cell.height,
                     CellStatus.Empty,
-                    CellSize.Width,
-                    CellSize.Height
+                    GAME_CONFIG.cell.width,
+                    GAME_CONFIG.cell.height
                 );
             }
         }
