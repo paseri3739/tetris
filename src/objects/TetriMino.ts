@@ -143,6 +143,16 @@ export class TetriMino implements DynamicGameObject {
         } else {
             this.dropInterval = 1000; // 通常の落下速度に戻す
         }
+
+        if (input.isKeyPressed("z")) {
+            this.rotationComponent.setClockwise(false);
+            this.rotationComponent.update(0); // 回転を即座に適用
+        }
+
+        if (input.isKeyPressed("x")) {
+            this.rotationComponent.setClockwise(true);
+            this.rotationComponent.update(0); // 回転を即座に適用
+        }
     }
 
     mapToGrid(): void {
@@ -168,33 +178,48 @@ export enum TetriMinoType {
 export const TetriMinoShapes: {
     [key in TetriMinoType]: number[][];
 } = Object.freeze({
-    [TetriMinoType.I]: [[1, 1, 1, 1]],
+    [TetriMinoType.I]: [
+        [0, 1, 0],
+        [0, 1, 0],
+        [0, 1, 0],
+    ],
     [TetriMinoType.J]: [
         [1, 0, 0],
         [1, 1, 1],
+        [0, 0, 0],
     ],
     [TetriMinoType.L]: [
         [0, 0, 1],
         [1, 1, 1],
+        [0, 0, 0],
     ],
     [TetriMinoType.O]: [
-        [1, 1],
-        [1, 1],
+        [0, 1, 1],
+        [0, 1, 1],
+        [0, 0, 0],
     ],
     [TetriMinoType.S]: [
         [0, 1, 1],
         [1, 1, 0],
+        [0, 0, 0],
     ],
     [TetriMinoType.T]: [
         [0, 1, 0],
         [1, 1, 1],
+        [0, 0, 0],
     ],
     [TetriMinoType.Z]: [
         [1, 1, 0],
         [0, 1, 1],
+        [0, 0, 0],
     ],
-    [TetriMinoType.None]: [],
+    [TetriMinoType.None]: [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+    ],
 });
+
 /**
  * RotateMatrix is an enum that represents the rotation matrix.
  */
