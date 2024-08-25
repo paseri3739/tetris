@@ -13,6 +13,7 @@ export class DefaultScene implements Scene {
     game: Game;
     grid: Grid;
     dynamicGameObjects: DynamicGameObject[] = [];
+    movingTetriMino: TetriMino;
 
     constructor(game: Game) {
         this.game = game;
@@ -20,8 +21,31 @@ export class DefaultScene implements Scene {
         this.grid = new Grid(0, 0);
 
         // 動的オブジェクトの初期化
-        this.dynamicGameObjects.push(
-            new TetriMino(
+        this.movingTetriMino = new TetriMino(
+            GAME_CONFIG.cell.width * 5,
+            GAME_CONFIG.cell.height * 5,
+            0,
+            0,
+            GameObjectState.Active,
+            this.grid,
+            [],
+            TetriMinoType.L,
+            new GridMovementComponent(
+                GAME_CONFIG.cell.width,
+                GAME_CONFIG.cell.height,
+                new BoundaryCheckComponent(GridPixel.Width, GridPixel.Height)
+            ),
+            new RotationComponent()
+        );
+    }
+
+    update(deltaTime: number): void {
+        const column = this.grid.getColumnIndexFromX(this.movingTetriMino.x);
+        const row = this.grid.getRowIndexFromY(this.movingTetriMino.y);
+        if (this.grid.isWithinBounds(column, row)) {
+            this.movingTetriMino.update(deltaTime);
+        } else {
+            this.movingTetriMino = new TetriMino(
                 GAME_CONFIG.cell.width * 5,
                 GAME_CONFIG.cell.height * 5,
                 0,
@@ -36,30 +60,19 @@ export class DefaultScene implements Scene {
                     new BoundaryCheckComponent(GridPixel.Width, GridPixel.Height)
                 ),
                 new RotationComponent()
-            )
-        );
-    }
-
-    update(deltaTime: number): void {
-        this.dynamicGameObjects.forEach((gameObject) => {
-            gameObject.update(deltaTime);
-        });
+            );
+        }
         this.grid.update();
     }
 
     render(context: CanvasRenderingContext2D): void {
         context.clearRect(0, 0, GAME_CONFIG.canvas.width, GAME_CONFIG.canvas.height);
         this.grid.render(context);
-
-        this.dynamicGameObjects.forEach((gameObject) => {
-            gameObject.render(context);
-        });
+        this.movingTetriMino.render(context);
     }
 
     processInput(input: InputSystem): void {
-        this.dynamicGameObjects.forEach((gameObject) => {
-            gameObject.processInput(input);
-        });
+        this.movingTetriMino.processInput(input);
     }
 
     close(): void {

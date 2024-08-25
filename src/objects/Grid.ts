@@ -60,6 +60,14 @@ export class Grid implements StaticGameObject {
         this.clearFilledRows();
     }
 
+    getColumnIndexFromX(x: number): number {
+        return Math.floor((x - this.x) / GAME_CONFIG.cell.width);
+    }
+
+    getRowIndexFromY(y: number): number {
+        return Math.floor((y - this.y) / GAME_CONFIG.cell.height);
+    }
+
     mapTetriMinoToGrid(tetriMino: TetriMino): void {
         const shape = TetriMinoShapes[tetriMino.getType()];
         const posX = tetriMino.x;
@@ -96,8 +104,14 @@ export class Grid implements StaticGameObject {
         });
     }
 
-    isWithinBounds(x: number, y: number): boolean {
-        return x >= 0 && x < GAME_CONFIG.grid.cols && y >= 0 && y < GAME_CONFIG.grid.rows;
+    /**
+     *
+     * @param column
+     * @param row
+     * @returns
+     */
+    isWithinBounds(column: number, row: number): boolean {
+        return column >= 0 && column < GAME_CONFIG.grid.cols && row >= 0 && row < GAME_CONFIG.grid.rows;
     }
 
     clearFilledRows(): void {
