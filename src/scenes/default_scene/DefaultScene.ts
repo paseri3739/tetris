@@ -17,7 +17,6 @@ export class DefaultScene implements Scene {
     constructor(game: Game) {
         this.game = game;
 
-        // 初期化時に静的オブジェクトにグリッドを追加
         this.grid = new Grid(0, 0);
 
         // 動的オブジェクトの初期化
@@ -49,7 +48,7 @@ export class DefaultScene implements Scene {
     }
 
     render(context: CanvasRenderingContext2D): void {
-        context.clearRect(0, 0, this.game.getCanvas().width, this.game.getCanvas().height);
+        context.clearRect(0, 0, GAME_CONFIG.canvas.width, GAME_CONFIG.canvas.height);
         this.grid.render(context);
 
         this.dynamicGameObjects.forEach((gameObject) => {
