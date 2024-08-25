@@ -100,12 +100,17 @@ export class TetriMino implements DynamicGameObject {
     }
 
     update(deltaTime: number): void {
+        if (this.state !== GameObjectState.Active) {
+            return;
+        }
+        if (this.movementComponent.isOufOfBoundary()) {
+            return;
+        }
         const currentTime = Date.now();
         if (currentTime - this.lastDropTime >= this.dropInterval) {
             this.y += 1 * GAME_CONFIG.cell.height; // 1秒ごとに1マス落下
             this.lastDropTime = currentTime;
         }
-
         this.movementComponent.update(deltaTime);
 
         this.components.forEach((component) => component.update(deltaTime));

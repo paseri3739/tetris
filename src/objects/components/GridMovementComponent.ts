@@ -25,12 +25,9 @@ export class GridMovementComponent implements GameComponent {
         const newX = this.owner.x + this.directionX * this.cellWidth;
         const newY = this.owner.y + this.directionY * this.cellHeight;
 
-        // 仮の位置をBoundaryCheckComponentで確認
-        if (!this.boundaryCheckComponent.isOutOfBoundary()) {
-            // 境界内であれば、位置を更新
-            this.owner.x = newX;
-            this.owner.y = newY;
-        }
+        // 境界内であれば、位置を更新
+        this.owner.x = newX;
+        this.owner.y = newY;
 
         // 移動後、方向をリセット
         this.directionX = 0;
@@ -51,5 +48,9 @@ export class GridMovementComponent implements GameComponent {
     setDirection(directionX: number, directionY: number): void {
         this.directionX = directionX;
         this.directionY = directionY;
+    }
+
+    isOufOfBoundary(): boolean {
+        return this.boundaryCheckComponent.isOutOfBoundary(this.owner.getShape(), this.owner.getX(), this.owner.getY());
     }
 }
