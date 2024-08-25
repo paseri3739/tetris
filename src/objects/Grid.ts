@@ -56,6 +56,10 @@ export class Grid implements StaticGameObject {
         }
     }
 
+    update(): void {
+        this.clearFilledRows();
+    }
+
     mapTetriMinoToGrid(tetriMino: TetriMino): void {
         const shape = TetriMinoShapes[tetriMino.getType()];
         const posX = tetriMino.x;
@@ -92,7 +96,36 @@ export class Grid implements StaticGameObject {
         });
     }
 
-    private isWithinBounds(x: number, y: number): boolean {
+    isWithinBounds(x: number, y: number): boolean {
         return x >= 0 && x < GAME_CONFIG.grid.cols && y >= 0 && y < GAME_CONFIG.grid.rows;
+    }
+
+    clearFilledRows(): void {
+        for (let i = 0; i < GAME_CONFIG.grid.rows; i++) {
+            const isRowFilled = this.cells[i].every((cell) => cell.cellStatus === CellStatus.Filled);
+            if (isRowFilled) {
+                this.cells.splice(i, 1);
+                this.cells.unshift(Array.from({ length: GAME_CONFIG.grid.cols }, () => new Cell(0, 0, CellStatus.Empty, 0, 0)));
+            }
+        }
+    }
+
+    isTetriMinoColliding(tetriMino: TetriMino): boolean {
+        const shape = TetriMinoShapes[tetriMino.getType()];
+        const posX = tetriMino.x;
+        const posY = tetriMino.y;
+
+        return shape.some((row, y) => {
+            return row.some((cell, x) => {
+                if (cell === 1) {
+                    const gridX = posX + x;
+                    const gridY = posY + y;
+                    if (this.isWithinBounds(gridX, gridY)) {
+                        return this.cells[gridY][gridX].cellStatus === CellStatus.Filled;
+                    }
+                }
+                return false;
+            });
+        });
     }
 }

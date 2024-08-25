@@ -1,7 +1,6 @@
 import { InputSystem } from "../../common/input_system/InputSystem.js";
 import { DynamicGameObject, GameObjectState } from "../../common/interfaces/DynamicGameObject.js";
 import { Scene } from "../../common/interfaces/Scene.js";
-import { StaticGameObject } from "../../common/interfaces/StaticGameObject.js";
 import { Game } from "../../Game.js";
 import { GAME_CONFIG } from "../../game_config.js";
 import { BoundaryCheckComponent } from "../../objects/components/BoundaryCheckComponent.js";
@@ -12,18 +11,16 @@ import { TetriMino, TetriMinoType } from "../../objects/TetriMino.js";
 
 export class DefaultScene implements Scene {
     game: Game;
-    staticGameObjects: StaticGameObject[];
-    dynamicGameObjects: DynamicGameObject[];
+    grid: Grid;
+    dynamicGameObjects: DynamicGameObject[] = [];
 
-    constructor(game: Game, staticGameObjects: StaticGameObject[] = [], dynamicGameObjects: DynamicGameObject[] = []) {
+    constructor(game: Game) {
         this.game = game;
 
         // 初期化時に静的オブジェクトにグリッドを追加
-        this.staticGameObjects = staticGameObjects;
-        this.staticGameObjects.push(new Grid(0, 0));
+        this.grid = new Grid(0, 0);
 
         // 動的オブジェクトの初期化
-        this.dynamicGameObjects = dynamicGameObjects;
         this.dynamicGameObjects.push(
             new TetriMino(
                 GAME_CONFIG.cell.width * 5,
@@ -31,7 +28,7 @@ export class DefaultScene implements Scene {
                 0,
                 0,
                 GameObjectState.Active,
-                this.staticGameObjects[0] as Grid,
+                this.grid,
                 [],
                 TetriMinoType.L,
                 new GridMovementComponent(
@@ -47,34 +44,16 @@ export class DefaultScene implements Scene {
         this.render(this.game.getContext());
     }
 
-    addDynamicGameObject(dynamicGameObject: DynamicGameObject): void {
-        this.dynamicGameObjects.push(dynamicGameObject);
-    }
-
-    addStaticGameObject(staticGameObject: StaticGameObject): void {
-        this.staticGameObjects.push(staticGameObject);
-    }
-
-    removeDynamicGameObject(dynamicGameObject: DynamicGameObject): void {
-        this.dynamicGameObjects = this.dynamicGameObjects.filter((obj) => obj !== dynamicGameObject);
-    }
-
-    removeStaticGameObject(staticGameObject: StaticGameObject): void {
-        this.staticGameObjects = this.staticGameObjects.filter((obj) => obj !== staticGameObject);
-    }
-
     update(deltaTime: number): void {
         this.dynamicGameObjects.forEach((gameObject) => {
             gameObject.update(deltaTime);
         });
+        this.grid.update();
     }
 
     render(context: CanvasRenderingContext2D): void {
         context.clearRect(0, 0, this.game.getCanvas().width, this.game.getCanvas().height);
-
-        this.staticGameObjects.forEach((gameObject) => {
-            gameObject.render(context);
-        });
+        this.grid.render(context);
 
         this.dynamicGameObjects.forEach((gameObject) => {
             gameObject.render(context);
@@ -89,6 +68,5 @@ export class DefaultScene implements Scene {
 
     close(): void {
         this.dynamicGameObjects = [];
-        this.staticGameObjects = [];
     }
 }
