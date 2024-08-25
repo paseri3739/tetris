@@ -23,6 +23,8 @@ export class TetriMino implements DynamicGameObject {
 
     private dropInterval: number = 1000; // 1秒ごとに1マス落下
     private lastDropTime: number = 0;
+    private rotationInterval: number = 200; // 回転可能な間隔（ミリ秒）
+    private lastRotationTime: number = 0; // 最後に回転を行った時刻
 
     constructor(
         x: number,
@@ -130,6 +132,7 @@ export class TetriMino implements DynamicGameObject {
 
     processInput(input: InputSystem): void {
         input.updateState();
+        const currentTime = Date.now();
 
         if (input.isKeyPressed("ArrowLeft")) {
             this.movementComponent.setDirection(-1, 0);
@@ -144,14 +147,18 @@ export class TetriMino implements DynamicGameObject {
             this.dropInterval = 1000; // 通常の落下速度に戻す
         }
 
-        if (input.isKeyPressed("z")) {
-            this.rotationComponent.setClockwise(false);
-            this.rotationComponent.update(0); // 回転を即座に適用
-        }
+        if (currentTime - this.lastRotationTime >= this.rotationInterval) {
+            if (input.isKeyPressed("z")) {
+                this.rotationComponent.setClockwise(false);
+                this.rotationComponent.update(0); // 回転を即座に適用
+                this.lastRotationTime = currentTime; // 最後に回転した時刻を更新
+            }
 
-        if (input.isKeyPressed("x")) {
-            this.rotationComponent.setClockwise(true);
-            this.rotationComponent.update(0); // 回転を即座に適用
+            if (input.isKeyPressed("x")) {
+                this.rotationComponent.setClockwise(true);
+                this.rotationComponent.update(0); // 回転を即座に適用
+                this.lastRotationTime = currentTime; // 最後に回転した時刻を更新
+            }
         }
     }
 
