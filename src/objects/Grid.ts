@@ -2,14 +2,10 @@ import { StaticGameObject } from "../common/interfaces/StaticGameObject.js";
 import { GAME_CONFIG } from "../game_config.js";
 import { Cell, CellStatus } from "./Cell.js";
 import { TetriMino, TetriMinoShapes } from "./TetriMino.js";
-export enum GridTable {
-    Rows = 20, // 20行
-    Cols = 10, // 10列
-}
 
 export enum GridPixel {
-    Width = GAME_CONFIG.cell.width * GridTable.Cols, // 300px
-    Height = GAME_CONFIG.cell.height * GridTable.Rows, // 600px
+    Width = GAME_CONFIG.cell.width * GAME_CONFIG.grid.cols, // 300px
+    Height = GAME_CONFIG.cell.height * GAME_CONFIG.grid.rows, // 600px
 }
 /**
  * Grid class represents a grid of cells.
@@ -23,9 +19,9 @@ export class Grid implements StaticGameObject {
         this.x = x;
         this.y = y;
         this.cells = [];
-        for (let i = 0; i < GridTable.Rows; i++) {
+        for (let i = 0; i < GAME_CONFIG.grid.rows; i++) {
             this.cells[i] = [];
-            for (let j = 0; j < GridTable.Cols; j++) {
+            for (let j = 0; j < GAME_CONFIG.grid.cols; j++) {
                 this.cells[i][j] = new Cell(
                     this.x + j * GAME_CONFIG.cell.width,
                     this.y + i * GAME_CONFIG.cell.height,
@@ -44,8 +40,8 @@ export class Grid implements StaticGameObject {
     }
 
     render(context: CanvasRenderingContext2D): void {
-        for (let i = 0; i < GridTable.Rows; i++) {
-            for (let j = 0; j < GridTable.Cols; j++) {
+        for (let i = 0; i < GAME_CONFIG.grid.rows; i++) {
+            for (let j = 0; j < GAME_CONFIG.grid.cols; j++) {
                 this.cells[i][j].render(context);
 
                 // セルの境界線を描画
@@ -97,6 +93,6 @@ export class Grid implements StaticGameObject {
     }
 
     private isWithinBounds(x: number, y: number): boolean {
-        return x >= 0 && x < GridTable.Cols && y >= 0 && y < GridTable.Rows;
+        return x >= 0 && x < GAME_CONFIG.grid.cols && y >= 0 && y < GAME_CONFIG.grid.rows;
     }
 }
