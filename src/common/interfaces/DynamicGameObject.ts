@@ -1,6 +1,7 @@
 import { InputSystem } from "../../common/input_system/InputSystem.js";
 import { GameComponent } from "./GameComponent.js";
 import { GameObject } from "./GameObject.js";
+import { Updatable } from "./Updatable.js";
 
 export enum GameObjectState {
     Active,
@@ -8,7 +9,7 @@ export enum GameObjectState {
     Destroyed,
 }
 
-export interface DynamicGameObject extends GameObject {
+export interface DynamicGameObject extends GameObject, Updatable {
     velocityX: number;
     velocityY: number;
     state: GameObjectState;
