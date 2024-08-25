@@ -39,9 +39,6 @@ export class DefaultScene implements Scene {
                 new RotationComponent()
             )
         );
-
-        // 初期描画
-        this.render(this.game.getContext());
     }
 
     update(deltaTime: number): void {
