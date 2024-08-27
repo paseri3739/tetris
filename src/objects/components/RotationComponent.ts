@@ -23,6 +23,10 @@ export class RotationComponent implements GameComponent {
         this.owner = owner;
     }
 
+    /**
+     * set rotation direction and make the component updatable
+     * @param isClockwise
+     */
     setClockwise(isClockwise: boolean): void {
         this.isClockwise = isClockwise;
         this.setUpdatable(true);
