@@ -112,6 +112,7 @@ export class TetriMino implements DynamicGameObject {
             this.lastDropTime = currentTime;
         }
         this.movementComponent.update(deltaTime);
+        this.rotationComponent.update(deltaTime);
 
         this.components.forEach((component) => component.update(deltaTime));
         this.mapToGrid();
@@ -155,13 +156,13 @@ export class TetriMino implements DynamicGameObject {
         if (currentTime - this.lastRotationTime >= this.rotationInterval) {
             if (input.isKeyPressed("z")) {
                 this.rotationComponent.setClockwise(false);
-                this.rotationComponent.update(0); // 回転を即座に適用
+                this.rotationComponent.setUpdatable(true);
                 this.lastRotationTime = currentTime; // 最後に回転した時刻を更新
             }
 
             if (input.isKeyPressed("x")) {
                 this.rotationComponent.setClockwise(true);
-                this.rotationComponent.update(0); // 回転を即座に適用
+                this.rotationComponent.setUpdatable(true);
                 this.lastRotationTime = currentTime; // 最後に回転した時刻を更新
             }
         }

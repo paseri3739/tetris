@@ -4,16 +4,18 @@ import { GameComponent } from "../../common/interfaces/GameComponent.js";
 export class RotationComponent implements GameComponent {
     owner!: DynamicGameObject & { getShape: () => number[][]; setShape: (shape: number[][]) => void };
     isClockwise: boolean;
+    isUpdatable = false;
 
     constructor(isClockwise: boolean = true) {
         this.isClockwise = isClockwise;
     }
 
     update(deltaTime: number): void {
-        if (this.owner) {
+        if (this.owner && this.isUpdatable) {
             const currentShape = this.owner.getShape();
             const rotatedShape = this.rotateTetriMino(currentShape, this.isClockwise ? "clockwise" : "counterclockwise");
             this.owner.setShape(rotatedShape);
+            this.setUpdatable(false);
         }
     }
 
@@ -23,6 +25,10 @@ export class RotationComponent implements GameComponent {
 
     setClockwise(isClockwise: boolean): void {
         this.isClockwise = isClockwise;
+    }
+
+    setUpdatable(isUpdatable: boolean): void {
+        this.isUpdatable = isUpdatable;
     }
 
     /**
