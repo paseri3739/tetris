@@ -25,9 +25,10 @@ export class RotationComponent implements GameComponent {
 
     setClockwise(isClockwise: boolean): void {
         this.isClockwise = isClockwise;
+        this.setUpdatable(true);
     }
 
-    setUpdatable(isUpdatable: boolean): void {
+    private setUpdatable(isUpdatable: boolean): void {
         this.isUpdatable = isUpdatable;
     }
 
