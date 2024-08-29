@@ -7,6 +7,22 @@ export enum GridPixel {
     Width = GAME_CONFIG.cell.width * GAME_CONFIG.grid.cols, // 300px
     Height = GAME_CONFIG.cell.height * GAME_CONFIG.grid.rows, // 600px
 }
+
+export function gridPositionToPixelPosition(x: number, y: number): { x: number; y: number } {
+    return {
+        x: x * GAME_CONFIG.cell.width,
+        y: y * GAME_CONFIG.cell.height,
+    };
+}
+
+export function gridPositionX(x: number): number {
+    return x * GAME_CONFIG.cell.width;
+}
+
+export function gridPositionY(y: number): number {
+    return y * GAME_CONFIG.cell.height;
+}
+
 /**
  * Grid class represents a grid of cells.
  */
