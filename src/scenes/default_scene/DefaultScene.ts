@@ -22,8 +22,8 @@ export class DefaultScene implements Scene {
 
         // 動的オブジェクトの初期化
         this.movingTetriMino = new TetriMino(
-            GAME_CONFIG.cell.width * 5,
-            GAME_CONFIG.cell.height * 5,
+            Grid.gridPositionX(5),
+            Grid.gridPositionY(5),
             0,
             0,
             GameObjectState.Active,
@@ -46,8 +46,8 @@ export class DefaultScene implements Scene {
             this.movingTetriMino.update(deltaTime);
         } else {
             this.movingTetriMino = new TetriMino(
-                GAME_CONFIG.cell.width * 5,
-                GAME_CONFIG.cell.height * 5,
+                Grid.gridPositionX(5),
+                Grid.gridPositionY(5),
                 0,
                 0,
                 GameObjectState.Active,
