@@ -1,10 +1,10 @@
-import { InputSystem } from "../common/input_system/InputSystem.js";
-import { DynamicGameObject, GameObjectState } from "../common/interfaces/DynamicGameObject.js";
-import { GameComponent } from "../common/interfaces/GameComponent.js";
-import { GAME_CONFIG } from "../game_config.js";
-import { GridMovementComponent } from "./components/GridMovementComponent.js";
-import { RotationComponent } from "./components/RotationComponent.js";
-import { Grid } from "./Grid.js";
+import { InputSystem } from "../common/input_system/InputSystem";
+import { DynamicGameObject, GameObjectState } from "../common/interfaces/DynamicGameObject";
+import { GameComponent } from "../common/interfaces/GameComponent";
+import { GAME_CONFIG } from "../game_config";
+import { GridMovementComponent } from "./components/GridMovementComponent";
+import { RotationComponent } from "./components/RotationComponent";
+import { Grid } from "./Grid";
 
 export class TetriMino implements DynamicGameObject {
     x: number;

@@ -1,8 +1,8 @@
-import { InputSystem } from "./common/input_system/InputSystem.js";
-import { KeyboardInput } from "./common/input_system/KeyboardInput.js";
-import { Scene } from "./common/interfaces/Scene.js";
-import { GAME_CONFIG } from "./game_config.js";
-import { DefaultScene } from "./scenes/default_scene/DefaultScene.js";
+import { InputSystem } from "./common/input_system/InputSystem";
+import { KeyboardInput } from "./common/input_system/KeyboardInput";
+import { Scene } from "./common/interfaces/Scene";
+import { GAME_CONFIG } from "./game_config";
+import { DefaultScene } from "./scenes/default_scene/DefaultScene";
 
 /**
  * GameLoop class. This class will handle the game loop.

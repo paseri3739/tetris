@@ -1,7 +1,7 @@
-import { InputSystem } from "../../common/input_system/InputSystem.js";
-import { GameComponent } from "./GameComponent.js";
-import { GameObject } from "./GameObject.js";
-import { Updatable } from "./Updatable.js";
+import { InputSystem } from "../../common/input_system/InputSystem";
+import { GameComponent } from "./GameComponent";
+import { GameObject } from "./GameObject";
+import { Updatable } from "./Updatable";
 
 export enum GameObjectState {
     Active,

@@ -1,7 +1,7 @@
-import { StaticGameObject } from "../common/interfaces/StaticGameObject.js";
-import { GAME_CONFIG } from "../game_config.js";
-import { Cell, CellStatus } from "./Cell.js";
-import { TetriMino, TetriMinoShapes } from "./TetriMino.js";
+import { StaticGameObject } from "../common/interfaces/StaticGameObject";
+import { GAME_CONFIG } from "../game_config";
+import { Cell, CellStatus } from "./Cell";
+import { TetriMino, TetriMinoShapes } from "./TetriMino";
 
 export enum GridPixel {
     Width = GAME_CONFIG.cell.width * GAME_CONFIG.grid.cols, // 300px

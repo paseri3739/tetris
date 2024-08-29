@@ -1,5 +1,5 @@
-import { DynamicGameObject } from "../../common/interfaces/DynamicGameObject.js";
-import { GameComponent } from "../../common/interfaces/GameComponent.js";
+import { DynamicGameObject } from "../../common/interfaces/DynamicGameObject";
+import { GameComponent } from "../../common/interfaces/GameComponent";
 
 export class RotationComponent implements GameComponent {
     owner!: DynamicGameObject & { getShape: () => number[][]; setShape: (shape: number[][]) => void };

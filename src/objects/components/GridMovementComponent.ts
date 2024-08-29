@@ -1,6 +1,6 @@
-import { DynamicGameObject } from "../../common/interfaces/DynamicGameObject.js";
-import { GameComponent } from "../../common/interfaces/GameComponent.js";
-import { BoundaryCheckComponent } from "./BoundaryCheckComponent.js"; // パスは適宜変更
+import { DynamicGameObject } from "../../common/interfaces/DynamicGameObject";
+import { GameComponent } from "../../common/interfaces/GameComponent";
+import { BoundaryCheckComponent } from "./BoundaryCheckComponent"; // パスは適宜変更
 
 export class GridMovementComponent implements GameComponent {
     owner!: DynamicGameObject & { x: number; y: number; getShape: () => number[][]; getX: () => number; getY: () => number };

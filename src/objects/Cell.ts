@@ -1,5 +1,5 @@
-import { StaticGameObject } from "../common/interfaces/StaticGameObject.js";
-import { GAME_CONFIG } from "../game_config.js";
+import { StaticGameObject } from "../common/interfaces/StaticGameObject";
+import { GAME_CONFIG } from "../game_config";
 
 export enum CellStatus {
     Empty = 0,
