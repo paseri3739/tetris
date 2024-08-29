@@ -8,21 +8,6 @@ export enum GridPixel {
     Height = GAME_CONFIG.cell.height * GAME_CONFIG.grid.rows, // 600px
 }
 
-export function gridPositionToPixelPosition(x: number, y: number): { x: number; y: number } {
-    return {
-        x: x * GAME_CONFIG.cell.width,
-        y: y * GAME_CONFIG.cell.height,
-    };
-}
-
-export function gridPositionX(x: number): number {
-    return x * GAME_CONFIG.cell.width;
-}
-
-export function gridPositionY(y: number): number {
-    return y * GAME_CONFIG.cell.height;
-}
-
 /**
  * Grid class represents a grid of cells.
  */
@@ -48,6 +33,22 @@ export class Grid implements StaticGameObject {
             }
         }
     }
+
+    static gridPositionToPixelPosition(x: number, y: number): { x: number; y: number } {
+        return {
+            x: x * GAME_CONFIG.cell.width,
+            y: y * GAME_CONFIG.cell.height,
+        };
+    }
+
+    static gridPositionX(x: number): number {
+        return x * GAME_CONFIG.cell.width;
+    }
+
+    static gridPositionY(y: number): number {
+        return y * GAME_CONFIG.cell.height;
+    }
+
     getX(): number {
         return this.x;
     }
