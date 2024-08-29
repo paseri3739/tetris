@@ -1,6 +1,7 @@
 const path = require("path");
 
 module.exports = {
+    mode: "development", // 開発モード
     entry: "./src/main.ts", // エントリーポイント
     module: {
         rules: [
