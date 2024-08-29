@@ -14,6 +14,8 @@ export enum GridPixel {
 export class Grid implements StaticGameObject {
     x: number;
     y: number;
+    width: number = GAME_CONFIG.cell.width * GAME_CONFIG.grid.cols;
+    height: number = GAME_CONFIG.cell.height * GAME_CONFIG.grid.rows;
     cells: Cell[][];
 
     constructor(x: number, y: number) {
@@ -47,6 +49,14 @@ export class Grid implements StaticGameObject {
 
     static gridPositionY(y: number): number {
         return y * GAME_CONFIG.cell.height;
+    }
+
+    getWidth(): number {
+        return this.width;
+    }
+
+    getHeight(): number {
+        return this.height;
     }
 
     getX(): number {
