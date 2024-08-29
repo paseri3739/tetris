@@ -18,4 +18,5 @@ module.exports = {
         filename: "bundle.js", // 出力されるファイル名
         path: path.resolve(__dirname, "dist"), // 出力ディレクトリ
     },
+    devtool: "source-map", // ソースマップの生成
 };
