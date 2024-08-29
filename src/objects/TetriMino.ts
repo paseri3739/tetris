@@ -230,17 +230,3 @@ export const TetriMinoShapes: {
         [0, 0, 0],
     ],
 });
-
-/**
- * RotateMatrix is an enum that represents the rotation matrix.
- */
-export const RotateMatrix = Object.freeze({
-    clockwise: [
-        [0, 1],
-        [-1, 0],
-    ],
-    counterclockwise: [
-        [0, -1],
-        [1, 0],
-    ],
-});
