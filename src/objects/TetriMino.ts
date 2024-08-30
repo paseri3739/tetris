@@ -111,9 +111,10 @@ export class TetriMino implements DynamicGameObject {
             this.y += 1 * Cell.cellHeight; // 1秒ごとに1マス落下
             this.lastDropTime = currentTime;
         }
+        // 更新を行う
         this.movementComponent.update(deltaTime);
+        // 回転可否はコンポーネント内のフラグにより自動で判断される
         this.rotationComponent.update(deltaTime);
-
         this.components.forEach((component) => component.update(deltaTime));
         this.mapToGrid();
     }
