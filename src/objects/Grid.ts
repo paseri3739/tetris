@@ -1,7 +1,7 @@
 import { StaticGameObject } from "../common/interfaces/StaticGameObject";
 import { GAME_CONFIG } from "../game_config";
 import { Cell, CellStatus } from "./Cell";
-import { TetriMino, TetriMinoShapes } from "./TetriMino";
+import { TetriMino } from "./TetriMino";
 
 export enum GridPixel {
     Width = GAME_CONFIG.cell.width * GAME_CONFIG.grid.cols, // 300px
@@ -89,7 +89,7 @@ export class Grid implements StaticGameObject {
     }
 
     mapTetriMinoToGrid(tetriMino: TetriMino): void {
-        const shape = TetriMinoShapes[tetriMino.getType()];
+        const shape = tetriMino.getShape();
         const posX = tetriMino.x;
         const posY = tetriMino.y;
 
@@ -107,7 +107,7 @@ export class Grid implements StaticGameObject {
     }
 
     unmapTetriMinoFromGrid(tetriMino: TetriMino): void {
-        const shape = TetriMinoShapes[tetriMino.getType()];
+        const shape = tetriMino.getShape();
         const posX = tetriMino.x;
         const posY = tetriMino.y;
 
