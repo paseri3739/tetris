@@ -10,10 +10,10 @@ export class Grid implements StaticGameObject {
     private x: number;
     private y: number;
     private cells: Cell[][];
-    static width: number = GAME_CONFIG.cell.width * GAME_CONFIG.grid.cols;
-    static height: number = GAME_CONFIG.cell.height * GAME_CONFIG.grid.rows;
-    static rows: number = GAME_CONFIG.grid.rows;
-    static cols: number = GAME_CONFIG.grid.cols;
+    static readonly width: number = GAME_CONFIG.cell.width * GAME_CONFIG.grid.cols;
+    static readonly height: number = GAME_CONFIG.cell.height * GAME_CONFIG.grid.rows;
+    static readonly rows: number = GAME_CONFIG.grid.rows;
+    static readonly cols: number = GAME_CONFIG.grid.cols;
 
     constructor(x: number, y: number) {
         this.x = x;
