@@ -36,17 +36,17 @@ export class Grid implements StaticGameObject {
 
     static gridPositionToPixelPosition(x: number, y: number): { x: number; y: number } {
         return {
-            x: x * GAME_CONFIG.cell.width,
-            y: y * GAME_CONFIG.cell.height,
+            x: x * Cell.cellWidth,
+            y: y * Cell.cellHeight,
         };
     }
 
     static gridPositionX(x: number): number {
-        return x * GAME_CONFIG.cell.width;
+        return x * Cell.cellWidth;
     }
 
     static gridPositionY(y: number): number {
-        return y * GAME_CONFIG.cell.height;
+        return y * Cell.cellHeight;
     }
 
     static getColumnIndexFromX(x: number): number {
