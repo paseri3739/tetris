@@ -2,9 +2,9 @@ import { DynamicGameObject } from "../../common/interfaces/DynamicGameObject";
 import { GameComponent } from "../../common/interfaces/GameComponent";
 
 export class RotationComponent implements GameComponent {
-    owner!: DynamicGameObject & { getShape: () => number[][]; setShape: (shape: number[][]) => void };
-    isClockwise: boolean;
-    isUpdatable = false;
+    private owner!: DynamicGameObject & { getShape: () => number[][]; setShape: (shape: number[][]) => void };
+    private isClockwise: boolean;
+    private isUpdatable = false;
 
     constructor(isClockwise: boolean = true) {
         this.isClockwise = isClockwise;

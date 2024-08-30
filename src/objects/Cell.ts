@@ -10,9 +10,9 @@ export enum CellStatus {
  * Cell class represents a single cell in the grid.
  */
 export class Cell implements StaticGameObject {
-    x: number;
-    y: number;
-    cellStatus: CellStatus = CellStatus.Empty;
+    private x: number;
+    private y: number;
+    private cellStatus: CellStatus = CellStatus.Empty;
     static cellWidth: number = GAME_CONFIG.cell.width;
     static cellHeight: number = GAME_CONFIG.cell.height;
 
@@ -26,6 +26,14 @@ export class Cell implements StaticGameObject {
     }
     getY(): number {
         return this.y;
+    }
+
+    setCellStatus(cellStatus: CellStatus): void {
+        this.cellStatus = cellStatus;
+    }
+
+    getCellStatus(): CellStatus {
+        return this.cellStatus;
     }
 
     render(context: CanvasRenderingContext2D | null): void {

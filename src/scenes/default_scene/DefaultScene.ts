@@ -11,10 +11,10 @@ import { Grid } from "../../objects/Grid";
 import { TetriMino, TetriMinoType } from "../../objects/TetriMino";
 
 export class DefaultScene implements Scene {
-    game: Game;
-    grid: Grid;
-    dynamicGameObjects: DynamicGameObject[] = [];
-    movingTetriMino: TetriMino;
+    private game: Game;
+    private grid: Grid;
+    private dynamicGameObjects: DynamicGameObject[] = [];
+    private movingTetriMino: TetriMino;
 
     constructor(game: Game) {
         this.game = game;
@@ -25,8 +25,6 @@ export class DefaultScene implements Scene {
         this.movingTetriMino = new TetriMino(
             Grid.gridPositionX(5),
             Grid.gridPositionY(5),
-            0,
-            0,
             GameObjectState.Active,
             this.grid,
             [],
@@ -36,17 +34,23 @@ export class DefaultScene implements Scene {
         );
     }
 
+    getGame(): Game {
+        return this.game;
+    }
+
+    getDynamicGameObjects(): DynamicGameObject[] {
+        return this.dynamicGameObjects;
+    }
+
     update(deltaTime: number): void {
-        const column = Grid.getColumnIndexFromX(this.movingTetriMino.x);
-        const row = Grid.getRowIndexFromY(this.movingTetriMino.y);
+        const column = Grid.getColumnIndexFromX(this.movingTetriMino.getX());
+        const row = Grid.getRowIndexFromY(this.movingTetriMino.getY());
         if (this.grid.isWithinBounds(column, row)) {
             this.movingTetriMino.update(deltaTime);
         } else {
             this.movingTetriMino = new TetriMino(
                 Grid.gridPositionX(5),
                 Grid.gridPositionY(5),
-                0,
-                0,
                 GameObjectState.Active,
                 this.grid,
                 [],

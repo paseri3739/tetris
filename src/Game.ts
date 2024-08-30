@@ -66,7 +66,6 @@ export class Game {
 
     addScene(scene: Scene) {
         this.scenes.push(scene);
-        scene.game = this;
     }
 
     removeScene(scene: Scene) {
@@ -82,7 +81,6 @@ export class Game {
             this.currentScene.close();
         }
         this.currentScene = scene;
-        scene.game = this;
     }
 
     /**

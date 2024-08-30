@@ -7,13 +7,13 @@ import { TetriMino } from "./TetriMino";
  * Grid class represents a grid of cells.
  */
 export class Grid implements StaticGameObject {
-    x: number;
-    y: number;
+    private x: number;
+    private y: number;
+    private cells: Cell[][];
     static width: number = GAME_CONFIG.cell.width * GAME_CONFIG.grid.cols;
     static height: number = GAME_CONFIG.cell.height * GAME_CONFIG.grid.rows;
     static rows: number = GAME_CONFIG.grid.rows;
     static cols: number = GAME_CONFIG.grid.cols;
-    cells: Cell[][];
 
     constructor(x: number, y: number) {
         this.x = x;
@@ -72,7 +72,7 @@ export class Grid implements StaticGameObject {
 
                 // セルの境界線を描画
                 context.strokeStyle = "black";
-                context.strokeRect(this.cells[i][j].x, this.cells[i][j].y, Cell.cellWidth, Cell.cellHeight);
+                context.strokeRect(this.cells[i][j].getX(), this.cells[i][j].getY(), Cell.cellWidth, Cell.cellHeight);
             }
         }
     }
@@ -83,8 +83,8 @@ export class Grid implements StaticGameObject {
 
     mapTetriMinoToGrid(tetriMino: TetriMino): void {
         const shape = tetriMino.getShape();
-        const posX = tetriMino.x;
-        const posY = tetriMino.y;
+        const posX = tetriMino.getX();
+        const posY = tetriMino.getY();
 
         shape.forEach((row, y) => {
             row.forEach((cell, x) => {
@@ -92,7 +92,7 @@ export class Grid implements StaticGameObject {
                     const gridX = posX + x;
                     const gridY = posY + y;
                     if (this.isWithinBounds(gridX, gridY)) {
-                        this.cells[gridY][gridX].cellStatus = CellStatus.Filled;
+                        this.cells[gridY][gridX].setCellStatus(CellStatus.Filled);
                     }
                 }
             });
@@ -101,8 +101,8 @@ export class Grid implements StaticGameObject {
 
     unmapTetriMinoFromGrid(tetriMino: TetriMino): void {
         const shape = tetriMino.getShape();
-        const posX = tetriMino.x;
-        const posY = tetriMino.y;
+        const posX = tetriMino.getX();
+        const posY = tetriMino.getY();
 
         shape.forEach((row, y) => {
             row.forEach((cell, x) => {
@@ -110,7 +110,7 @@ export class Grid implements StaticGameObject {
                     const gridX = posX + x;
                     const gridY = posY + y;
                     if (this.isWithinBounds(gridX, gridY)) {
-                        this.cells[gridY][gridX].cellStatus = CellStatus.Empty;
+                        this.cells[gridY][gridX].setCellStatus(CellStatus.Empty);
                     }
                 }
             });
@@ -129,7 +129,7 @@ export class Grid implements StaticGameObject {
 
     clearFilledRows(): void {
         for (let i = 0; i < Grid.rows; i++) {
-            const isRowFilled = this.cells[i].every((cell) => cell.cellStatus === CellStatus.Filled);
+            const isRowFilled = this.cells[i].every((cell) => cell.getCellStatus() === CellStatus.Filled);
             if (isRowFilled) {
                 this.cells.splice(i, 1);
                 this.cells.unshift(Array.from({ length: Grid.cols }, () => new Cell(0, 0, CellStatus.Empty)));
@@ -139,8 +139,8 @@ export class Grid implements StaticGameObject {
 
     isTetriMinoColliding(tetriMino: TetriMino): boolean {
         const shape = tetriMino.getShape();
-        const posX = tetriMino.x;
-        const posY = tetriMino.y;
+        const posX = tetriMino.getX();
+        const posY = tetriMino.getY();
 
         return shape.some((row, y) => {
             return row.some((cell, x) => {
@@ -148,7 +148,7 @@ export class Grid implements StaticGameObject {
                     const gridX = posX + x;
                     const gridY = posY + y;
                     if (this.isWithinBounds(gridX, gridY)) {
-                        return this.cells[gridY][gridX].cellStatus === CellStatus.Filled;
+                        return this.cells[gridY][gridX].setCellStatus(CellStatus.Filled);
                     }
                 }
                 return false;

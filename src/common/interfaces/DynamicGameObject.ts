@@ -10,10 +10,8 @@ export enum GameObjectState {
 }
 
 export interface DynamicGameObject extends GameObject, Updatable {
-    velocityX: number;
-    velocityY: number;
-    state: GameObjectState;
-    components: GameComponent[];
+    setX(x: number): void;
+    setY(y: number): void;
     setState(state: GameObjectState): void;
     getState(): GameObjectState;
     update(deltaTime: number): void;

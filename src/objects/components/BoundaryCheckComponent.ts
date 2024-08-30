@@ -2,7 +2,7 @@ import { DynamicGameObject } from "../../common/interfaces/DynamicGameObject";
 import { GameComponent } from "../../common/interfaces/GameComponent";
 
 export class BoundaryCheckComponent implements GameComponent {
-    owner!: DynamicGameObject & { getShape: () => number[][]; getX: () => number; getY: () => number };
+    private owner!: DynamicGameObject;
     private readonly gameWidth: number;
     private readonly gameHeight: number;
 
@@ -13,7 +13,7 @@ export class BoundaryCheckComponent implements GameComponent {
 
     update(deltaTime: number): void {}
 
-    setOwner(owner: DynamicGameObject & { getShape: () => number[][]; getX: () => number; getY: () => number }): void {
+    setOwner(owner: DynamicGameObject): void {
         this.owner = owner;
     }
 

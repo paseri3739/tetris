@@ -7,13 +7,11 @@ import { RotationComponent } from "./components/RotationComponent";
 import { Grid } from "./Grid";
 
 export class TetriMino implements DynamicGameObject {
-    x: number;
-    y: number;
-    velocityX: number;
-    velocityY: number;
-    grid: Grid;
-    state: GameObjectState;
-    components: GameComponent[];
+    private x: number;
+    private y: number;
+    private grid: Grid;
+    private state: GameObjectState;
+    private components: GameComponent[];
     private readonly type: TetriMinoType;
     private shape: number[][];
     private readonly movementComponent: GridMovementComponent;
@@ -29,8 +27,6 @@ export class TetriMino implements DynamicGameObject {
     constructor(
         x: number,
         y: number,
-        velocityX: number = 0,
-        velocityY: number = 1, // デフォルトで下方向の速度を1に設定
         state: GameObjectState = GameObjectState.Active,
         grid: Grid,
         components: GameComponent[] = [],
@@ -40,8 +36,6 @@ export class TetriMino implements DynamicGameObject {
     ) {
         this.x = x;
         this.y = y;
-        this.velocityX = velocityX;
-        this.velocityY = velocityY;
         this.state = state;
         this.grid = grid;
         this.components = components;
@@ -52,6 +46,12 @@ export class TetriMino implements DynamicGameObject {
         this.rotationComponent = rotationComponent;
         this.rotationComponent.setOwner(this);
         this.currentColor = this.getRandomColor();
+    }
+    setX(x: number): void {
+        this.x = x;
+    }
+    setY(y: number): void {
+        this.y = y;
     }
 
     private getRandomColor(): string {
