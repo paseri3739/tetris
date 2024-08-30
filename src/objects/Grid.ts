@@ -128,7 +128,7 @@ export class Grid implements StaticGameObject {
     }
 
     clearFilledRows(): void {
-        for (let i = 0; i < GAME_CONFIG.grid.rows; i++) {
+        for (let i = 0; i < Grid.rows; i++) {
             const isRowFilled = this.cells[i].every((cell) => cell.cellStatus === CellStatus.Filled);
             if (isRowFilled) {
                 this.cells.splice(i, 1);

@@ -1,7 +1,7 @@
 import { InputSystem } from "../common/input_system/InputSystem";
 import { DynamicGameObject, GameObjectState } from "../common/interfaces/DynamicGameObject";
 import { GameComponent } from "../common/interfaces/GameComponent";
-import { GAME_CONFIG } from "../game_config";
+import { Cell } from "./Cell";
 import { GridMovementComponent } from "./components/GridMovementComponent";
 import { RotationComponent } from "./components/RotationComponent";
 import { Grid } from "./Grid";
@@ -108,7 +108,7 @@ export class TetriMino implements DynamicGameObject {
         }
         const currentTime = Date.now();
         if (currentTime - this.lastDropTime >= this.dropInterval) {
-            this.y += 1 * GAME_CONFIG.cell.height; // 1秒ごとに1マス落下
+            this.y += 1 * Cell.cellHeight; // 1秒ごとに1マス落下
             this.lastDropTime = currentTime;
         }
         this.movementComponent.update(deltaTime);
@@ -125,12 +125,7 @@ export class TetriMino implements DynamicGameObject {
         shape.forEach((row, y) => {
             row.forEach((cell, x) => {
                 if (cell) {
-                    context.fillRect(
-                        this.x + x * GAME_CONFIG.cell.width,
-                        this.y + y * GAME_CONFIG.cell.height,
-                        GAME_CONFIG.cell.width,
-                        GAME_CONFIG.cell.height
-                    );
+                    context.fillRect(this.x + x * Cell.cellWidth, this.y + y * Cell.cellHeight, Cell.cellWidth, Cell.cellHeight);
                 }
             });
         });
