@@ -3,10 +3,11 @@ import { DynamicGameObject, GameObjectState } from "../../common/interfaces/Dyna
 import { Scene } from "../../common/interfaces/Scene";
 import { Game } from "../../Game";
 import { GAME_CONFIG } from "../../game_config";
+import { Cell } from "../../objects/Cell";
 import { BoundaryCheckComponent } from "../../objects/components/BoundaryCheckComponent";
 import { GridMovementComponent } from "../../objects/components/GridMovementComponent";
 import { RotationComponent } from "../../objects/components/RotationComponent";
-import { Grid, GridPixel } from "../../objects/Grid";
+import { Grid } from "../../objects/Grid";
 import { TetriMino, TetriMinoType } from "../../objects/TetriMino";
 
 export class DefaultScene implements Scene {
@@ -30,11 +31,7 @@ export class DefaultScene implements Scene {
             this.grid,
             [],
             TetriMinoType.L,
-            new GridMovementComponent(
-                GAME_CONFIG.cell.width,
-                GAME_CONFIG.cell.height,
-                new BoundaryCheckComponent(GridPixel.Width, GridPixel.Height)
-            ),
+            new GridMovementComponent(Cell.cellWidth, Cell.cellHeight, new BoundaryCheckComponent(Grid.width, Grid.height)),
             new RotationComponent()
         );
     }
@@ -54,11 +51,7 @@ export class DefaultScene implements Scene {
                 this.grid,
                 [],
                 TetriMinoType.L,
-                new GridMovementComponent(
-                    GAME_CONFIG.cell.width,
-                    GAME_CONFIG.cell.height,
-                    new BoundaryCheckComponent(GridPixel.Width, GridPixel.Height)
-                ),
+                new GridMovementComponent(Cell.cellWidth, Cell.cellHeight, new BoundaryCheckComponent(Grid.width, Grid.height)),
                 new RotationComponent()
             );
         }

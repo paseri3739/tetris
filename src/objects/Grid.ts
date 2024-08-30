@@ -3,11 +3,6 @@ import { GAME_CONFIG } from "../game_config";
 import { Cell, CellStatus } from "./Cell";
 import { TetriMino } from "./TetriMino";
 
-export enum GridPixel {
-    Width = GAME_CONFIG.cell.width * GAME_CONFIG.grid.cols, // 300px
-    Height = GAME_CONFIG.cell.height * GAME_CONFIG.grid.rows, // 600px
-}
-
 /**
  * Grid class represents a grid of cells.
  */
