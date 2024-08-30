@@ -28,9 +28,7 @@ export class Grid implements StaticGameObject {
                 this.cells[i][j] = new Cell(
                     this.x + j * GAME_CONFIG.cell.width,
                     this.y + i * GAME_CONFIG.cell.height,
-                    CellStatus.Empty,
-                    GAME_CONFIG.cell.width,
-                    GAME_CONFIG.cell.height
+                    CellStatus.Empty
                 );
             }
         }
@@ -49,6 +47,14 @@ export class Grid implements StaticGameObject {
 
     static gridPositionY(y: number): number {
         return y * GAME_CONFIG.cell.height;
+    }
+
+    static getColumnIndexFromX(x: number): number {
+        return Math.floor(x / GAME_CONFIG.cell.width);
+    }
+
+    static getRowIndexFromY(y: number): number {
+        return Math.floor(y / GAME_CONFIG.cell.height);
     }
 
     getWidth(): number {
@@ -73,26 +79,13 @@ export class Grid implements StaticGameObject {
 
                 // セルの境界線を描画
                 context.strokeStyle = "black";
-                context.strokeRect(
-                    this.cells[i][j].x,
-                    this.cells[i][j].y,
-                    this.cells[i][j].cellWidth,
-                    this.cells[i][j].cellHeight
-                );
+                context.strokeRect(this.cells[i][j].x, this.cells[i][j].y, Cell.cellWidth, Cell.cellHeight);
             }
         }
     }
 
     update(): void {
         this.clearFilledRows();
-    }
-
-    getColumnIndexFromX(x: number): number {
-        return Math.floor((x - this.x) / GAME_CONFIG.cell.width);
-    }
-
-    getRowIndexFromY(y: number): number {
-        return Math.floor((y - this.y) / GAME_CONFIG.cell.height);
     }
 
     mapTetriMinoToGrid(tetriMino: TetriMino): void {
@@ -146,13 +139,13 @@ export class Grid implements StaticGameObject {
             const isRowFilled = this.cells[i].every((cell) => cell.cellStatus === CellStatus.Filled);
             if (isRowFilled) {
                 this.cells.splice(i, 1);
-                this.cells.unshift(Array.from({ length: GAME_CONFIG.grid.cols }, () => new Cell(0, 0, CellStatus.Empty, 0, 0)));
+                this.cells.unshift(Array.from({ length: GAME_CONFIG.grid.cols }, () => new Cell(0, 0, CellStatus.Empty)));
             }
         }
     }
 
     isTetriMinoColliding(tetriMino: TetriMino): boolean {
-        const shape = TetriMinoShapes[tetriMino.getType()];
+        const shape = tetriMino.getShape();
         const posX = tetriMino.x;
         const posY = tetriMino.y;
 

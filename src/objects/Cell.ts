@@ -13,15 +13,13 @@ export class Cell implements StaticGameObject {
     x: number;
     y: number;
     cellStatus: CellStatus = CellStatus.Empty;
-    cellWidth: number = GAME_CONFIG.cell.width;
-    cellHeight: number = GAME_CONFIG.cell.height;
+    static cellWidth: number = GAME_CONFIG.cell.width;
+    static cellHeight: number = GAME_CONFIG.cell.height;
 
-    constructor(x: number, y: number, cellStatus: CellStatus, cellWidth: number, cellHeight: number) {
+    constructor(x: number, y: number, cellStatus: CellStatus) {
         this.x = x;
         this.y = y;
         this.cellStatus = cellStatus;
-        this.cellWidth = cellWidth;
-        this.cellHeight = cellHeight;
     }
     getX(): number {
         return this.x;
@@ -37,6 +35,6 @@ export class Cell implements StaticGameObject {
         }
 
         context.fillStyle = this.cellStatus === CellStatus.Empty ? "white" : "black";
-        context.fillRect(this.x, this.y, this.cellWidth, this.cellHeight);
+        context.fillRect(this.x, this.y, Cell.cellWidth, Cell.cellHeight);
     }
 }

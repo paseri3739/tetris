@@ -40,8 +40,8 @@ export class DefaultScene implements Scene {
     }
 
     update(deltaTime: number): void {
-        const column = this.grid.getColumnIndexFromX(this.movingTetriMino.x);
-        const row = this.grid.getRowIndexFromY(this.movingTetriMino.y);
+        const column = Grid.getColumnIndexFromX(this.movingTetriMino.x);
+        const row = Grid.getRowIndexFromY(this.movingTetriMino.y);
         if (this.grid.isWithinBounds(column, row)) {
             this.movingTetriMino.update(deltaTime);
         } else {
