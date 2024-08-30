@@ -16,20 +16,18 @@ export class Grid implements StaticGameObject {
     y: number;
     static width: number = GAME_CONFIG.cell.width * GAME_CONFIG.grid.cols;
     static height: number = GAME_CONFIG.cell.height * GAME_CONFIG.grid.rows;
+    static rows: number = GAME_CONFIG.grid.rows;
+    static cols: number = GAME_CONFIG.grid.cols;
     cells: Cell[][];
 
     constructor(x: number, y: number) {
         this.x = x;
         this.y = y;
         this.cells = [];
-        for (let i = 0; i < GAME_CONFIG.grid.rows; i++) {
+        for (let i = 0; i < Grid.rows; i++) {
             this.cells[i] = [];
-            for (let j = 0; j < GAME_CONFIG.grid.cols; j++) {
-                this.cells[i][j] = new Cell(
-                    this.x + j * GAME_CONFIG.cell.width,
-                    this.y + i * GAME_CONFIG.cell.height,
-                    CellStatus.Empty
-                );
+            for (let j = 0; j < Grid.cols; j++) {
+                this.cells[i][j] = new Cell(this.x + j * Cell.cellWidth, this.y + i * Cell.cellHeight, CellStatus.Empty);
             }
         }
     }
@@ -50,11 +48,11 @@ export class Grid implements StaticGameObject {
     }
 
     static getColumnIndexFromX(x: number): number {
-        return Math.floor(x / GAME_CONFIG.cell.width);
+        return Math.floor(x / Cell.cellWidth);
     }
 
     static getRowIndexFromY(y: number): number {
-        return Math.floor(y / GAME_CONFIG.cell.height);
+        return Math.floor(y / Cell.cellHeight);
     }
 
     static getWidth(): number {
@@ -73,8 +71,8 @@ export class Grid implements StaticGameObject {
     }
 
     render(context: CanvasRenderingContext2D): void {
-        for (let i = 0; i < GAME_CONFIG.grid.rows; i++) {
-            for (let j = 0; j < GAME_CONFIG.grid.cols; j++) {
+        for (let i = 0; i < Grid.rows; i++) {
+            for (let j = 0; j < Grid.cols; j++) {
                 this.cells[i][j].render(context);
 
                 // セルの境界線を描画
@@ -131,7 +129,7 @@ export class Grid implements StaticGameObject {
      * @returns
      */
     isWithinBounds(column: number, row: number): boolean {
-        return column >= 0 && column < GAME_CONFIG.grid.cols && row >= 0 && row < GAME_CONFIG.grid.rows;
+        return column >= 0 && column < Grid.cols && row >= 0 && row < Grid.rows;
     }
 
     clearFilledRows(): void {
@@ -139,7 +137,7 @@ export class Grid implements StaticGameObject {
             const isRowFilled = this.cells[i].every((cell) => cell.cellStatus === CellStatus.Filled);
             if (isRowFilled) {
                 this.cells.splice(i, 1);
-                this.cells.unshift(Array.from({ length: GAME_CONFIG.grid.cols }, () => new Cell(0, 0, CellStatus.Empty)));
+                this.cells.unshift(Array.from({ length: Grid.cols }, () => new Cell(0, 0, CellStatus.Empty)));
             }
         }
     }
