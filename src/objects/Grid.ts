@@ -76,15 +76,15 @@ export class Grid implements StaticGameObject {
     }
 
     render(context: CanvasRenderingContext2D): void {
-        for (let i = 0; i < Grid.rows; i++) {
-            for (let j = 0; j < Grid.cols; j++) {
-                this.cells[i][j].render(context);
+        this.cells.forEach((row) => {
+            row.forEach((cell) => {
+                cell.render(context);
 
                 // セルの境界線を描画
                 context.strokeStyle = "black";
-                context.strokeRect(this.cells[i][j].getX(), this.cells[i][j].getY(), Cell.cellWidth, Cell.cellHeight);
-            }
-        }
+                context.strokeRect(cell.getX(), cell.getY(), Cell.cellWidth, Cell.cellHeight);
+            });
+        });
     }
 
     update(): void {
