@@ -27,35 +27,45 @@ export class Grid implements StaticGameObject {
         }
     }
 
-    static gridPositionToPixelPosition(x: number, y: number): { x: number; y: number } {
-        return {
-            x: x * Cell.cellWidth,
-            y: y * Cell.cellHeight,
-        };
-    }
-
-    static gridPositionX(x: number): number {
-        return x * Cell.cellWidth;
-    }
-
-    static gridPositionY(y: number): number {
-        return y * Cell.cellHeight;
-    }
-
-    static getColumnIndexFromX(x: number): number {
-        return Math.floor(x / Cell.cellWidth);
-    }
-
-    static getRowIndexFromY(y: number): number {
-        return Math.floor(y / Cell.cellHeight);
-    }
-
     static getWidth(): number {
         return Grid.width;
     }
 
     static getHeight(): number {
         return Grid.height;
+    }
+
+    gridPositionToPixelPosition(x: number, y: number): { x: number; y: number } {
+        return {
+            x: x * Cell.cellWidth + this.x,
+            y: y * Cell.cellHeight + this.y,
+        };
+    }
+
+    gridPositionX(x: number): number {
+        return x * Cell.cellWidth + this.x;
+    }
+
+    gridPositionY(y: number): number {
+        return y * Cell.cellHeight + this.y;
+    }
+
+    /**
+     * 与えられたx座標から、このグリッドインスタンス内での列のインデックスを取得します。
+     * @param x グリッド内でのx座標
+     * @returns 列のインデックス
+     */
+    getColumnIndexFromX(x: number): number {
+        return Math.floor((x - this.x) / Cell.cellWidth);
+    }
+
+    /**
+     * 与えられたy座標から、このグリッドインスタンス内での行のインデックスを取得します。
+     * @param y グリッド内でのy座標
+     * @returns 行のインデックス
+     */
+    getRowIndexFromY(y: number): number {
+        return Math.floor((y - this.y) / Cell.cellHeight);
     }
 
     getX(): number {
@@ -79,6 +89,37 @@ export class Grid implements StaticGameObject {
 
     update(): void {
         this.clearFilledRows();
+    }
+
+    /**
+     * グリッド上の相対座標を取得します。
+     * @param columnIndex 列のインデックス
+     * @param rowIndex 行のインデックス
+     * @returns 相対座標 { x: number, y: number }
+     */
+    getRelativePosition(columnIndex: number, rowIndex: number): { x: number; y: number } {
+        if (!this.isWithinBounds(columnIndex, rowIndex)) {
+            throw new Error("指定されたインデックスはグリッドの範囲外です");
+        }
+        return {
+            x: columnIndex * Cell.cellWidth - this.x,
+            y: rowIndex * Cell.cellHeight - this.y,
+        };
+    }
+
+    /**
+     * 与えられた座標からグリッド上の行と列のインデックスを取得します。
+     * @param x 相対座標系でのX位置
+     * @param y 相対座標系でのY位置
+     * @returns インデックス { column: number, row: number }
+     */
+    getGridIndexFromRelativePosition(x: number, y: number): { column: number; row: number } {
+        const columnIndex = Math.floor((x + this.x) / Cell.cellWidth);
+        const rowIndex = Math.floor((y + this.y) / Cell.cellHeight);
+        if (!this.isWithinBounds(columnIndex, rowIndex)) {
+            throw new Error("計算されたインデックスはグリッドの範囲外です");
+        }
+        return { column: columnIndex, row: rowIndex };
     }
 
     mapTetriMinoToGrid(tetriMino: TetriMino): void {
@@ -124,9 +165,9 @@ export class Grid implements StaticGameObject {
      * @returns
      */
     isWithinBounds(column: number, row: number): boolean {
+        // TODO: 判定ロジックを変更する
         return column >= 0 && column < Grid.cols && row >= 0 && row < Grid.rows;
     }
-
     clearFilledRows(): void {
         for (let i = 0; i < Grid.rows; i++) {
             const isRowFilled = this.cells[i].every((cell) => cell.getCellStatus() === CellStatus.Filled);

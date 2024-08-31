@@ -23,8 +23,8 @@ export class DefaultScene implements Scene {
 
         // 動的オブジェクトの初期化
         this.movingTetriMino = new TetriMino(
-            Grid.gridPositionX(5),
-            Grid.gridPositionY(5),
+            this.grid.gridPositionX(5),
+            this.grid.gridPositionY(5),
             GameObjectState.Active,
             this.grid,
             [],
@@ -43,14 +43,14 @@ export class DefaultScene implements Scene {
     }
 
     update(deltaTime: number): void {
-        const column = Grid.getColumnIndexFromX(this.movingTetriMino.getX());
-        const row = Grid.getRowIndexFromY(this.movingTetriMino.getY());
+        const column = this.grid.getColumnIndexFromX(this.movingTetriMino.getX());
+        const row = this.grid.getRowIndexFromY(this.movingTetriMino.getY());
         if (this.grid.isWithinBounds(column, row)) {
             this.movingTetriMino.update(deltaTime);
         } else {
             this.movingTetriMino = new TetriMino(
-                Grid.gridPositionX(5),
-                Grid.gridPositionY(5),
+                this.grid.gridPositionX(5),
+                this.grid.gridPositionY(5),
                 GameObjectState.Active,
                 this.grid,
                 [],
