@@ -1,7 +1,7 @@
 import { InputSystem } from "../common/input_system/InputSystem";
 import { DynamicGameObject, GameObjectState } from "../common/interfaces/DynamicGameObject";
 import { GameComponent } from "../common/interfaces/GameComponent";
-import { Cell } from "./Cell";
+import { Cell, CellStatus } from "./Cell";
 import { GridMovementComponent } from "./components/GridMovementComponent";
 import { RotationComponent } from "./components/RotationComponent";
 import { Grid } from "./Grid";
@@ -182,7 +182,7 @@ export class TetriMino implements DynamicGameObject {
         const filledCells: { x: number; y: number }[] = [];
         this.shape.forEach((row, rowIndex) => {
             row.forEach((cell, colIndex) => {
-                if (cell === 1) {
+                if (cell === CellStatus.Filled) {
                     const gridX = this.x + colIndex * Cell.cellWidth;
                     const gridY = this.y + rowIndex * Cell.cellHeight;
                     filledCells.push({
