@@ -173,6 +173,27 @@ export class TetriMino implements DynamicGameObject {
     getRowIndex(): number {
         return this.grid.getRowIndexFromY(this.y);
     }
+
+    /**
+     * テトリミノ行列内のセルが1であるインデックスの組を取得します。
+     * グリッド内の座標に変換されます。
+     */
+    getFilledCellIndices(): { x: number; y: number }[] {
+        const filledCells: { x: number; y: number }[] = [];
+        this.shape.forEach((row, rowIndex) => {
+            row.forEach((cell, colIndex) => {
+                if (cell === 1) {
+                    const gridX = this.x + colIndex * Cell.cellWidth;
+                    const gridY = this.y + rowIndex * Cell.cellHeight;
+                    filledCells.push({
+                        x: this.grid.getColumnIndexFromX(gridX),
+                        y: this.grid.getRowIndexFromY(gridY),
+                    });
+                }
+            });
+        });
+        return filledCells;
+    }
 }
 /**
  * TetriMinoType is an enum that represents the type of tetrimino.
