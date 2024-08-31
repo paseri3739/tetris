@@ -183,11 +183,9 @@ export class TetriMino implements DynamicGameObject {
         this.shape.forEach((row, rowIndex) => {
             row.forEach((cell, colIndex) => {
                 if (cell === CellStatus.Filled) {
-                    const gridX = this.x + colIndex * Cell.cellWidth;
-                    const gridY = this.y + rowIndex * Cell.cellHeight;
                     filledCells.push({
-                        x: this.grid.getColumnIndexFromX(gridX),
-                        y: this.grid.getRowIndexFromY(gridY),
+                        x: this.grid.getColumnIndexFromX(this.x),
+                        y: this.grid.getRowIndexFromY(this.y),
                     });
                 }
             });
