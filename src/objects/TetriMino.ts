@@ -165,6 +165,14 @@ export class TetriMino implements DynamicGameObject {
     mapToGrid(): void {
         this.grid.mapTetriMinoToGrid(this);
     }
+
+    getColumnIndex(): number {
+        return this.grid.getColumnIndexFromX(this.x);
+    }
+
+    getRowIndex(): number {
+        return this.grid.getRowIndexFromY(this.y);
+    }
 }
 /**
  * TetriMinoType is an enum that represents the type of tetrimino.
