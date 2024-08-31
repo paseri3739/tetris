@@ -168,12 +168,17 @@ export class Grid implements StaticGameObject {
         // TODO: 判定ロジックを変更する
         return column >= 0 && column < Grid.cols && row >= 0 && row < Grid.rows;
     }
+
     clearFilledRows(): void {
         for (let i = 0; i < Grid.rows; i++) {
             const isRowFilled = this.cells[i].every((cell) => cell.getCellStatus() === CellStatus.Filled);
             if (isRowFilled) {
                 this.cells.splice(i, 1);
-                this.cells.unshift(Array.from({ length: Grid.cols }, () => new Cell(0, 0, CellStatus.Empty)));
+                const newRow = Array.from(
+                    { length: Grid.cols },
+                    (_, j) => new Cell(this.x + j * Cell.cellWidth, this.y, CellStatus.Empty)
+                );
+                this.cells.unshift(newRow);
             }
         }
     }
@@ -189,8 +194,9 @@ export class Grid implements StaticGameObject {
                     const gridX = posX + x;
                     const gridY = posY + y;
                     if (this.isWithinBounds(gridX, gridY)) {
-                        return this.cells[gridY][gridX].setCellStatus(CellStatus.Filled);
+                        return this.cells[gridY][gridX].getCellStatus() === CellStatus.Filled;
                     }
+                    return true; // グリッド外の場合も衝突として扱う
                 }
                 return false;
             });
